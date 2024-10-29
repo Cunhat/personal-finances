@@ -1,19 +1,9 @@
-import { AppSidebar } from "@/components/app-sidebar";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { Separator } from "@/components/ui/separator";
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/ui/sidebar";
+import { db } from "@/server/db";
 
-export default function Page() {
+export default async function Page() {
+  const groups = await db.query.categoryGroup.findMany();
+
+  console.log(groups);
+
   return <div>Dashboard</div>;
 }

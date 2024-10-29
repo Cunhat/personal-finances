@@ -1,12 +1,21 @@
-import { type Config } from "drizzle-kit";
+import { defineConfig, type Config } from "drizzle-kit";
 
 import { env } from "@/env";
 
-export default {
+
+if (!env.TURSO_DATABASE_URL) {
+  throw new Error("TURSO_DATABASE_NAME is missing");
+}
+
+const url = env.TURSO_DATABASE_URL;
+
+export default defineConfig({
   schema: "./src/server/db/schema.ts",
+  out: "./migrations",
   dialect: "sqlite",
+  driver: "turso",
   dbCredentials: {
-    url: env.DATABASE_URL,
+    url,
+    authToken: env.TURSO_GROUP_AUTH_TOKEN,
   },
-  tablesFilter: ["personal-finances_*"],
-} satisfies Config;
+}) satisfies Config;

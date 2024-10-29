@@ -1,22 +1,17 @@
 "use client";
 
-import * as React from "react";
 import {
+  BadgeDollarSign,
   BookOpen,
   Bot,
   Command,
-  Frame,
-  LifeBuoy,
-  Map,
-  PieChart,
-  Send,
+  CreditCard,
+  LayoutDashboard,
   Settings2,
   SquareTerminal,
 } from "lucide-react";
+import * as React from "react";
 
-import { NavMain } from "@/components/nav-main";
-import { NavProjects } from "@/components/nav-projects";
-import { NavSecondary } from "@/components/nav-secondary";
 import { NavUser } from "@/components/nav-user";
 import {
   Sidebar,
@@ -124,19 +119,19 @@ const data = {
   ],
   accounts: [
     {
-      name: "Bank Account",
+      name: "Dashboard",
       url: "#",
-      icon: Frame,
+      icon: LayoutDashboard,
     },
     {
-      name: "Crypto Account",
+      name: "Transactions",
       url: "#",
-      icon: PieChart,
+      icon: BadgeDollarSign,
     },
     {
-      name: "Savings Account",
+      name: "Accounts",
       url: "#",
-      icon: Map,
+      icon: CreditCard,
     },
   ],
 };
