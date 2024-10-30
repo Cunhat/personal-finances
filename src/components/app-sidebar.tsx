@@ -7,6 +7,7 @@ import {
   Command,
   CreditCard,
   LayoutDashboard,
+  PieChart,
   Settings2,
   SquareTerminal,
 } from "lucide-react";
@@ -120,18 +121,23 @@ const data = {
   accounts: [
     {
       name: "Dashboard",
-      url: "#",
+      url: "/",
       icon: LayoutDashboard,
     },
+    // {
+    //   name: "Transactions",
+    //   url: "#",
+    //   icon: BadgeDollarSign,
+    // },
+    // {
+    //   name: "Accounts",
+    //   url: "#",
+    //   icon: CreditCard,
+    // },
     {
-      name: "Transactions",
-      url: "#",
-      icon: BadgeDollarSign,
-    },
-    {
-      name: "Accounts",
-      url: "#",
-      icon: CreditCard,
+      name: "Categories",
+      url: "/categories",
+      icon: PieChart,
     },
   ],
 };
