@@ -15,8 +15,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { EllipsisVertical, Plus } from "lucide-react";
 import sampleCategories from "./_components/sampleCategories.json";
+import CreateCategory from "./_components/create-category";
 
-export default async function Page() {
+export default function Page() {
   return (
     <div>
       <PageHeader title="Categories">
@@ -38,9 +39,7 @@ export default async function Page() {
                   </DropdownMenuSubTrigger>
                   <DropdownMenuPortal>
                     <DropdownMenuSubContent className="max-h-[500px] overflow-y-auto">
-                      <DropdownMenuItem>
-                        <span>New from scratch...</span>
-                      </DropdownMenuItem>
+                      <CreateCategory />
                       <DropdownMenuSeparator />
                       {sampleCategories.map((category) => (
                         <DropdownMenuItem key={category.id}>
