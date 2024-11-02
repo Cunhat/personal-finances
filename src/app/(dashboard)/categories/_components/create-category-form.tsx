@@ -1,27 +1,36 @@
-import React from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { zodResolver } from "@hookform/resolvers/zod";
+import EmojiPicker from "@/components/ui/emoji-picker";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import EmojiPicker, { Theme } from "emoji-picker-react";
-import { Button } from "@/components/ui/button";
-
+import { useState } from "react";
+import { HexColorPicker } from "react-colorful";
 const CreateCategorySchema = z.object({
   name: z.string().min(1),
-  icon: z.string().emoji(),
+  icon: z.string().min(1).emoji(),
+  color: z.string().min(1),
 });
 
 type FormData = z.infer<typeof CreateCategorySchema>;
 
 export default function CreateCategoryForm() {
-  const {
-    register,
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm<FormData>({
+  const form = useForm<FormData>({
     resolver: zodResolver(CreateCategorySchema),
+    defaultValues: {
+      name: "",
+      icon: "",
+      color: "#000000",
+    },
   });
 
   async function onSubmit(data: FormData) {
@@ -29,28 +38,60 @@ export default function CreateCategoryForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="flex flex-col gap-2">
-        <Label htmlFor="name">Name</Label>
-        <Input {...register("name", { required: true })} />
-        {errors.name && (
-          <span className="text-sm text-red-500">{errors.name.message}</span>
-        )}
-      </div>
-      <div className="flex justify-center">
-        <Controller
-          control={control}
-          name="icon"
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="h-full space-y-8">
+        <FormField
+          control={form.control}
+          name="name"
           render={({ field }) => (
-            <EmojiPicker
-              theme={Theme.DARK}
-              previewConfig={{ showPreview: false }}
-              onEmojiClick={(emoji) => field.onChange(emoji.emoji)}
-            />
+            <FormItem>
+              <FormLabel>Name</FormLabel>
+              <FormControl>
+                <Input placeholder="Insert category name" {...field} />
+              </FormControl>
+              <FormDescription>This is your category name.</FormDescription>
+              <FormMessage />
+            </FormItem>
           )}
         />
-      </div>
-      <Button type="submit">Create</Button>
-    </form>
+        <Controller
+          control={form.control}
+          name="icon"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Emoji</FormLabel>
+              <FormControl>
+                <Input placeholder="Insert emoji" {...field} />
+              </FormControl>
+              <FormDescription>This is your category emoji.</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Controller
+          control={form.control}
+          name="color"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Emoji</FormLabel>
+              <FormControl>
+                <div className="flex w-full items-center justify-center gap-2">
+                  <HexColorPicker
+                    color={field.value}
+                    onChange={field.onChange}
+                  />
+                </div>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <div className="flex">
+          <Button className="ml-auto" type="submit">
+            Submit
+          </Button>
+        </div>
+      </form>
+    </Form>
   );
 }
