@@ -18,6 +18,12 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import {
+  ClerkProvider,
+  RedirectToSignIn,
+  SignedIn,
+  SignedOut,
+} from "@clerk/nextjs";
 
 export const metadata: Metadata = {
   title: "Create T3 App",
@@ -29,17 +35,24 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${GeistSans.variable}`}>
-      <body>
-        <SidebarProvider>
-          <AppSidebar />
-          <SidebarInset>
-            <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-              {children}
-            </div>
-          </SidebarInset>
-        </SidebarProvider>
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en" className={`${GeistSans.variable}`}>
+        <body>
+          <SignedOut>
+            <RedirectToSignIn />
+          </SignedOut>
+          <SignedIn>
+            <SidebarProvider>
+              <AppSidebar />
+              <SidebarInset>
+                <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+                  {children}
+                </div>
+              </SidebarInset>
+            </SidebarProvider>
+          </SignedIn>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
