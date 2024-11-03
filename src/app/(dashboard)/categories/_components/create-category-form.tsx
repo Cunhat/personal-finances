@@ -17,10 +17,6 @@ import { HexColorPicker } from "react-colorful";
 import { Controller, useForm } from "react-hook-form";
 import { createCategory } from "../actions";
 
-type CreateCategoryFormProps = {
-  // setOpen: (open: boolean) => void;
-};
-
 export default function CreateCategoryForm() {
   const form = useForm<CreateCategory>({
     resolver: zodResolver(CreateCategorySchema),
