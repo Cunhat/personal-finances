@@ -29,8 +29,9 @@ import { EllipsisVertical, Plus } from "lucide-react";
 import sampleCategories from "./sampleCategories.json";
 
 export default function CreateCategory() {
+  const [open, setOpen] = useState(false);
   return (
-    <Sheet>
+    <Sheet open={open} onOpenChange={setOpen}>
       <DropdownMenu modal={false}>
         <DropdownMenuTrigger asChild>
           <Button variant="outline" className="h-8 w-8">
@@ -78,7 +79,7 @@ export default function CreateCategory() {
             Categories help you understand your spending patterns.
           </SheetDescription>
         </SheetHeader>
-        <CreateCategoryForm />
+        <CreateCategoryForm setOpen={setOpen} />
       </SheetContent>
     </Sheet>
   );
