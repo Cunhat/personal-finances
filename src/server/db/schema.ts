@@ -18,6 +18,8 @@ export const category = sqliteTable("category", {
   }).primaryKey({ autoIncrement: true }),
   name: text("name").notNull(),
   icon: text("icon").notNull(),
+  color: text("color").notNull(),
+  userId: text("user_id").notNull(),
   groupId: integer("group_id").references(() => categoryGroup.id),
 });
 

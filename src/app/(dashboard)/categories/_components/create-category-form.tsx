@@ -9,22 +9,20 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { CreateCategory, CreateCategorySchema } from "@/schemas/category";
 import { zodResolver } from "@hookform/resolvers/zod";
-import EmojiPicker from "@/components/ui/emoji-picker";
-import { Controller, useForm } from "react-hook-form";
-import { z } from "zod";
-import { useState } from "react";
+import { Loader } from "lucide-react";
+import { useAction } from "next-safe-action/hooks";
 import { HexColorPicker } from "react-colorful";
-const CreateCategorySchema = z.object({
-  name: z.string().min(1),
-  icon: z.string().min(1).emoji(),
-  color: z.string().min(1),
-});
+import { Controller, useForm } from "react-hook-form";
+import { createCategory } from "../actions";
 
-type FormData = z.infer<typeof CreateCategorySchema>;
+type CreateCategoryFormProps = {
+  // setOpen: (open: boolean) => void;
+};
 
 export default function CreateCategoryForm() {
-  const form = useForm<FormData>({
+  const form = useForm<CreateCategory>({
     resolver: zodResolver(CreateCategorySchema),
     defaultValues: {
       name: "",
@@ -33,8 +31,17 @@ export default function CreateCategoryForm() {
     },
   });
 
-  async function onSubmit(data: FormData) {
-    console.log(data);
+  const { execute, isExecuting } = useAction(createCategory, {
+    onSuccess: () => {
+      form.reset();
+    },
+    onError: (error) => {
+      console.error(error);
+    },
+  });
+
+  function onSubmit(data: CreateCategory) {
+    execute(data);
   }
 
   return (
@@ -87,8 +94,9 @@ export default function CreateCategoryForm() {
           )}
         />
         <div className="flex">
-          <Button className="ml-auto" type="submit">
-            Submit
+          <Button className="ml-auto" type="submit" disabled={isExecuting}>
+            {isExecuting && <Loader className="mr-2 h-4 w-4 animate-spin" />}
+            {isExecuting ? "Creating..." : "Create"}
           </Button>
         </div>
       </form>

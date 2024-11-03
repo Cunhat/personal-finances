@@ -1,62 +1,27 @@
 import { PageHeader } from "@/components/page-header";
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuPortal,
-  DropdownMenuSeparator,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { EllipsisVertical, Plus } from "lucide-react";
-import sampleCategories from "./_components/sampleCategories.json";
 import CreateCategory from "./_components/create-category";
+import { redirect } from "next/navigation";
+import { currentUser } from "@clerk/nextjs/server";
+import { db } from "@/server/db";
+import { eq } from "drizzle-orm";
+import { category } from "@/server/db/schema";
 
-export default function Page() {
+export default async function Page() {
+  const user = await currentUser();
+
+  if (!user) {
+    redirect("/sign-in");
+  }
+
+  const categories = await db.query.category.findMany({
+    where: eq(category.userId, user.id),
+  });
+
   return (
     <div>
       <PageHeader title="Categories">
         <div className="ml-2 flex h-full w-full">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="h-8 w-8">
-                <EllipsisVertical />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent sideOffset={4}>
-              <DropdownMenuLabel>Categories Actions</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuGroup>
-                <DropdownMenuSub>
-                  <DropdownMenuSubTrigger>
-                    <Plus />
-                    <span>Add Category</span>
-                  </DropdownMenuSubTrigger>
-                  <DropdownMenuPortal>
-                    <DropdownMenuSubContent className="max-h-[500px] overflow-y-auto">
-                      <CreateCategory />
-                      <DropdownMenuSeparator />
-                      {sampleCategories.map((category) => (
-                        <DropdownMenuItem key={category.id}>
-                          <span>{category.icon}</span>
-                          <span>{category.name}</span>
-                        </DropdownMenuItem>
-                      ))}
-                    </DropdownMenuSubContent>
-                  </DropdownMenuPortal>
-                </DropdownMenuSub>
-                <DropdownMenuItem>
-                  <Plus />
-                  Add Group
-                </DropdownMenuItem>
-              </DropdownMenuGroup>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <CreateCategory />
         </div>
       </PageHeader>
     </div>
