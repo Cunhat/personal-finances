@@ -14,8 +14,19 @@ export async function ListCategories() {
 
   const categories = await listCategories();
 
+  if (categories.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center">
+        <h1 className="text-base font-bold">No categories...</h1>
+        <p className="text-sm text-muted-foreground">
+          Create a category to get started
+        </p>
+      </div>
+    );
+  }
+
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-2">
       {categories.map((category) => (
         <div key={category.id} className="flex items-center gap-3">
           <div

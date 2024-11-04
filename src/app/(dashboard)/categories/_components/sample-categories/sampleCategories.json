@@ -1,171 +1,198 @@
 [
-    {
-      "id": 1,
-      "name": "Bars & Nightlife",
-      "icon": "🍸",
-      "groupId": 1
-    },
-    {
-      "id": 2,
-      "name": "Beauty",
-      "icon": "💄",
-      "groupId": 1
-    },
-    {
-      "id": 3,
-      "name": "Car",
-      "icon": "🚗",
-      "groupId": 1
-    },
-    {
-      "id": 4,
-      "name": "Clothing",
-      "icon": "👕",
-      "groupId": 2
-    },
-    {
-      "id": 5,
-      "name": "Dance",
-      "icon": "💃",
-      "groupId": 2
-    },
-    {
-      "id": 6,
-      "name": "Donations",
-      "icon": "🤝",
-      "groupId": 3
-    },
-    {
-      "id": 7,
-      "name": "Education",
-      "icon": "📘",
-      "groupId": 4
-    },
-    {
-      "id": 8,
-      "name": "Entertainment",
-      "icon": "🎟️",
-      "groupId": 4
-    },
-    {
-      "id": 9,
-      "name": "Groceries",
-      "icon": "🥑",
-      "groupId": 5
-    },
-    {
-      "id": 10,
-      "name": "Gym",
-      "icon": "🏋️",
-      "groupId": 6
-    },
-    {
-      "id": 11,
-      "name": "Healthcare",
-      "icon": "💊",
-      "groupId": 6
-    },
-    {
-      "id": 12,
-      "name": "Home",
-      "icon": "🏡",
-      "groupId": 7
-    },
-    {
-      "id": 13,
-      "name": "Insurance",
-      "icon": "☂️",
-      "groupId": 7
-    },
-    {
-      "id": 14,
-      "name": "Loans",
-      "icon": "💰",
-      "groupId": 8
-    },
-    {
-      "id": 15,
-      "name": "Personal Care",
-      "icon": "✂️",
-      "groupId": 1
-    },
-    {
-      "id": 16,
-      "name": "Pets",
-      "icon": "🐶",
-      "groupId": 9
-    },
-    {
-      "id": 17,
-      "name": "Recreation",
-      "icon": "🎫",
-      "groupId": 9
-    },
-    {
-      "id": 18,
-      "name": "Rent",
-      "icon": "🔑",
-      "groupId": 7
-    },
-    {
-      "id": 19,
-      "name": "Restaurants",
-      "icon": "🍔",
-      "groupId": 1
-    },
-    {
-      "id": 20,
-      "name": "Senior Care",
-      "icon": "👵",
-      "groupId": 10
-    },
-    {
-      "id": 21,
-      "name": "Shops",
-      "icon": "🛍️",
-      "groupId": 2
-    },
-    {
-      "id": 22,
-      "name": "Sports",
-      "icon": "🚴",
-      "groupId": 6
-    },
-    {
-      "id": 23,
-      "name": "Subscriptions",
-      "icon": "💳",
-      "groupId": 11
-    },
-    {
-      "id": 24,
-      "name": "Transportation",
-      "icon": "🚌",
-      "groupId": 12
-    },
-    {
-      "id": 25,
-      "name": "Travel & Vacation",
-      "icon": "🏖️",
-      "groupId": 12
-    },
-    {
-      "id": 26,
-      "name": "Utilities",
-      "icon": "🔌",
-      "groupId": 5
-    },
-    {
-      "id": 27,
-      "name": "Work Expenses",
-      "icon": "💼",
-      "groupId": 13
-    },
-    {
-      "id": 28,
-      "name": "Yoga & Pilates",
-      "icon": "🧘",
-      "groupId": 6
-    }
-  ]
-  
+  {
+    "id": 1,
+    "name": "Bars & Nightlife",
+    "icon": "🍸",
+    "groupId": 1,
+    "color": "#ff6699"
+  },
+  {
+    "id": 2,
+    "name": "Beauty",
+    "icon": "💄",
+    "groupId": 1,
+    "color": "#ff6699"
+  },
+  {
+    "id": 3,
+    "name": "Car",
+    "icon": "🚗",
+    "groupId": 1,
+    "color": "#ff9966"
+  },
+  {
+    "id": 4,
+    "name": "Clothing",
+    "icon": "👕",
+    "groupId": 2,
+    "color": "#6699ff"
+  },
+  {
+    "id": 5,
+    "name": "Dance",
+    "icon": "💃",
+    "groupId": 2,
+    "color": "#ff6699"
+  },
+  {
+    "id": 6,
+    "name": "Donations",
+    "icon": "🤝",
+    "groupId": 3,
+    "color": "#ffcc66"
+  },
+  {
+    "id": 7,
+    "name": "Education",
+    "icon": "📘",
+    "groupId": 4,
+    "color": "#6699ff"
+  },
+  {
+    "id": 8,
+    "name": "Entertainment",
+    "icon": "🎟️",
+    "groupId": 4,
+    "color": "#ff6699"
+  },
+  {
+    "id": 9,
+    "name": "Groceries",
+    "icon": "🥑",
+    "groupId": 5,
+    "color": "#66cc66"
+  },
+  {
+    "id": 10,
+    "name": "Gym",
+    "icon": "🏋️",
+    "groupId": 6,
+    "color": "#66cc66"
+  },
+  {
+    "id": 11,
+    "name": "Healthcare",
+    "icon": "💊",
+    "groupId": 6,
+    "color": "#66cc66"
+  },
+  {
+    "id": 12,
+    "name": "Home",
+    "icon": "🏡",
+    "groupId": 7,
+    "color": "#ff9966"
+  },
+  {
+    "id": 13,
+    "name": "Insurance",
+    "icon": "☂️",
+    "groupId": 7,
+    "color": "#ffcc66"
+  },
+  {
+    "id": 14,
+    "name": "Loans",
+    "icon": "💰",
+    "groupId": 8,
+    "color": "#ffcc66"
+  },
+  {
+    "id": 15,
+    "name": "Personal Care",
+    "icon": "✂️",
+    "groupId": 1,
+    "color": "#ff6699"
+  },
+  {
+    "id": 16,
+    "name": "Pets",
+    "icon": "🐶",
+    "groupId": 9,
+    "color": "#6699ff"
+  },
+  {
+    "id": 17,
+    "name": "Recreation",
+    "icon": "🎫",
+    "groupId": 9,
+    "color": "#ff9966"
+  },
+  {
+    "id": 18,
+    "name": "Rent",
+    "icon": "🔑",
+    "groupId": 7,
+    "color": "#ff9966"
+  },
+  {
+    "id": 19,
+    "name": "Restaurants",
+    "icon": "🍔",
+    "groupId": 1,
+    "color": "#ff6699"
+  },
+  {
+    "id": 20,
+    "name": "Senior Care",
+    "icon": "👵",
+    "groupId": 10,
+    "color": "#ffcc66"
+  },
+  {
+    "id": 21,
+    "name": "Shops",
+    "icon": "🛍️",
+    "groupId": 2,
+    "color": "#6699ff"
+  },
+  {
+    "id": 22,
+    "name": "Sports",
+    "icon": "🚴",
+    "groupId": 6,
+    "color": "#66cc66"
+  },
+  {
+    "id": 23,
+    "name": "Subscriptions",
+    "icon": "💳",
+    "groupId": 11,
+    "color": "#ffcc66"
+  },
+  {
+    "id": 24,
+    "name": "Transportation",
+    "icon": "🚌",
+    "groupId": 12,
+    "color": "#ff9966"
+  },
+  {
+    "id": 25,
+    "name": "Travel & Vacation",
+    "icon": "🏖️",
+    "groupId": 12,
+    "color": "#6699ff"
+  },
+  {
+    "id": 26,
+    "name": "Utilities",
+    "icon": "🔌",
+    "groupId": 5,
+    "color": "#66cc66"
+  },
+  {
+    "id": 27,
+    "name": "Work Expenses",
+    "icon": "💼",
+    "groupId": 13,
+    "color": "#ffcc66"
+  },
+  {
+    "id": 28,
+    "name": "Yoga & Pilates",
+    "icon": "🧘",
+    "groupId": 6,
+    "color": "#66cc66"
+  }
+]

@@ -10,6 +10,7 @@ type CreateFromSampleProps = {
     id: number;
     icon: string;
     name: string;
+    color: string;
   };
 };
 
@@ -29,7 +30,7 @@ export default function CreateFromSample({ category }: CreateFromSampleProps) {
         execute({
           name: category.name,
           icon: category.icon,
-          color: "#FFFFFF",
+          color: category.color,
         })
       }
     >
