@@ -26,9 +26,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { EllipsisVertical, Plus } from "lucide-react";
-import sampleCategories from "./sampleCategories.json";
 
-export default function CreateCategory() {
+export default function CreateCategory({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const [open, setOpen] = useState(false);
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -55,12 +58,7 @@ export default function CreateCategory() {
                     </SheetTrigger>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  {sampleCategories.map((category) => (
-                    <DropdownMenuItem key={category.id}>
-                      <span>{category.icon}</span>
-                      <span>{category.name}</span>
-                    </DropdownMenuItem>
-                  ))}
+                  {children}
                 </DropdownMenuSubContent>
               </DropdownMenuPortal>
             </DropdownMenuSub>

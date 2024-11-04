@@ -1,29 +1,41 @@
 import { PageHeader } from "@/components/page-header";
+import { Separator } from "@/components/ui/separator";
+import { Suspense } from "react";
 import CreateCategory from "./_components/create-category";
-import { redirect } from "next/navigation";
-import { currentUser } from "@clerk/nextjs/server";
-import { db } from "@/server/db";
-import { eq } from "drizzle-orm";
-import { category } from "@/server/db/schema";
+import { ListCategories } from "./_components/list-categories";
+import { Metadata } from "next";
+import { SampleCategories } from "./_components/sample-categories/get-samples";
+import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
+
+export const metadata: Metadata = {
+  title: "Personal Finance - Categories",
+  description: "Manage your categories",
+  icons: [{ rel: "icon", url: "/favicon.ico" }],
+};
 
 export default async function Page() {
-  const user = await currentUser();
-
-  if (!user) {
-    redirect("/sign-in");
-  }
-
-  const categories = await db.query.category.findMany({
-    where: eq(category.userId, user.id),
-  });
-
   return (
-    <div>
+    <div className="flex flex-1 flex-col">
       <PageHeader title="Categories">
         <div className="ml-2 flex h-full w-full">
-          <CreateCategory />
+          <CreateCategory>
+            <Suspense
+              fallback={
+                <DropdownMenuItem disabled>Loading...</DropdownMenuItem>
+              }
+            >
+              <SampleCategories />
+            </Suspense>
+          </CreateCategory>
         </div>
       </PageHeader>
+      <div className="grid flex-1 grid-cols-[1fr_1px_1fr] gap-4">
+        <Suspense fallback={<div>Loading...</div>}>
+          <ListCategories />
+        </Suspense>
+        <Separator orientation="vertical" />
+        <div className="flex flex-1 flex-col gap-4"></div>
+      </div>
     </div>
   );
 }
