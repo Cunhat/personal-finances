@@ -4,7 +4,7 @@ import { Suspense } from "react";
 import CreateCategory from "./_components/create-category";
 import { ListCategories } from "./_components/list-categories";
 import { Metadata } from "next";
-import { GetSamples } from "./_components/sample-categories/get-samples";
+import { SampleCategories } from "./_components/sample-categories/get-samples";
 import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
 
 export const metadata: Metadata = {
@@ -20,9 +20,11 @@ export default async function Page() {
         <div className="ml-2 flex h-full w-full">
           <CreateCategory>
             <Suspense
-              fallback={<DropdownMenuItem>Loading...</DropdownMenuItem>}
+              fallback={
+                <DropdownMenuItem disabled>Loading...</DropdownMenuItem>
+              }
             >
-              <GetSamples />
+              <SampleCategories />
             </Suspense>
           </CreateCategory>
         </div>

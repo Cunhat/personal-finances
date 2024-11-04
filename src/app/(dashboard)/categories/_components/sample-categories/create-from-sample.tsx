@@ -24,6 +24,7 @@ export default function CreateFromSample({ category }: CreateFromSampleProps) {
   return (
     <DropdownMenuItem
       key={category.id}
+      disabled={isExecuting}
       onSelect={() =>
         execute({
           name: category.name,

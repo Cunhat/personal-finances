@@ -1,8 +1,6 @@
-import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import React from "react";
 import { listCategories } from "../../actions";
-import sampleCategories from "./sampleCategories.json";
 import CreateFromSample from "./create-from-sample";
+import sampleCategories from "./sampleCategories.json";
 
 export async function SampleCategories() {
   const categories = await listCategories();
