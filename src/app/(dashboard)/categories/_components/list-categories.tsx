@@ -3,6 +3,7 @@ import { category } from "@/server/db/schema";
 import { currentUser } from "@clerk/nextjs/server";
 import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
+import { listCategories } from "../actions";
 
 export async function ListCategories() {
   const user = await currentUser();
@@ -11,9 +12,7 @@ export async function ListCategories() {
     redirect("/sign-in");
   }
 
-  const categories = await db.query.category.findMany({
-    where: eq(category.userId, user.id),
-  });
+  const categories = await listCategories();
 
   return (
     <div className="flex flex-col gap-4">

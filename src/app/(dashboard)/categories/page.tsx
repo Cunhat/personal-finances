@@ -2,8 +2,10 @@ import { PageHeader } from "@/components/page-header";
 import { Separator } from "@/components/ui/separator";
 import { Suspense } from "react";
 import CreateCategory from "./_components/create-category";
-import { ListCategories } from "./list-categories";
+import { ListCategories } from "./_components/list-categories";
 import { Metadata } from "next";
+import { GetSamples } from "./_components/sample-categories/get-samples";
+import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
 
 export const metadata: Metadata = {
   title: "Personal Finance - Categories",
@@ -16,7 +18,13 @@ export default async function Page() {
     <div className="flex flex-1 flex-col">
       <PageHeader title="Categories">
         <div className="ml-2 flex h-full w-full">
-          <CreateCategory />
+          <CreateCategory>
+            <Suspense
+              fallback={<DropdownMenuItem>Loading...</DropdownMenuItem>}
+            >
+              <GetSamples />
+            </Suspense>
+          </CreateCategory>
         </div>
       </PageHeader>
       <div className="grid flex-1 grid-cols-[1fr_1px_1fr] gap-4">
