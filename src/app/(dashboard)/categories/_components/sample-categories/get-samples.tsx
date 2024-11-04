@@ -4,7 +4,7 @@ import { listCategories } from "../../actions";
 import sampleCategories from "./sampleCategories.json";
 import CreateFromSample from "./create-from-sample";
 
-export async function GetSamples() {
+export async function SampleCategories() {
   const categories = await listCategories();
 
   const samples = sampleCategories.filter(
