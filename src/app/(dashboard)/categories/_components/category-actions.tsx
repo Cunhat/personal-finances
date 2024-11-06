@@ -17,7 +17,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { EllipsisVertical, Plus } from "lucide-react";
-import CreateCategory from "./create-category";
+import CreateCategory from "./categories/create-category";
 import CreateGroup from "./create-group";
 
 type CategoryActionsProps = {

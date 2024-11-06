@@ -19,8 +19,8 @@ import { Loader } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { HexColorPicker } from "react-colorful";
 import { Controller, useForm } from "react-hook-form";
-import { createCategory } from "../actions";
 import { getValidationErrors } from "@/lib/utils";
+import { createCategory } from "../../actions";
 
 export default function CreateCategoryForm({
   setOpen,

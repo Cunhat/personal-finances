@@ -1,9 +1,6 @@
-import { db } from "@/server/db";
-import { category } from "@/server/db/schema";
 import { currentUser } from "@clerk/nextjs/server";
-import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
-import { listCategories } from "../actions";
+import { listCategories } from "../../actions";
 
 export async function ListCategories() {
   const user = await currentUser();

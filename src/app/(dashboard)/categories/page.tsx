@@ -4,9 +4,9 @@ import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
 import { Metadata } from "next";
 import { Suspense } from "react";
 import CategoryActions from "./_components/category-actions";
-import { ListCategories } from "./_components/list-categories";
 import ListGroups from "./_components/list-groups";
 import { SampleCategories } from "./_components/sample-categories/get-samples";
+import { ListCategories } from "./_components/categories/list-categories";
 
 export const metadata: Metadata = {
   title: "Personal Finance - Categories",

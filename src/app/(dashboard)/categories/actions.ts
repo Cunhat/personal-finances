@@ -13,8 +13,8 @@ export const createCategory = authenticatedActionClient
   .schema(CreateCategorySchema)
   .action(async ({ parsedInput: { name, icon, color }, ctx: { user } }) => {
     const existingCategory = await db.query.category.findFirst({
-      where: (category) =>
-        eq(category.name, name) && eq(category.userId, user.id),
+      where: (category, { eq, and }) =>
+        and(eq(category.name, name), eq(category.userId, user.id)),
     });
 
     if (existingCategory) {
@@ -51,7 +51,8 @@ export const createGroup = authenticatedActionClient
   .schema(CreateGroupSchema)
   .action(async ({ parsedInput: { name, color }, ctx: { user } }) => {
     const existingGroup = await db.query.categoryGroup.findFirst({
-      where: (group) => eq(group.name, name) && eq(group.userId, user.id),
+      where: (categoryGroup, { eq, and }) =>
+        and(eq(categoryGroup.name, name), eq(categoryGroup.userId, user.id)),
     });
 
     if (existingGroup) {
