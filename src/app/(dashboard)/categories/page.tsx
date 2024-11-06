@@ -7,6 +7,7 @@ import { Metadata } from "next";
 import { SampleCategories } from "./_components/sample-categories/get-samples";
 import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
 import CategoryActions from "./_components/category-actions";
+import ListGroups from "./_components/list-groups";
 
 export const metadata: Metadata = {
   title: "Personal Finance - Categories",
@@ -33,9 +34,12 @@ export default async function Page() {
         </div>
       </PageHeader>
       <div className="grid flex-1 grid-cols-[1fr_1px_1fr] gap-4">
-        <Suspense fallback={<div>Loading...</div>}>
-          <ListCategories />
-        </Suspense>
+        <div className="flex flex-col gap-4">
+          <Suspense fallback={<div>Loading...</div>}>
+            <ListGroups />
+            <ListCategories />
+          </Suspense>
+        </div>
         <Separator orientation="vertical" />
         <div className="flex flex-1 flex-col gap-4"></div>
       </div>

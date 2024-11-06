@@ -7,3 +7,10 @@ export const CreateCategorySchema = z.object({
 });
 
 export type CreateCategory = z.infer<typeof CreateCategorySchema>;
+
+export const CreateGroupSchema = z.object({
+  name: z.string().min(1),
+  color: z.string().regex(/^#[0-9A-F]{6}$/i),
+});
+
+export type CreateGroup = z.infer<typeof CreateGroupSchema>;

@@ -1,9 +1,9 @@
 "use server";
 import { authenticatedActionClient } from "@/server/safe-actions";
 import { db } from "@/server/db";
-import { category } from "@/server/db/schema";
+import { category, categoryGroup } from "@/server/db/schema";
 import { revalidatePath } from "next/cache";
-import { CreateCategorySchema } from "@/schemas/category";
+import { CreateCategorySchema, CreateGroupSchema } from "@/schemas/category";
 import { cache } from "react";
 import { eq } from "drizzle-orm";
 import { currentUser } from "@clerk/nextjs/server";
@@ -32,3 +32,13 @@ export const listCategories = cache(async () => {
     where: eq(category.userId, user.id),
   });
 });
+
+export const createGroup = authenticatedActionClient
+  .schema(CreateGroupSchema)
+  .action(async ({ parsedInput: { name, color }, ctx: { user } }) => {
+    await db.insert(categoryGroup).values({
+      name,
+      color,
+      userId: user.id,
+    });
+  });
