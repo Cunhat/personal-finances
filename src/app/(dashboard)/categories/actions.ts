@@ -7,10 +7,24 @@ import { CreateCategorySchema, CreateGroupSchema } from "@/schemas/category";
 import { cache } from "react";
 import { eq } from "drizzle-orm";
 import { currentUser } from "@clerk/nextjs/server";
+import { returnValidationErrors } from "next-safe-action";
 
 export const createCategory = authenticatedActionClient
   .schema(CreateCategorySchema)
   .action(async ({ parsedInput: { name, icon, color }, ctx: { user } }) => {
+    const existingCategory = await db.query.category.findFirst({
+      where: (category) =>
+        eq(category.name, name) && eq(category.userId, user.id),
+    });
+
+    if (existingCategory) {
+      returnValidationErrors(CreateCategorySchema, {
+        name: {
+          _errors: ["A category with this name already exists"],
+        },
+      });
+    }
+
     await db.insert(category).values({
       name,
       icon,
@@ -37,13 +51,17 @@ export const createGroup = authenticatedActionClient
   .schema(CreateGroupSchema)
   .action(async ({ parsedInput: { name, color }, ctx: { user } }) => {
     const existingGroup = await db.query.categoryGroup.findFirst({
-      where: eq(categoryGroup.name, name) && eq(categoryGroup.userId, user.id),
+      where: (group) => eq(group.name, name) && eq(group.userId, user.id),
     });
-    
+
     if (existingGroup) {
-      throw new Error("A group with this name already exists");
+      returnValidationErrors(CreateGroupSchema, {
+        name: {
+          _errors: ["A group with this name already exists"],
+        },
+      });
     }
-    
+
     await db.insert(categoryGroup).values({
       name,
       color,

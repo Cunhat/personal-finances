@@ -9,7 +9,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { CreateCategory, CreateCategorySchema } from "@/schemas/category";
+import {
+  CreateCategory,
+  CreateCategorySchema,
+  CreateGroup,
+} from "@/schemas/category";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
@@ -37,7 +41,13 @@ export default function CreateCategoryForm({
       setOpen(false);
     },
     onError: (error) => {
-      console.error(error);
+      if (error.error?.validationErrors) {
+        Object.entries(error.error.validationErrors).forEach(([key, value]) => {
+          form.setError(key as keyof CreateCategory, {
+            message: Array.isArray(value) ? value[0] : value._errors?.[0],
+          });
+        });
+      }
     },
   });
 

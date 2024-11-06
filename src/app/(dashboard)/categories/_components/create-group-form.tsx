@@ -37,6 +37,15 @@ export default function CreateGroupForm({ setOpen }: CreateGroupFormProps) {
       form.reset();
       setOpen(false);
     },
+    onError: (error) => {
+      if (error.error?.validationErrors) {
+        Object.entries(error.error.validationErrors).forEach(([key, value]) => {
+          form.setError(key as keyof CreateGroup, {
+            message: Array.isArray(value) ? value[0] : value._errors?.[0],
+          });
+        });
+      }
+    },
   });
 
   function onSubmit(data: CreateGroup) {
