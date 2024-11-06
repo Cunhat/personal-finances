@@ -36,6 +36,14 @@ export const listCategories = cache(async () => {
 export const createGroup = authenticatedActionClient
   .schema(CreateGroupSchema)
   .action(async ({ parsedInput: { name, color }, ctx: { user } }) => {
+    const existingGroup = await db.query.categoryGroup.findFirst({
+      where: eq(categoryGroup.name, name) && eq(categoryGroup.userId, user.id),
+    });
+    
+    if (existingGroup) {
+      throw new Error("A group with this name already exists");
+    }
+    
     await db.insert(categoryGroup).values({
       name,
       color,
