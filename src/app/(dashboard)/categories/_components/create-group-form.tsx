@@ -65,7 +65,6 @@ export default function CreateGroupForm({ setOpen }: CreateGroupFormProps) {
           name="color"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Emoji</FormLabel>
               <FormControl>
                 <div className="flex w-full items-center justify-center gap-2">
                   <HexColorPicker

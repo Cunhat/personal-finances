@@ -1,13 +1,12 @@
 import { PageHeader } from "@/components/page-header";
 import { Separator } from "@/components/ui/separator";
-import { Suspense } from "react";
-import CreateCategory from "./_components/create-category";
-import { ListCategories } from "./_components/list-categories";
-import { Metadata } from "next";
-import { SampleCategories } from "./_components/sample-categories/get-samples";
 import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
+import { Metadata } from "next";
+import { Suspense } from "react";
 import CategoryActions from "./_components/category-actions";
+import { ListCategories } from "./_components/list-categories";
 import ListGroups from "./_components/list-groups";
+import { SampleCategories } from "./_components/sample-categories/get-samples";
 
 export const metadata: Metadata = {
   title: "Personal Finance - Categories",
