@@ -1,16 +1,7 @@
 "use client";
 
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
 import { useState } from "react";
-import CreateCategoryForm from "./create-category-form";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -27,6 +18,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { EllipsisVertical, Plus } from "lucide-react";
 import CreateCategory from "./create-category";
+import CreateGroup from "./create-group";
 
 type CategoryActionsProps = {
   sampleCategories: React.ReactNode;
@@ -36,6 +28,8 @@ export default function CategoryActions({
   sampleCategories,
 }: CategoryActionsProps) {
   const [openCreateCategory, setOpenCreateCategory] = useState(false);
+  const [openCreateGroup, setOpenCreateGroup] = useState(false);
+
   return (
     <>
       <DropdownMenu>
@@ -66,7 +60,7 @@ export default function CategoryActions({
                 </DropdownMenuSubContent>
               </DropdownMenuPortal>
             </DropdownMenuSub>
-            <DropdownMenuItem>
+            <DropdownMenuItem onSelect={() => setOpenCreateGroup(true)}>
               <Plus />
               Add Group
             </DropdownMenuItem>
@@ -77,6 +71,7 @@ export default function CategoryActions({
         open={openCreateCategory}
         setOpen={setOpenCreateCategory}
       />
+      <CreateGroup open={openCreateGroup} setOpen={setOpenCreateGroup} />
     </>
   );
 }

@@ -1,3 +1,7 @@
+import { CreateGroup, CreateGroupSchema } from "@/schemas/category";
+import { CreateCategory } from "@/schemas/category";
+import { zodResolver } from "@hookform/resolvers/zod";
+import React from "react";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -8,35 +12,28 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import {
-  CreateCategory,
-  CreateCategorySchema,
-  CreateGroup,
-} from "@/schemas/category";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader } from "lucide-react";
-import { useAction } from "next-safe-action/hooks";
-import { HexColorPicker } from "react-colorful";
 import { Controller, useForm } from "react-hook-form";
-import { createCategory } from "../actions";
+import { HexColorPicker } from "react-colorful";
+import { createGroup } from "../actions";
+import { useAction } from "next-safe-action/hooks";
+import { Input } from "@/components/ui/input";
 import { getValidationErrors } from "@/lib/utils";
 
-export default function CreateCategoryForm({
-  setOpen,
-}: {
+type CreateGroupFormProps = {
   setOpen: (open: boolean) => void;
-}) {
-  const form = useForm<CreateCategory>({
-    resolver: zodResolver(CreateCategorySchema),
+};
+
+export default function CreateGroupForm({ setOpen }: CreateGroupFormProps) {
+  const form = useForm<CreateGroup>({
+    resolver: zodResolver(CreateGroupSchema),
     defaultValues: {
       name: "",
-      icon: "",
       color: "#000000",
     },
   });
 
-  const { execute, isExecuting } = useAction(createCategory, {
+  const { execute, isExecuting } = useAction(createGroup, {
     onSuccess: () => {
       form.reset();
       setOpen(false);
@@ -48,7 +45,7 @@ export default function CreateCategoryForm({
     },
   });
 
-  function onSubmit(data: CreateCategory) {
+  function onSubmit(data: CreateGroup) {
     execute(data);
   }
 
@@ -62,23 +59,9 @@ export default function CreateCategoryForm({
             <FormItem>
               <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input placeholder="Insert category name" {...field} />
+                <Input placeholder="Insert group name" {...field} />
               </FormControl>
-              <FormDescription>This is your category name.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Controller
-          control={form.control}
-          name="icon"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Emoji</FormLabel>
-              <FormControl>
-                <Input placeholder="Insert emoji" {...field} />
-              </FormControl>
-              <FormDescription>This is your category emoji.</FormDescription>
+              <FormDescription>This is your group name.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -88,7 +71,6 @@ export default function CreateCategoryForm({
           name="color"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Emoji</FormLabel>
               <FormControl>
                 <div className="flex w-full items-center justify-center gap-2">
                   <HexColorPicker
