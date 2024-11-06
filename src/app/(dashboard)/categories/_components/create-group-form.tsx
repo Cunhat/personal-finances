@@ -18,6 +18,7 @@ import { HexColorPicker } from "react-colorful";
 import { createGroup } from "../actions";
 import { useAction } from "next-safe-action/hooks";
 import { Input } from "@/components/ui/input";
+import { getValidationErrors } from "@/lib/utils";
 
 type CreateGroupFormProps = {
   setOpen: (open: boolean) => void;
@@ -39,11 +40,7 @@ export default function CreateGroupForm({ setOpen }: CreateGroupFormProps) {
     },
     onError: (error) => {
       if (error.error?.validationErrors) {
-        Object.entries(error.error.validationErrors).forEach(([key, value]) => {
-          form.setError(key as keyof CreateGroup, {
-            message: Array.isArray(value) ? value[0] : value._errors?.[0],
-          });
-        });
+        getValidationErrors(error.error.validationErrors, form);
       }
     },
   });

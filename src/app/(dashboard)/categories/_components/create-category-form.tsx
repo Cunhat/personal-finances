@@ -20,6 +20,7 @@ import { useAction } from "next-safe-action/hooks";
 import { HexColorPicker } from "react-colorful";
 import { Controller, useForm } from "react-hook-form";
 import { createCategory } from "../actions";
+import { getValidationErrors } from "@/lib/utils";
 
 export default function CreateCategoryForm({
   setOpen,
@@ -42,11 +43,7 @@ export default function CreateCategoryForm({
     },
     onError: (error) => {
       if (error.error?.validationErrors) {
-        Object.entries(error.error.validationErrors).forEach(([key, value]) => {
-          form.setError(key as keyof CreateCategory, {
-            message: Array.isArray(value) ? value[0] : value._errors?.[0],
-          });
-        });
+        getValidationErrors(error.error.validationErrors, form);
       }
     },
   });
