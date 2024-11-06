@@ -1,6 +1,5 @@
 "use client";
 
-import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import {
   Sheet,
   SheetContent,
@@ -11,64 +10,16 @@ import {
 } from "@/components/ui/sheet";
 import { useState } from "react";
 import CreateCategoryForm from "./create-category-form";
+import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuLabel,
-  DropdownMenuPortal,
-  DropdownMenuSeparator,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { EllipsisVertical, Plus } from "lucide-react";
+type CreateCategoryProps = {
+  open: boolean;
+  setOpen: (open: boolean) => void;
+};
 
-export default function CreateCategory({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const [open, setOpen] = useState(false);
+export default function CreateCategory({ open, setOpen }: CreateCategoryProps) {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
-      <DropdownMenu modal={false}>
-        <DropdownMenuTrigger asChild>
-          <Button variant="outline" className="h-8 w-8">
-            <EllipsisVertical />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent sideOffset={4}>
-          <DropdownMenuLabel>Categories Actions</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuGroup>
-            <DropdownMenuSub>
-              <DropdownMenuSubTrigger>
-                <Plus />
-                <span>Add Category</span>
-              </DropdownMenuSubTrigger>
-              <DropdownMenuPortal>
-                <DropdownMenuSubContent className="max-h-[500px] overflow-y-auto">
-                  <DropdownMenuItem>
-                    <SheetTrigger asChild>
-                      <span>New from scratch...</span>
-                    </SheetTrigger>
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  {children}
-                </DropdownMenuSubContent>
-              </DropdownMenuPortal>
-            </DropdownMenuSub>
-            <DropdownMenuItem>
-              <Plus />
-              Add Group
-            </DropdownMenuItem>
-          </DropdownMenuGroup>
-        </DropdownMenuContent>
-      </DropdownMenu>
       <SheetContent className="flex flex-col gap-4">
         <SheetHeader>
           <SheetTitle>Create Category</SheetTitle>
