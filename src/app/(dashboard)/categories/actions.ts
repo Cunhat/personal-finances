@@ -41,4 +41,6 @@ export const createGroup = authenticatedActionClient
       color,
       userId: user.id,
     });
+
+    revalidatePath("/categories");
   });
