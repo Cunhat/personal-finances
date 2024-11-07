@@ -34,7 +34,7 @@ export default function CategoryActions({
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="outline" className="h-8 w-8">
+          <Button variant="outline" className="size-8">
             <EllipsisVertical />
           </Button>
         </DropdownMenuTrigger>

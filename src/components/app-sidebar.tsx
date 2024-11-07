@@ -124,15 +124,15 @@ const data = {
       url: "/",
       icon: LayoutDashboard,
     },
+    {
+      name: "Accounts",
+      url: "/accounts",
+      icon: CreditCard,
+    },
     // {
     //   name: "Transactions",
     //   url: "#",
     //   icon: BadgeDollarSign,
-    // },
-    // {
-    //   name: "Accounts",
-    //   url: "#",
-    //   icon: CreditCard,
     // },
     {
       name: "Categories",

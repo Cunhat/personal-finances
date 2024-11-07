@@ -1,0 +1,64 @@
+[
+    {
+       "accountType":"bank",
+       "name":"Bank Account",
+       "accounts":[
+          {
+             "name":"Checking Account",
+             "description":"Used for daily transactions, including deposits, withdrawals, and payments. Usually has no or low interest."
+          },
+          {
+             "name":"Savings Account",
+             "description":"Designed for saving money with interest. Limited withdrawals may apply."
+          },
+          {
+             "name":"Emergency Fund Account",
+             "description":"Set aside funds for unexpected expenses, often separate from main savings to avoid accidental spending."
+          },
+          {
+             "name":"Health Savings Account (HSA)",
+             "description":"Used for health-related expenses, often with tax benefits, provided you have a high-deductible health plan."
+          }
+       ]
+    },
+    {
+       "accountType":"investment",
+       "name":"Investment Account",
+       "accounts":[
+          {
+             "name":"Investment Account",
+             "description":"For holding and managing investments like stocks, bonds, mutual funds, or ETFs."
+          },
+          {
+             "name":"Retirement Account",
+             "description":"Long-term savings specifically for retirement, like a 401(k) or IRA. May have tax benefits and withdrawal restrictions."
+          },
+          {
+             "name":"Cash Management Account (CMA)",
+             "description":"A hybrid of checking and investment accounts, commonly offered by brokerage firms, allowing easy transfer between cash and investments."
+          },
+          {
+             "name":"Brokerage Account",
+             "description":"Used for trading securities like stocks, bonds, and mutual funds."
+          },
+          {
+             "name":"Education Savings Account (ESA)",
+             "description":"For educational expenses, like a 529 plan, with tax benefits for qualifying expenses."
+          }
+       ]
+    },
+    {
+       "accountType":"credit",
+       "name":"Credit Account",
+       "accounts":[
+          {
+             "name":"Credit Card Account",
+             "description":"Represents a line of credit used for purchases, with a set limit and interest on unpaid balances."
+          },
+          {
+             "name":"Loan Account",
+             "description":"Tracks a loan (e.g., personal, auto, mortgage) with regular payments toward principal and interest."
+          }
+       ]
+    }
+ ]

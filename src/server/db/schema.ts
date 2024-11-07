@@ -39,8 +39,14 @@ export const transaction = sqliteTable("transaction", {
   }).primaryKey({ autoIncrement: true }),
   value: real("value").notNull(),
   created_at: text("created_at").notNull(),
-  transactionType: text("transaction_type", { enum: ["expense", "income"] as const }).notNull(),
-  categoryId: integer("category_id").references(() => category.id).notNull(),
+  transactionType: text("transaction_type", {
+    enum: ["expense", "income"] as const,
+  }).notNull(),
+  categoryId: integer("category_id")
+    .references(() => category.id)
+    .notNull(),
   userId: text("user_id").notNull(),
-  accountId: integer("account_id").references(() => account.id).notNull(),
+  accountId: integer("account_id")
+    .references(() => account.id)
+    .notNull(),
 });
