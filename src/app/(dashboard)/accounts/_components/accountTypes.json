@@ -1,74 +1,74 @@
 [
     {
-       "accountGroup":"bank",
+       "groupId":"bankAccount",
        "name":"Bank Account",
        "accounts":[
           {
+            "id": "checkingAccount",
              "name":"Checking Account",
-             "accountType":"checkingAccount",
              "description":"Used for daily transactions, including deposits, withdrawals, and payments. Usually has no or low interest."
           },
           {
-             "name":"Savings Account",
-             "accountType":"savingsAccount",
-             "description":"Designed for saving money with interest. Limited withdrawals may apply."
+            "id": "savingsAccount",
+            "name":"Savings Account",
+            "description":"Designed for saving money with interest. Limited withdrawals may apply."
           },
           {
-             "name":"Emergency Fund Account",
-             "accountType":"emergencyFundAccount",
-             "description":"Set aside funds for unexpected expenses, often separate from main savings to avoid accidental spending."
+            "id": "emergencyFundAccount",
+            "name":"Emergency Fund Account",
+            "description":"Set aside funds for unexpected expenses, often separate from main savings to avoid accidental spending."
           },
           {
-             "name":"Health Savings Account",
-             "accountType":"healthSavingsAccount",
-             "description":"Used for health-related expenses, often with tax benefits, provided you have a high-deductible health plan."
+            "id": "healthSavingsAccount",
+            "name":"Health Savings Account",
+            "description":"Used for health-related expenses, often with tax benefits, provided you have a high-deductible health plan."
           }
        ]
     },
     {
-       "accountGroup":"investment",
+       "groupId":"investmentAccount",
        "name":"Investment Account",
        "accounts":[
           {
-             "name":"Investment Account",
-             "accountType":"investmentAccount",
-             "description":"For holding and managing investments like stocks, bonds, mutual funds, or ETFs."
+            "id": "investmentAccount",
+            "name":"Investment Account",
+            "description":"For holding and managing investments like stocks, bonds, mutual funds, or ETFs."
           },
           {
-             "name":"Retirement Account",
-             "accountType":"retirementAccount",
-             "description":"Long-term savings specifically for retirement, like a 401(k) or IRA. May have tax benefits and withdrawal restrictions."
+            "id": "retirementAccount",
+            "name":"Retirement Account",
+            "description":"Long-term savings specifically for retirement, like a 401(k) or IRA. May have tax benefits and withdrawal restrictions."
           },
           {
-             "name":"Cash Management Account",
-             "accountType":"cashManagementAccount",
-             "description":"A hybrid of checking and investment accounts, commonly offered by brokerage firms, allowing easy transfer between cash and investments."
+            "id": "cashManagementAccount",
+            "name":"Cash Management Account",
+            "description":"A hybrid of checking and investment accounts, commonly offered by brokerage firms, allowing easy transfer between cash and investments."
           },
           {
-             "name":"Brokerage Account",
-             "accountType":"brokerageAccount",
-             "description":"Used for trading securities like stocks, bonds, and mutual funds."
+            "id": "brokerageAccount",
+            "name":"Brokerage Account",
+            "description":"Used for trading securities like stocks, bonds, and mutual funds."
           },
           {
-             "name":"Education Savings Account",
-             "accountType":"educationSavingsAccount",
-             "description":"For educational expenses, like a 529 plan, with tax benefits for qualifying expenses."
+            "id": "educationSavingsAccount",
+            "name":"Education Savings Account",
+            "description":"For educational expenses, like a 529 plan, with tax benefits for qualifying expenses."
           }
        ]
     },
     {
-       "accountGroup":"credit",
+       "groupId":"creditAccount",
        "name":"Credit Account",
        "accounts":[
           {
-             "name":"Credit Card Account",
-             "accountType":"creditCardAccount",
-             "description":"Represents a line of credit used for purchases, with a set limit and interest on unpaid balances."
+            "id": "creditCardAccount",
+            "name":"Credit Card Account",
+            "description":"Represents a line of credit used for purchases, with a set limit and interest on unpaid balances."
           },
           {
-             "name":"Loan Account",
-             "accountType":"loanAccount",
-             "description":"Tracks a loan (e.g., personal, auto, mortgage) with regular payments toward principal and interest."
+            "id": "loanAccount",
+            "name":"Loan Account",
+            "description":"Tracks a loan (e.g., personal, auto, mortgage) with regular payments toward principal and interest."
           }
        ]
     }

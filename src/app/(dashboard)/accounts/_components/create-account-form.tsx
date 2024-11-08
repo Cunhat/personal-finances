@@ -1,6 +1,5 @@
 "use client";
 
-import { Loader } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -22,13 +21,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Account, AccountSchema } from "@/schemas/account";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Controller, useForm } from "react-hook-form";
-import accountTypes from "./accountTypes.json";
-import { createAccount } from "../actions";
-import { useAction } from "next-safe-action/hooks";
 import { getValidationErrors } from "@/lib/utils";
+import { AccountValidation, AccountValidationSchema } from "@/schemas/account";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader } from "lucide-react";
+import { useAction } from "next-safe-action/hooks";
+import { Controller, useForm } from "react-hook-form";
+import { createAccount } from "../actions";
+import accountTypes from "./accountTypes.json";
 
 type CreateAccountFormProps = {
   closeSheet: () => void;
@@ -37,8 +37,8 @@ type CreateAccountFormProps = {
 export default function CreateAccountForm({
   closeSheet,
 }: CreateAccountFormProps) {
-  const form = useForm<Account>({
-    resolver: zodResolver(AccountSchema),
+  const form = useForm<AccountValidation>({
+    resolver: zodResolver(AccountValidationSchema),
     defaultValues: {
       balance: 0,
       name: "",
@@ -57,7 +57,7 @@ export default function CreateAccountForm({
     },
   });
 
-  function onSubmit(data: Account) {
+  function onSubmit(data: AccountValidation) {
     execute(data);
   }
 
@@ -92,11 +92,11 @@ export default function CreateAccountForm({
                 </FormControl>
                 <SelectContent>
                   {accountTypes.map((accountType) => (
-                    <SelectGroup key={accountType.accountGroup}>
+                    <SelectGroup key={accountType.groupId}>
                       <SelectLabel>{accountType.name}</SelectLabel>
                       <SelectSeparator />
                       {accountType.accounts.map((account) => (
-                        <SelectItem key={account.name} value={account.name}>
+                        <SelectItem key={account.id} value={account.id}>
                           {account.name}
                         </SelectItem>
                       ))}

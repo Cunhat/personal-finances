@@ -5,12 +5,9 @@ import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 const insertAccountSchema = createInsertSchema(account);
 const selectAccountSchema = createSelectSchema(account);
 
-// export const AccountSchema = insertAccountSchema.omit({
-//   id: true,
-//   userId: true,
-// });
+export type Account = typeof account.$inferSelect;
 
-export const AccountSchema = z.object({
+export const AccountValidationSchema = z.object({
   name: z.string().min(1, "Name is required"),
   accountType: z.string().min(1, "Account type is required"),
   balance: z
@@ -22,12 +19,4 @@ export const AccountSchema = z.object({
     ),
 });
 
-export type Account = z.infer<typeof AccountSchema>;
-
-type AccountType = {
-  accountType: "bank" | "investment" | "credit";
-  name: string;
-  accounts: Array<{ name: string; description: string }>;
-};
-
-export type AccountTypes = AccountType[];
+export type AccountValidation = z.infer<typeof AccountValidationSchema>;

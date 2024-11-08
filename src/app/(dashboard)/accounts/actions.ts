@@ -3,12 +3,12 @@
 import { account } from "@/server/db/schema";
 import { db } from "@/server/db";
 import { authenticatedActionClient } from "@/server/safe-actions";
-import { AccountSchema } from "@/schemas/account";
+import { AccountValidationSchema } from "@/schemas/account";
 import { returnValidationErrors } from "next-safe-action";
 import { revalidatePath } from "next/cache";
 
 export const createAccount = authenticatedActionClient
-  .schema(AccountSchema)
+  .schema(AccountValidationSchema)
   .action(
     async ({ parsedInput: { name, balance, accountType }, ctx: { user } }) => {
       const existingAccount = await db.query.account.findFirst({
@@ -17,7 +17,7 @@ export const createAccount = authenticatedActionClient
       });
 
       if (existingAccount) {
-        returnValidationErrors(AccountSchema, {
+        returnValidationErrors(AccountValidationSchema, {
           name: { _errors: ["Account with this name already exists"] },
         });
       }
