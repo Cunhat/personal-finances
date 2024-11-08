@@ -36,6 +36,8 @@ export default async function Page() {
         <div className="flex flex-col gap-4">
           <Suspense fallback={<div>Loading...</div>}>
             <ListGroups />
+          </Suspense>
+          <Suspense fallback={<div>Loading...</div>}>
             <ListCategories />
           </Suspense>
         </div>

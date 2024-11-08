@@ -1,9 +1,12 @@
+import { currentUser } from "@clerk/nextjs/server";
 import { listCategories } from "../../actions";
 import CreateFromSample from "./create-from-sample";
 import sampleCategories from "./sampleCategories.json";
 
 export async function SampleCategories() {
-  const categories = await listCategories();
+  const user = await currentUser();
+
+  const categories = await listCategories(user?.id);
 
   const samples = sampleCategories.filter(
     (sample) => !categories.some((category) => category.name === sample.name),

@@ -30,7 +30,13 @@ import { createAccount } from "../actions";
 import { useAction } from "next-safe-action/hooks";
 import { getValidationErrors } from "@/lib/utils";
 
-export default function CreateAccountForm() {
+type CreateAccountFormProps = {
+  closeSheet: () => void;
+};
+
+export default function CreateAccountForm({
+  closeSheet,
+}: CreateAccountFormProps) {
   const form = useForm<Account>({
     resolver: zodResolver(AccountSchema),
     defaultValues: {
@@ -42,6 +48,7 @@ export default function CreateAccountForm() {
   const { execute, isExecuting } = useAction(createAccount, {
     onSuccess: () => {
       form.reset();
+      closeSheet();
     },
     onError: (error) => {
       if (error.error?.validationErrors) {
@@ -85,7 +92,7 @@ export default function CreateAccountForm() {
                 </FormControl>
                 <SelectContent>
                   {accountTypes.map((accountType) => (
-                    <SelectGroup key={accountType.accountType}>
+                    <SelectGroup key={accountType.accountGroup}>
                       <SelectLabel>{accountType.name}</SelectLabel>
                       <SelectSeparator />
                       {accountType.accounts.map((account) => (

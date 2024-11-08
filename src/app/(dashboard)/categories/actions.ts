@@ -4,10 +4,11 @@ import { db } from "@/server/db";
 import { category, categoryGroup } from "@/server/db/schema";
 import { revalidatePath } from "next/cache";
 import { CreateCategorySchema, CreateGroupSchema } from "@/schemas/category";
-import { cache } from "react";
+
 import { eq } from "drizzle-orm";
 import { currentUser } from "@clerk/nextjs/server";
 import { returnValidationErrors } from "next-safe-action";
+import { unstable_cache } from "next/cache";
 
 export const createCategory = authenticatedActionClient
   .schema(CreateCategorySchema)
@@ -35,17 +36,18 @@ export const createCategory = authenticatedActionClient
     revalidatePath("/categories");
   });
 
-export const listCategories = cache(async () => {
-  const user = await currentUser();
+export const listCategories = unstable_cache(
+  async (userId: string | undefined) => {
+    if (!userId) {
+      throw new Error("User not found");
+    }
 
-  if (!user) {
-    throw new Error("User not found");
-  }
-
-  return await db.query.category.findMany({
-    where: eq(category.userId, user.id),
-  });
-});
+    return await db.query.category.findMany({
+      where: eq(category.userId, userId),
+    });
+  },
+  ["categories"],
+);
 
 export const createGroup = authenticatedActionClient
   .schema(CreateGroupSchema)

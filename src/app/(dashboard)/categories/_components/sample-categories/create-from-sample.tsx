@@ -16,7 +16,6 @@ type CreateFromSampleProps = {
 
 export default function CreateFromSample({ category }: CreateFromSampleProps) {
   const { execute, isExecuting } = useAction(createCategory, {
-    onSuccess: () => {},
     onError: (error) => {
       console.error(error);
     },

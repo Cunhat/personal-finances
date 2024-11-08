@@ -5,6 +5,7 @@ import { db } from "@/server/db";
 import { authenticatedActionClient } from "@/server/safe-actions";
 import { AccountSchema } from "@/schemas/account";
 import { returnValidationErrors } from "next-safe-action";
+import { revalidatePath } from "next/cache";
 
 export const createAccount = authenticatedActionClient
   .schema(AccountSchema)
@@ -27,5 +28,7 @@ export const createAccount = authenticatedActionClient
         accountType,
         userId: user.id,
       });
+
+      revalidatePath("/accounts");
     },
   );
