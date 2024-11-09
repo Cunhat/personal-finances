@@ -37,7 +37,7 @@ export const createCategory = authenticatedActionClient
   });
 
 export const listCategories = unstable_cache(
-  async (userId: string) => {
+  async (userId: string | undefined) => {
     if (!userId) {
       throw new Error("User not found");
     }
