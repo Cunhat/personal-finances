@@ -1,6 +1,7 @@
 // Example model schema from the Drizzle docs
 // https://orm.drizzle.team/docs/sql-schema-declaration
 
+import { relations } from "drizzle-orm";
 import { integer, real, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
 export const categoryGroup = sqliteTable("category_group", {
@@ -50,3 +51,18 @@ export const transaction = sqliteTable("transaction", {
     .references(() => account.id)
     .notNull(),
 });
+
+export const accountRelations = relations(account, ({ many }) => ({
+  transaction: many(transaction),
+}));
+
+export const transactionRelations = relations(transaction, ({ one }) => ({
+  account: one(account, {
+    fields: [transaction.accountId],
+    references: [account.id],
+  }),
+  category: one(category, {
+    fields: [transaction.categoryId],
+    references: [category.id],
+  }),
+}));
