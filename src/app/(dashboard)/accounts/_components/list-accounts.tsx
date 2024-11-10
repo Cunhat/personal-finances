@@ -29,13 +29,17 @@ export default async function ListAccounts() {
           (account) => account.id,
         );
 
+        const accountsInGroup = accounts.filter((account) =>
+          flattenedGroupAccounts.includes(account.accountType),
+        );
+
+        if (!accountsInGroup.length) return null;
+
         return (
           <AccountGroup
             key={accountType.groupId}
             groupName={accountType.name}
-            accounts={accounts.filter((account) =>
-              flattenedGroupAccounts.includes(account.accountType),
-            )}
+            accounts={accountsInGroup}
           />
         );
       })}

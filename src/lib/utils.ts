@@ -19,3 +19,37 @@ export function getValidationErrors<T extends Record<string, any>>(
     });
   });
 }
+
+/**
+ * Generates a random percentage change for balance between -100% and +100%
+ * @param options Configuration for percentage generation
+ * @returns An object containing the percentage and whether it's an increase
+ */
+export function generateBalanceChange(options?: {
+  minPercentage?: number; // Minimum percentage change (default: -100)
+  maxPercentage?: number; // Maximum percentage change (default: 100)
+  decimals?: number; // Number of decimal places (default: 2)
+}) {
+  const {
+    minPercentage = -100,
+    maxPercentage = 100,
+    decimals = 2,
+  } = options ?? {};
+
+  // Generate random percentage between min and max
+  const percentage = Number(
+    (Math.random() * (maxPercentage - minPercentage) + minPercentage).toFixed(
+      decimals,
+    ),
+  );
+
+  // Determine if it's an increase or decrease
+  const isIncrease = percentage > 0;
+
+  return {
+    percentage: Math.abs(percentage), // Always positive number
+    isIncrease,
+    formattedPercentage: `${isIncrease ? "+" : "-"}${Math.abs(percentage)}%`,
+    multiplier: 1 + percentage / 100, // Useful for calculations
+  };
+}
