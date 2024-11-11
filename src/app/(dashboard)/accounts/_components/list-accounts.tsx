@@ -6,14 +6,17 @@ import { unstable_cache } from "next/cache";
 import { redirect } from "next/navigation";
 import SplitAccountsView from "./split-accounts-view";
 
-const getAccounts = unstable_cache(async (userId: string) => {
-  return await db.query.account.findMany({
-    where: eq(account.userId, userId),
-    with: {
-      transaction: true,
-    },
-  });
-});
+const getAccounts = unstable_cache(
+  async (userId: string) => {
+    return await db.query.account.findMany({
+      where: eq(account.userId, userId),
+      with: {
+        transaction: true,
+      },
+    });
+  },
+  ["accounts"],
+);
 
 export default async function ListAccounts() {
   const user = await currentUser();
