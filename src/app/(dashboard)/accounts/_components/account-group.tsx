@@ -1,27 +1,22 @@
 "use client";
-import { Button } from "@/components/ui/button";
+import BalanceEvolutionTag from "@/components/balance-evolution-tag";
 import { Separator } from "@/components/ui/separator";
-import { cn, generateBalanceChange } from "@/lib/utils";
+import { cn, formatCurrency, generateBalanceChange } from "@/lib/utils";
 import { Account } from "@/schemas/account";
-import {
-  ArrowDownIcon,
-  ArrowUpIcon,
-  ChevronDownIcon,
-  TrendingDown,
-  TrendingUp,
-} from "lucide-react";
-import React, { useMemo, useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { cva } from "class-variance-authority";
+import { ChevronDownIcon } from "lucide-react";
+import { useEffect, useState } from "react";
 
 type AccountGroupProps = {
   groupName: string;
   accounts: Array<Account>;
+  onAccountSelect: (account: Account) => void;
 };
 
 export default function AccountGroup({
   groupName,
   accounts,
+  onAccountSelect,
 }: AccountGroupProps) {
   const [balanceVariation, setBalanceVariation] = useState({
     percentage: 0,
@@ -37,9 +32,12 @@ export default function AccountGroup({
 
   const [expanded, setExpanded] = useState(true);
 
-  const groupTotalBalance = accounts.reduce(
-    (acc, account) => acc + account.balance,
-    0,
+  const groupTotalBalance = formatCurrency(
+    accounts.reduce((acc, account) => acc + account.balance, 0),
+    {
+      currency: "EUR",
+      locale: "de-DE",
+    },
   );
 
   return (
@@ -62,7 +60,7 @@ export default function AccountGroup({
               exit={{ opacity: 0, y: -10 }}
               className="ml-auto text-sm"
             >
-              {groupTotalBalance} €
+              {groupTotalBalance}
             </motion.p>
           )}
         </div>
@@ -71,8 +69,9 @@ export default function AccountGroup({
             <div className="flex flex-col gap-2">
               {accounts.map((account, index) => (
                 <motion.div
+                  onClick={() => onAccountSelect(account)}
                   key={account.id}
-                  className="grid grid-cols-[1fr_auto_auto] items-center gap-4"
+                  className="grid cursor-pointer grid-cols-[1fr_auto_auto] items-center gap-4 rounded-md p-2 hover:bg-muted/75"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
@@ -83,7 +82,12 @@ export default function AccountGroup({
                     percentage={balanceVariation.percentage}
                     isIncrease={balanceVariation.isIncrease}
                   />
-                  <p className="text-sm">{account.balance} €</p>
+                  <p className="text-sm">
+                    {formatCurrency(account.balance, {
+                      currency: "EUR",
+                      locale: "de-DE",
+                    })}
+                  </p>
                 </motion.div>
               ))}
             </div>
@@ -95,7 +99,7 @@ export default function AccountGroup({
                 exit={{ opacity: 0, y: -10 }}
                 className="ml-auto text-sm"
               >
-                {groupTotalBalance} €
+                {groupTotalBalance}
               </motion.p>
             </div>
           </div>
@@ -104,34 +108,3 @@ export default function AccountGroup({
     </AnimatePresence>
   );
 }
-
-const BalanceEvolutionTagStyles = cva(
-  "rounded-md px-2 py-px flex items-center gap-1",
-  {
-    variants: {
-      isIncrease: {
-        true: "bg-green-500/40 border border-green-500",
-        false: "bg-red-500/40 border border-red-500",
-      },
-    },
-  },
-);
-
-const BalanceEvolutionTag = ({
-  percentage,
-  isIncrease,
-}: {
-  percentage: number;
-  isIncrease: boolean;
-}) => {
-  return (
-    <div className={BalanceEvolutionTagStyles({ isIncrease })}>
-      {isIncrease ? (
-        <TrendingUp className="h-4 w-4" />
-      ) : (
-        <TrendingDown className="h-4 w-4" />
-      )}
-      <p className="text-sm">{percentage}%</p>
-    </div>
-  );
-};

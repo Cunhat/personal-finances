@@ -53,3 +53,20 @@ export function generateBalanceChange(options?: {
     multiplier: 1 + percentage / 100, // Useful for calculations
   };
 }
+
+export function formatCurrency(
+  amount: number,
+  options?: {
+    locale?: string;
+    currency?: string;
+  },
+) {
+  const { locale = "en-US", currency = "USD" } = options ?? {};
+
+  return new Intl.NumberFormat(locale, {
+    style: "currency",
+    currency: currency,
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(amount);
+}

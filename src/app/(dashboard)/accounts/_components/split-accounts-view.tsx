@@ -37,14 +37,13 @@ export default function SplitAccountsView({
               key={accountType.groupId}
               groupName={accountType.name}
               accounts={accountsInGroup}
+              onAccountSelect={setSelectedAccount}
             />
           );
         })}
       </div>
       <Separator orientation="vertical" />
-      <div>
-        {selectedAccount && <AccountInfo accountId={selectedAccount.id} />}
-      </div>
+      <div>{selectedAccount && <AccountInfo account={selectedAccount} />}</div>
     </div>
   );
 }
