@@ -13,21 +13,33 @@ const BalanceEvolutionTagStyles = cva(
   },
 );
 
+interface BalanceEvolutionTagProps {
+  percentage: number;
+  isIncrease: boolean;
+}
+
 export default function BalanceEvolutionTag({
   percentage,
   isIncrease,
-}: {
-  percentage: number;
-  isIncrease: boolean;
-}) {
+}: BalanceEvolutionTagProps) {
+  if (typeof percentage !== 'number' || isNaN(percentage)) {
+    return null;
+  }
+
+  const label = `Balance ${isIncrease ? 'increased' : 'decreased'} by ${percentage}%`;
+
   return (
-    <div className={BalanceEvolutionTagStyles({ isIncrease })}>
+    <div 
+      className={BalanceEvolutionTagStyles({ isIncrease })}
+      role="status"
+      aria-label={label}
+    >
       {isIncrease ? (
-        <TrendingUp className="h-4 w-4" />
+        <TrendingUp className="h-4 w-4" aria-hidden="true" />
       ) : (
-        <TrendingDown className="h-4 w-4" />
+        <TrendingDown className="h-4 w-4" aria-hidden="true" />
       )}
-      <p className="text-sm">{percentage}%</p>
+      <p className="text-sm">{percentage.toFixed(2)}%</p>
     </div>
   );
 }
