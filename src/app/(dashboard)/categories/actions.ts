@@ -46,7 +46,10 @@ export const listCategories = unstable_cache(
       where: eq(category.userId, userId),
     });
   },
-  ["categories"],
+  [],
+  {
+    tags: ["categories"],
+  },
 );
 
 export const createGroup = authenticatedActionClient

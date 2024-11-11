@@ -12,7 +12,10 @@ const getGroups = unstable_cache(
       where: eq(categoryGroup.userId, userId),
     });
   },
-  ["categories-groups"],
+  [],
+  {
+    tags: ["categories-groups"],
+  },
 );
 
 export default async function ListGroups() {
