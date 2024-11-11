@@ -13,23 +13,23 @@ const BalanceEvolutionTagStyles = cva(
   },
 );
 
-interface BalanceEvolutionTagProps {
+type BalanceEvolutionTagProps = {
   percentage: number;
   isIncrease: boolean;
-}
+};
 
 export default function BalanceEvolutionTag({
   percentage,
   isIncrease,
 }: BalanceEvolutionTagProps) {
-  if (typeof percentage !== 'number' || isNaN(percentage)) {
+  if (typeof percentage !== "number" || isNaN(percentage)) {
     return null;
   }
 
-  const label = `Balance ${isIncrease ? 'increased' : 'decreased'} by ${percentage}%`;
+  const label = `Balance ${isIncrease ? "increased" : "decreased"} by ${percentage}%`;
 
   return (
-    <div 
+    <div
       className={BalanceEvolutionTagStyles({ isIncrease })}
       role="status"
       aria-label={label}
