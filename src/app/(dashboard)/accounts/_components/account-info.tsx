@@ -4,6 +4,7 @@ import { Separator } from "@/components/ui/separator";
 import { formatCurrency } from "@/lib/utils";
 import { Account } from "@/schemas/account";
 import { generateTransactions } from "./script";
+import AccountExpenses from "./account-expenses";
 
 type AccountInfoProps = {
   account: Account;
@@ -29,14 +30,16 @@ export default function AccountInfo({ account }: AccountInfoProps) {
       </div>
       <Separator />
       <div className="scrollbar-none flex flex-1 flex-col gap-2 overflow-y-auto">
+        <AccountExpenses transactions={account.transaction ?? []} />
+      </div>
+      {/* <div className="scrollbar-none flex flex-1 flex-col gap-2 overflow-y-auto">
         {account.transaction?.map((transaction) => (
           <div key={transaction.id} className="flex gap-2">
             <p>{transaction.name}</p>
             <p>{transaction.value}</p>
             <p>{transaction.created_at}</p>
           </div>
-        ))}
-      </div>
+        ))} */}
     </div>
   );
 }

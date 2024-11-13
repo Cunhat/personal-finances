@@ -18,7 +18,7 @@ export default function Table({ data, columns }: TableProps) {
   });
 
   return (
-    <table>
+    <table className="">
       <thead>
         {table.getHeaderGroups().map((headerGroup) => (
           <tr key={headerGroup.id}>
