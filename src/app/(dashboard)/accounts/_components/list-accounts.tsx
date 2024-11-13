@@ -11,7 +11,9 @@ const getAccounts = unstable_cache(
     return await db.query.account.findMany({
       where: eq(account.userId, userId),
       with: {
-        transaction: true,
+        transaction: {
+          orderBy: (transaction, { desc }) => [desc(transaction.created_at)],
+        },
       },
     });
   },
@@ -33,9 +35,5 @@ export default async function ListAccounts() {
     return <div>No accounts found</div>;
   }
 
-  return (
-    <div className="flex flex-1 flex-col gap-4">
-      <SplitAccountsView accounts={accounts} />
-    </div>
-  );
+  return <SplitAccountsView accounts={accounts} />;
 }

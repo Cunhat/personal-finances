@@ -19,7 +19,7 @@ export default function SplitAccountsView({
   );
 
   return (
-    <div className="grid flex-1 grid-cols-[1fr_1px_1fr] gap-4">
+    <div className="grid h-full grid-cols-[1fr_1px_1fr] gap-4 overflow-hidden">
       <div>
         {accountTypes.map((accountType) => {
           const flattenedGroupAccounts = accountType.accounts.map(
@@ -43,7 +43,7 @@ export default function SplitAccountsView({
         })}
       </div>
       <Separator orientation="vertical" />
-      <div>{selectedAccount && <AccountInfo account={selectedAccount} />}</div>
+      {selectedAccount && <AccountInfo account={selectedAccount} />}
     </div>
   );
 }

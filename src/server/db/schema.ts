@@ -38,6 +38,7 @@ export const transaction = sqliteTable("transaction", {
   id: integer("id", {
     mode: "number",
   }).primaryKey({ autoIncrement: true }),
+  name: text("name").notNull(),
   value: real("value").notNull(),
   created_at: text("created_at").notNull(),
   transactionType: text("transaction_type", {
