@@ -13,6 +13,9 @@ const getAccounts = unstable_cache(
       with: {
         transaction: {
           orderBy: (transaction, { desc }) => [desc(transaction.created_at)],
+          with: {
+            category: true,
+          },
         },
       },
     });

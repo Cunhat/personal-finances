@@ -61,7 +61,7 @@ export function formatCurrency(
     currency?: string;
   },
 ) {
-  const { locale = "en-US", currency = "USD" } = options ?? {};
+  const { locale = "de-DE", currency = "EUR" } = options ?? {};
 
   return new Intl.NumberFormat(locale, {
     style: "currency",

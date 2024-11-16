@@ -2,10 +2,11 @@ import { account, accountRelations } from "@/server/db/schema";
 import z from "node_modules/zod/lib";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { transaction } from "@/server/db/schema";
+import { selectTransactionSchema } from "./transaction";
 
 const insertAccountSchema = createInsertSchema(account);
 const selectAccountSchema = createSelectSchema(account).extend({
-  transaction: z.array(createSelectSchema(transaction)).optional(),
+  transaction: selectTransactionSchema.array().optional(),
 });
 
 export type Account = z.infer<typeof selectAccountSchema>;

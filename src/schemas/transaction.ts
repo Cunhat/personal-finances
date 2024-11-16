@@ -1,7 +1,10 @@
 import { createSelectSchema } from "drizzle-zod";
 import { transaction } from "@/server/db/schema";
 import { z } from "zod";
+import { selectCategorySchema } from "./category";
 
-const selectTransaction = createSelectSchema(transaction);
+export const selectTransactionSchema = createSelectSchema(transaction).extend({
+  category: selectCategorySchema,
+});
 
-export type Transaction = z.infer<typeof selectTransaction>;
+export type Transaction = z.infer<typeof selectTransactionSchema>;

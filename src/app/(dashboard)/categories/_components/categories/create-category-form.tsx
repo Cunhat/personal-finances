@@ -9,17 +9,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-  CreateCategory,
-  CreateCategorySchema,
-  CreateGroup,
-} from "@/schemas/category";
+import { getValidationErrors } from "@/lib/utils";
+import { CategoryValidationSchema, CreateCategory } from "@/schemas/category";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { HexColorPicker } from "react-colorful";
 import { Controller, useForm } from "react-hook-form";
-import { getValidationErrors } from "@/lib/utils";
 import { createCategory } from "../../actions";
 
 export default function CreateCategoryForm({
@@ -28,7 +24,7 @@ export default function CreateCategoryForm({
   setOpen: (open: boolean) => void;
 }) {
   const form = useForm<CreateCategory>({
-    resolver: zodResolver(CreateCategorySchema),
+    resolver: zodResolver(CategoryValidationSchema),
     defaultValues: {
       name: "",
       icon: "",

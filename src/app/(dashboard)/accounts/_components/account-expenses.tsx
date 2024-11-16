@@ -1,3 +1,4 @@
+import CategoryBadge from "@/components/category-badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { formatCurrency } from "@/lib/utils";
 import { Transaction } from "@/schemas/transaction";
@@ -78,7 +79,7 @@ export default function AccountExpenses({
       {transactionsInfo.map((transaction) => {
         return (
           <div className="flex flex-col gap-3" key={transaction.monthYear}>
-            <div className="flex items-center justify-between pl-6">
+            <div className="flex items-center justify-between">
               <h2 className="text-lg font-semibold">{transaction.monthYear}</h2>
               <p className="text-base">{formatCurrency(transaction.amount)}</p>
             </div>
@@ -86,21 +87,23 @@ export default function AccountExpenses({
               {Object.entries(transaction.expenses).map(
                 ([date, transactions]) => {
                   return (
-                    <div className="flex flex-col gap-4" key={date}>
-                      <h2 className="pl-6 text-base font-semibold text-muted-foreground">
-                        {date}
+                    <div className="flex flex-col gap-3" key={date}>
+                      <h2 className="pl-10 text-base font-semibold text-muted-foreground">
+                        {date.toLocaleUpperCase()}
                       </h2>
-                      <div className="flex flex-col gap-2">
+                      <div className="flex flex-col gap-1">
                         {transactions.map((transaction) => {
                           return (
                             <div
                               key={transaction.id}
-                              className="grid grid-cols-[24px_1fr_1fr_1fr] items-center"
+                              className="grid grid-cols-[32px_1fr_1fr_auto] items-center rounded-sm p-2 hover:bg-muted"
                             >
-                              <Checkbox />
-                              <p>{transaction.name}</p>
-                              <p>{transaction.categoryId}</p>
-                              <p>{formatCurrency(transaction.value)}</p>
+                              <Checkbox className="size-5" />
+                              <p className="text-base">{transaction.name}</p>
+                              <CategoryBadge category={transaction.category} />
+                              <p className="text-base">
+                                {formatCurrency(transaction.value)}
+                              </p>
                             </div>
                           );
                         })}

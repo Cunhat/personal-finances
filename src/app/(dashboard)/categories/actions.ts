@@ -3,7 +3,10 @@ import { authenticatedActionClient } from "@/server/safe-actions";
 import { db } from "@/server/db";
 import { category, categoryGroup } from "@/server/db/schema";
 import { revalidatePath } from "next/cache";
-import { CreateCategorySchema, CreateGroupSchema } from "@/schemas/category";
+import {
+  CategoryValidationSchema,
+  GroupValidationSchema,
+} from "@/schemas/category";
 
 import { eq } from "drizzle-orm";
 import { currentUser } from "@clerk/nextjs/server";
@@ -11,7 +14,7 @@ import { returnValidationErrors } from "next-safe-action";
 import { unstable_cache } from "next/cache";
 
 export const createCategory = authenticatedActionClient
-  .schema(CreateCategorySchema)
+  .schema(CategoryValidationSchema)
   .action(async ({ parsedInput: { name, icon, color }, ctx: { user } }) => {
     const existingCategory = await db.query.category.findFirst({
       where: (category, { eq, and }) =>
@@ -19,7 +22,7 @@ export const createCategory = authenticatedActionClient
     });
 
     if (existingCategory) {
-      returnValidationErrors(CreateCategorySchema, {
+      returnValidationErrors(CategoryValidationSchema, {
         name: {
           _errors: ["A category with this name already exists"],
         },
@@ -53,7 +56,7 @@ export const listCategories = unstable_cache(
 );
 
 export const createGroup = authenticatedActionClient
-  .schema(CreateGroupSchema)
+  .schema(GroupValidationSchema)
   .action(async ({ parsedInput: { name, color }, ctx: { user } }) => {
     const existingGroup = await db.query.categoryGroup.findFirst({
       where: (categoryGroup, { eq, and }) =>
@@ -61,7 +64,7 @@ export const createGroup = authenticatedActionClient
     });
 
     if (existingGroup) {
-      returnValidationErrors(CreateGroupSchema, {
+      returnValidationErrors(GroupValidationSchema, {
         name: {
           _errors: ["A group with this name already exists"],
         },

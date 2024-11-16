@@ -1,4 +1,4 @@
-import { CreateGroup, CreateGroupSchema } from "@/schemas/category";
+import { CreateGroup, GroupValidationSchema } from "@/schemas/category";
 import { CreateCategory } from "@/schemas/category";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
@@ -26,7 +26,7 @@ type CreateGroupFormProps = {
 
 export default function CreateGroupForm({ setOpen }: CreateGroupFormProps) {
   const form = useForm<CreateGroup>({
-    resolver: zodResolver(CreateGroupSchema),
+    resolver: zodResolver(GroupValidationSchema),
     defaultValues: {
       name: "",
       color: "#000000",
