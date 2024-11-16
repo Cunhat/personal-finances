@@ -39,7 +39,7 @@ export default function AccountExpenses({
     if (!transactionsInfo?.length) {
       transactionsInfo.push({
         monthYear,
-        amount: 0,
+        amount: transaction.value,
         expenses: {
           [date]: [transaction],
         },
@@ -52,7 +52,7 @@ export default function AccountExpenses({
       if (!alreadyHaveMonthYear) {
         transactionsInfo.push({
           monthYear,
-          amount: 0,
+          amount: transaction.value,
           expenses: {
             [date]: [transaction],
           },
@@ -68,6 +68,7 @@ export default function AccountExpenses({
             transaction,
           ];
         }
+        alreadyHaveMonthYear.amount += transaction.value;
       }
     }
   });
