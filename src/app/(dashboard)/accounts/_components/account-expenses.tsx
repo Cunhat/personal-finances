@@ -1,10 +1,7 @@
-import Table from "@/components/table/table";
+import { Checkbox } from "@/components/ui/checkbox";
+import { formatCurrency } from "@/lib/utils";
 import { Transaction } from "@/schemas/transaction";
 import dayjs from "dayjs";
-import { ColumnDef } from "@tanstack/react-table";
-import React from "react";
-import { formatCurrency } from "@/lib/utils";
-import { Checkbox } from "@/components/ui/checkbox";
 
 type AccountExpensesProps = {
   transactions: Transaction[];
@@ -27,9 +24,7 @@ const expensesInfo = [
 type TransactionInfo = {
   monthYear: string;
   amount: number;
-  expenses: {
-    [key: string]: Array<Transaction>;
-  };
+  expenses: Record<string, Transaction[]>;
 };
 
 export default function AccountExpenses({
@@ -82,7 +77,7 @@ export default function AccountExpenses({
       {transactionsInfo.map((transaction) => {
         return (
           <div className="flex flex-col gap-3" key={transaction.monthYear}>
-            <div className="flex items-center justify-between pl-3">
+            <div className="flex items-center justify-between pl-6">
               <h2 className="text-lg font-semibold">{transaction.monthYear}</h2>
               <p className="text-base">{formatCurrency(transaction.amount)}</p>
             </div>
@@ -90,14 +85,17 @@ export default function AccountExpenses({
               {Object.entries(transaction.expenses).map(
                 ([date, transactions]) => {
                   return (
-                    <div className="flex flex-col gap-2" key={date}>
-                      <h2 className="pl-3 text-base text-muted-foreground">
+                    <div className="flex flex-col gap-4" key={date}>
+                      <h2 className="pl-6 text-base font-semibold text-muted-foreground">
                         {date}
                       </h2>
-                      <div className="flex flex-col gap-1">
+                      <div className="flex flex-col gap-2">
                         {transactions.map((transaction) => {
                           return (
-                            <div className="grid grid-cols-[20px_1fr_1fr_1fr] items-center gap-2">
+                            <div
+                              key={transaction.id}
+                              className="grid grid-cols-[24px_1fr_1fr_1fr] items-center"
+                            >
                               <Checkbox />
                               <p>{transaction.name}</p>
                               <p>{transaction.categoryId}</p>
