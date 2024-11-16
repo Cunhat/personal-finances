@@ -94,7 +94,6 @@ export default function CreateAccountForm({
                   {accountTypes.map((accountType) => (
                     <SelectGroup key={accountType.groupId}>
                       <SelectLabel>{accountType.name}</SelectLabel>
-                      {/* <SelectSeparator /> */}
                       {accountType.accounts.map((account) => (
                         <SelectItem key={account.id} value={account.id}>
                           {account.name}

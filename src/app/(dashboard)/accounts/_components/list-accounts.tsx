@@ -29,8 +29,6 @@ export default async function ListAccounts() {
 
   const accounts = await getAccounts(user.id);
 
-  console.log(accounts);
-
   if (!accounts.length) {
     return <div>No accounts found</div>;
   }
