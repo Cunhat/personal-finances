@@ -75,7 +75,7 @@ export default function AccountExpenses({
   });
 
   return (
-    <div className="flex h-full flex-col gap-6">
+    <div className="flex h-full w-full flex-col gap-6">
       {transactionsInfo.map((transaction) => {
         return (
           <div className="flex flex-col gap-3" key={transaction.monthYear}>

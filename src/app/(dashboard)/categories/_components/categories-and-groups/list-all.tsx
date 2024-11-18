@@ -29,7 +29,7 @@ export default function ListAll({ groups, categories }: ListAllProps) {
   }
 
   return (
-    <div className="grid flex-1 grid-cols-[1fr_1px_1fr] gap-4">
+    <div className="grid h-full grid-cols-[1fr_1px_1fr] gap-4 overflow-hidden">
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
           {groups.map((group) => {
@@ -71,7 +71,7 @@ export default function ListAll({ groups, categories }: ListAllProps) {
         </div>
       </div>
       <Separator orientation="vertical" />
-      <div className="flex flex-1 flex-col gap-4">
+      <div className="flex h-full flex-col gap-4 overflow-hidden">
         <div className="flex items-center gap-3">
           <div
             style={{ backgroundColor: selectedCategory?.color }}
@@ -80,7 +80,11 @@ export default function ListAll({ groups, categories }: ListAllProps) {
           <p className="text-2xl">{selectedCategory?.icon}</p>
         </div>
         <h1 className="text-2xl font-bold">{selectedCategory?.name}</h1>
-        <AccountExpenses transactions={selectedCategory?.transactions ?? []} />
+        <div className="flex flex-1 overflow-y-scroll scrollbar-none">
+          <AccountExpenses
+            transactions={selectedCategory?.transactions ?? []}
+          />
+        </div>
       </div>
     </div>
   );

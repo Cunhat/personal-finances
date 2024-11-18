@@ -73,7 +73,7 @@ export default async function Page() {
   const { groups, categories } = await getGroupsAndCategories(user.id);
 
   return (
-    <div className="flex flex-1 flex-col">
+    <div className="flex h-[calc(100vh-65px)] flex-col overflow-hidden">
       <PageHeader title="Categories">
         <div className="ml-2 flex h-full w-full">
           <CategoryActions
