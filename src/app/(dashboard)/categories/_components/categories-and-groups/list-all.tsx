@@ -1,5 +1,6 @@
 "use client";
 
+import AccountExpenses from "@/app/(dashboard)/accounts/_components/account-expenses";
 import { Separator } from "@/components/ui/separator";
 import { hexToRgb } from "@/lib/utils";
 import { Category, CategoryGroupWithCategories } from "@/schemas/category";
@@ -12,7 +13,9 @@ type ListAllProps = {
 };
 
 export default function ListAll({ groups, categories }: ListAllProps) {
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<Category | null>(
+    categories[0] ?? null,
+  );
 
   if (categories.length === 0 && groups.length === 0) {
     return (
@@ -52,7 +55,11 @@ export default function ListAll({ groups, categories }: ListAllProps) {
         </div>
         <div className="flex flex-col gap-2">
           {categories.map((category) => (
-            <div key={category.id} className="flex items-center gap-3">
+            <div
+              key={category.id}
+              className="flex items-center gap-3 hover:cursor-pointer"
+              onClick={() => setSelectedCategory(category)}
+            >
               <div
                 className="h-2 w-2 rounded-full"
                 style={{ backgroundColor: category.color }}
@@ -64,7 +71,17 @@ export default function ListAll({ groups, categories }: ListAllProps) {
         </div>
       </div>
       <Separator orientation="vertical" />
-      <div className="flex flex-1 flex-col gap-4"></div>
+      <div className="flex flex-1 flex-col gap-4">
+        <div className="flex items-center gap-3">
+          <div
+            style={{ backgroundColor: selectedCategory?.color }}
+            className="h-2 w-2 rounded-full"
+          />
+          <p className="text-2xl">{selectedCategory?.icon}</p>
+        </div>
+        <h1 className="text-2xl font-bold">{selectedCategory?.name}</h1>
+        <AccountExpenses transactions={selectedCategory?.transactions ?? []} />
+      </div>
     </div>
   );
 }

@@ -27,12 +27,27 @@ const getGroupsAndCategories = unstable_cache(
     const groupsQuery = db.query.categoryGroup.findMany({
       where: eq(categoryGroup.userId, userId),
       with: {
-        categories: true,
+        categories: {
+          with: {
+            transactions: {
+              with: {
+                category: true,
+              },
+            },
+          },
+        },
       },
     });
 
     const categoriesQuery = db.query.category.findMany({
       where: and(eq(category.userId, userId), isNull(category.groupId)),
+      with: {
+        transactions: {
+          with: {
+            category: true,
+          },
+        },
+      },
     });
 
     const [groups, categories] = await Promise.all([
@@ -56,8 +71,6 @@ export default async function Page() {
   }
 
   const { groups, categories } = await getGroupsAndCategories(user.id);
-
-  console.log("categories", categories);
 
   return (
     <div className="flex flex-1 flex-col">
