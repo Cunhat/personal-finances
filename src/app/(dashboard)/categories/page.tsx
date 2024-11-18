@@ -7,6 +7,14 @@ import CategoryActions from "./_components/category-actions";
 import ListGroups from "./_components/list-groups";
 import { SampleCategories } from "./_components/sample-categories/get-samples";
 import { ListCategories } from "./_components/categories/list-categories";
+import ListAll from "./_components/categories-and-groups/list-all";
+import { unstable_cache } from "next/dist/server/web/spec-extension/unstable-cache";
+import { db } from "@/server/db";
+import { category, categoryGroup } from "@/server/db/schema";
+import { and, eq, isNull } from "drizzle-orm";
+import { redirect } from "next/navigation";
+import { currentUser } from "@clerk/nextjs/server";
+import { promise } from "zod";
 
 export const metadata: Metadata = {
   title: "Personal Finance - Categories",
@@ -14,7 +22,43 @@ export const metadata: Metadata = {
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
+const getGroupsAndCategories = unstable_cache(
+  async (userId: string) => {
+    const groupsQuery = db.query.categoryGroup.findMany({
+      where: eq(categoryGroup.userId, userId),
+      with: {
+        categories: true,
+      },
+    });
+
+    const categoriesQuery = db.query.category.findMany({
+      where: and(eq(category.userId, userId), isNull(category.groupId)),
+    });
+
+    const [groups, categories] = await Promise.all([
+      groupsQuery,
+      categoriesQuery,
+    ]);
+
+    return { groups, categories };
+  },
+  [],
+  {
+    tags: ["categories-groups"],
+  },
+);
+
 export default async function Page() {
+  const user = await currentUser();
+
+  if (!user) {
+    redirect("/sign-in");
+  }
+
+  const { groups, categories } = await getGroupsAndCategories(user.id);
+
+  console.log("categories", categories);
+
   return (
     <div className="flex flex-1 flex-col">
       <PageHeader title="Categories">
@@ -32,16 +76,7 @@ export default async function Page() {
           />
         </div>
       </PageHeader>
-      <div className="grid flex-1 grid-cols-[1fr_1px_1fr] gap-4">
-        <div className="flex flex-col gap-4">
-          <Suspense fallback={<div>Loading...</div>}>
-            <ListGroups />
-            <ListCategories />
-          </Suspense>
-        </div>
-        <Separator orientation="vertical" />
-        <div className="flex flex-1 flex-col gap-4"></div>
-      </div>
+      <ListAll groups={groups} categories={categories} />
     </div>
   );
 }

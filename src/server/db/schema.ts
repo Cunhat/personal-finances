@@ -67,3 +67,15 @@ export const transactionRelations = relations(transaction, ({ one }) => ({
     references: [category.id],
   }),
 }));
+
+export const categoryRelations = relations(category, ({ many, one }) => ({
+  transactions: many(transaction),
+  group: one(categoryGroup, {
+    fields: [category.groupId],
+    references: [categoryGroup.id],
+  }),
+}));
+
+export const categoryGroupRelations = relations(categoryGroup, ({ many }) => ({
+  categories: many(category),
+}));

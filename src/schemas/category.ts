@@ -1,4 +1,4 @@
-import { category } from "@/server/db/schema";
+import { category, categoryGroup } from "@/server/db/schema";
 import { z } from "zod";
 import { createSelectSchema } from "drizzle-zod";
 
@@ -20,3 +20,13 @@ export const GroupValidationSchema = z.object({
 });
 
 export type CreateGroup = z.infer<typeof GroupValidationSchema>;
+
+export const selectCategoryGroupSchema = createSelectSchema(
+  categoryGroup,
+).extend({
+  categories: selectCategorySchema.array(),
+});
+
+export type CategoryGroupWithCategories = z.infer<
+  typeof selectCategoryGroupSchema
+>;

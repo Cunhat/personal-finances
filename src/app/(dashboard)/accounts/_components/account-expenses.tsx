@@ -98,7 +98,7 @@ export default function AccountExpenses({
                               key={transaction.id}
                               className="grid grid-cols-[32px_1fr_1fr_auto] items-center rounded-sm p-2 hover:bg-muted"
                             >
-                              <Checkbox className="size-5" />
+                              <Checkbox className="size-4 rounded-[4px]" />
                               <p className="text-base">{transaction.name}</p>
                               <CategoryBadge category={transaction.category} />
                               <p className="text-base">
