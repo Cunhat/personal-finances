@@ -36,7 +36,7 @@ export type CreateGroup = z.infer<typeof GroupValidationSchema>;
 export const selectCategoryGroupSchema = createSelectSchema(
   categoryGroup,
 ).extend({
-  categories: selectCategorySchema.array(),
+  categories: selectCategoryWithTransactionsSchema.array(),
 });
 
 export type CategoryGroupWithCategories = z.infer<

@@ -10,6 +10,7 @@ import {
 import { ChevronDown } from "lucide-react";
 import React, { useState } from "react";
 import SetGroup from "./set-group";
+import { Category } from "../categories/category";
 
 type ListAllProps = {
   groups: CategoryGroupWithCategories[];
@@ -40,36 +41,40 @@ export default function ListAll({ groups, categories }: ListAllProps) {
             const color = hexToRgb(group.color, 0.35) ?? "transparent";
 
             return (
-              <div key={group.id} className="flex items-center gap-2">
-                <ChevronDown
-                  size={16}
-                  style={{ color: group.color ?? "white" }}
-                />
-                <div
-                  className="flex h-5 w-5 items-center justify-center rounded-[4px]"
-                  style={{ backgroundColor: color }}
-                >
-                  <p style={{ color: group.color }}>{numberOfCategories}</p>
+              <>
+                <div key={group.id} className="flex items-center gap-2">
+                  <ChevronDown
+                    size={16}
+                    style={{ color: group.color ?? "white" }}
+                  />
+                  <div
+                    className="flex h-5 w-5 items-center justify-center rounded-[4px]"
+                    style={{ backgroundColor: color }}
+                  >
+                    <p style={{ color: group.color }}>{numberOfCategories}</p>
+                  </div>
+                  <p>{group.name}</p>
                 </div>
-                <p>{group.name}</p>
-              </div>
+                <div className="ml-8 flex flex-col gap-2">
+                  {group.categories?.map((category) => (
+                    <Category
+                      key={category.id}
+                      category={category}
+                      onClick={() => setSelectedCategory(category)}
+                    />
+                  ))}
+                </div>
+              </>
             );
           })}
         </div>
         <div className="flex flex-col gap-2">
           {categories.map((category) => (
-            <div
+            <Category
               key={category.id}
-              className="flex items-center gap-3 hover:cursor-pointer"
+              category={category}
               onClick={() => setSelectedCategory(category)}
-            >
-              <div
-                className="h-2 w-2 rounded-full"
-                style={{ backgroundColor: category.color }}
-              ></div>
-              <span className="text-sm">{category.icon}</span>
-              <div className="text-base">{category.name}</div>
-            </div>
+            />
           ))}
         </div>
       </div>
