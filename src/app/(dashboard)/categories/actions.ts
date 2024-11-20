@@ -8,11 +8,11 @@ import {
   GroupValidationSchema,
 } from "@/schemas/category";
 
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { currentUser } from "@clerk/nextjs/server";
 import { returnValidationErrors } from "next-safe-action";
 import { unstable_cache } from "next/cache";
-
+import { z } from "zod";
 export const createCategory = authenticatedActionClient
   .schema(CategoryValidationSchema)
   .action(async ({ parsedInput: { name, icon, color }, ctx: { user } }) => {
@@ -76,6 +76,24 @@ export const createGroup = authenticatedActionClient
       color,
       userId: user.id,
     });
+
+    revalidatePath("/categories");
+  });
+
+export const addCategoryToGroup = authenticatedActionClient
+  .schema(
+    z.object({
+      categoryId: z.number(),
+      groupId: z.number(),
+    }),
+  )
+  .action(async ({ parsedInput: { categoryId, groupId }, ctx: { user } }) => {
+    await db
+      .update(category)
+      .set({
+        groupId,
+      })
+      .where(and(eq(category.id, categoryId), eq(category.userId, user.id)));
 
     revalidatePath("/categories");
   });

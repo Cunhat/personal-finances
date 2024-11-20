@@ -9,6 +9,7 @@ import {
 } from "@/schemas/category";
 import { ChevronDown } from "lucide-react";
 import React, { useState } from "react";
+import SetGroup from "./set-group";
 
 type ListAllProps = {
   groups: CategoryGroupWithCategories[];
@@ -81,7 +82,10 @@ export default function ListAll({ groups, categories }: ListAllProps) {
           />
           <p className="text-2xl">{selectedCategory?.icon}</p>
         </div>
-        <h1 className="text-2xl font-bold">{selectedCategory?.name}</h1>
+        <div className="flex items-center justify-between gap-2">
+          <h1 className="text-2xl font-bold">{selectedCategory?.name}</h1>
+          <SetGroup groups={groups} categoryId={selectedCategory?.id ?? 0} />
+        </div>
         <div className="flex flex-1 overflow-y-scroll scrollbar-none">
           <AccountExpenses
             transactions={selectedCategory?.transactions ?? []}
