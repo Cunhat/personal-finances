@@ -1,20 +1,16 @@
 import { PageHeader } from "@/components/page-header";
-import { Separator } from "@/components/ui/separator";
-import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
-import { Metadata } from "next";
-import { Suspense } from "react";
-import CategoryActions from "./_components/category-actions";
-import ListGroups from "./_components/list-groups";
-import { SampleCategories } from "./_components/sample-categories/get-samples";
-import { ListCategories } from "./_components/categories/list-categories";
-import ListAll from "./_components/categories-and-groups/list-all";
-import { unstable_cache } from "next/dist/server/web/spec-extension/unstable-cache";
 import { db } from "@/server/db";
 import { category, categoryGroup } from "@/server/db/schema";
-import { and, eq, isNull } from "drizzle-orm";
-import { redirect } from "next/navigation";
 import { currentUser } from "@clerk/nextjs/server";
-import { promise } from "zod";
+import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
+import { and, eq, isNull } from "drizzle-orm";
+import { Metadata } from "next";
+import { unstable_cache } from "next/dist/server/web/spec-extension/unstable-cache";
+import { redirect } from "next/navigation";
+import { Suspense } from "react";
+import ListAll from "./_components/categories-and-groups/list-all";
+import CategoryActions from "./_components/category-actions";
+import { SampleCategories } from "./_components/sample-categories/get-samples";
 
 export const metadata: Metadata = {
   title: "Personal Finance - Categories",

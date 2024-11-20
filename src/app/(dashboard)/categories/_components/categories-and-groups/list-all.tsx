@@ -3,19 +3,21 @@
 import AccountExpenses from "@/app/(dashboard)/accounts/_components/account-expenses";
 import { Separator } from "@/components/ui/separator";
 import { hexToRgb } from "@/lib/utils";
-import { Category, CategoryGroupWithCategories } from "@/schemas/category";
+import {
+  CategoryWithTransactions,
+  CategoryGroupWithCategories,
+} from "@/schemas/category";
 import { ChevronDown } from "lucide-react";
 import React, { useState } from "react";
 
 type ListAllProps = {
   groups: CategoryGroupWithCategories[];
-  categories: Category[];
+  categories: CategoryWithTransactions[];
 };
 
 export default function ListAll({ groups, categories }: ListAllProps) {
-  const [selectedCategory, setSelectedCategory] = useState<Category | null>(
-    categories[0] ?? null,
-  );
+  const [selectedCategory, setSelectedCategory] =
+    useState<CategoryWithTransactions | null>(categories[0] ?? null);
 
   if (categories.length === 0 && groups.length === 0) {
     return (
