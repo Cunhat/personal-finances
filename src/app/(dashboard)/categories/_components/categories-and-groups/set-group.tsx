@@ -25,8 +25,8 @@ type SetGroupProps = {
 
 export default function SetGroup({ groups, categoryId }: SetGroupProps) {
   const { execute, isExecuting } = useAction(addCategoryToGroup, {
-    onSuccess: () => {},
-    onError: (error) => {},
+    // onSuccess: () => {},
+    // onError: (error) => {},
   });
 
   return (
