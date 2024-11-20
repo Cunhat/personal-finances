@@ -73,15 +73,7 @@ export default async function Page() {
       <PageHeader title="Categories">
         <div className="ml-2 flex h-full w-full">
           <CategoryActions
-            sampleCategories={
-              <Suspense
-                fallback={
-                  <DropdownMenuItem disabled>Loading...</DropdownMenuItem>
-                }
-              >
-                <SampleCategories />
-              </Suspense>
-            }
+            sampleCategories={<SampleCategories categories={categories} />}
           />
         </div>
       </PageHeader>
