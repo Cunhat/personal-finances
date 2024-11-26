@@ -12,20 +12,18 @@ const expensesInfo = [
   {
     monthYear: "January 2024",
     amount: 1000,
-    expenses: {
-      "Mon, January 1": [
-        { name: "Rent", amount: 500 },
-        { name: "Electricity", amount: 100 },
-        { name: "Water", amount: 50 },
-      ],
-    },
+    expenses: [
+      { name: "Rent", amount: 500 },
+      { name: "Electricity", amount: 100 },
+      { name: "Water", amount: 50 },
+    ],
   },
 ];
 
 type TransactionInfo = {
   monthYear: string;
   amount: number;
-  expenses: Record<string, Transaction[]>;
+  expenses: Transaction[];
 };
 
 export default function AccountExpenses({
@@ -33,7 +31,7 @@ export default function AccountExpenses({
 }: AccountExpensesProps) {
   const transactionsInfo: Array<TransactionInfo> = [];
 
-  transactions.forEach((transaction) => {
+  transactions?.forEach((transaction) => {
     const monthYear = dayjs(transaction.created_at).format("MMMM YYYY");
     const date = dayjs(transaction.created_at).format("ddd, MMM D");
 
@@ -41,9 +39,7 @@ export default function AccountExpenses({
       transactionsInfo.push({
         monthYear,
         amount: transaction.value,
-        expenses: {
-          [date]: [transaction],
-        },
+        expenses: [transaction],
       });
     } else {
       const alreadyHaveMonthYear = transactionsInfo.find(
@@ -54,25 +50,16 @@ export default function AccountExpenses({
         transactionsInfo.push({
           monthYear,
           amount: transaction.value,
-          expenses: {
-            [date]: [transaction],
-          },
+          expenses: [transaction],
         });
       } else {
-        const alreadyHaveDate = alreadyHaveMonthYear.expenses[date];
-
-        if (!alreadyHaveDate) {
-          alreadyHaveMonthYear.expenses[date] = [transaction];
-        } else {
-          alreadyHaveMonthYear.expenses[date] = [
-            ...alreadyHaveDate,
-            transaction,
-          ];
-        }
+        alreadyHaveMonthYear.expenses.push(transaction);
         alreadyHaveMonthYear.amount += transaction.value;
       }
     }
   });
+
+  console.log(transactionsInfo);
 
   return (
     <div className="flex h-full w-full flex-col gap-6">
@@ -83,35 +70,22 @@ export default function AccountExpenses({
               <h2 className="text-lg font-semibold">{transaction.monthYear}</h2>
               <p className="text-base">{formatCurrency(transaction.amount)}</p>
             </div>
-            <div className="flex flex-col gap-2">
-              {Object.entries(transaction.expenses).map(
-                ([date, transactions]) => {
-                  return (
-                    <div className="flex flex-col gap-3" key={date}>
-                      <h2 className="pl-10 text-base font-semibold text-muted-foreground">
-                        {date.toLocaleUpperCase()}
-                      </h2>
-                      <div className="flex flex-col gap-1">
-                        {transactions.map((transaction) => {
-                          return (
-                            <div
-                              key={transaction.id}
-                              className="grid grid-cols-[32px_1fr_1fr_auto] items-center rounded-sm p-2 hover:bg-muted"
-                            >
-                              <Checkbox className="size-4 rounded-[4px]" />
-                              <p className="text-base">{transaction.name}</p>
-                              <CategoryBadge category={transaction.category} />
-                              <p className="text-base">
-                                {formatCurrency(transaction.value)}
-                              </p>
-                            </div>
-                          );
-                        })}
-                      </div>
+            <div className="flex flex-col gap-1">
+              {transaction.expenses.map((expense) => {
+                return (
+                  <div key={expense.id} className="flex flex-col gap-1">
+                    <div className="grid grid-cols-[32px_1fr_1fr_1fr_auto] items-center rounded-sm p-2 hover:bg-muted">
+                      <Checkbox className="size-4 rounded-[4px]" />
+                      <p className="text-base">{expense.name}</p>
+                      <p>{dayjs(expense.created_at).format("DD MMM")}</p>
+                      <CategoryBadge category={expense.category} />
+                      <p className="text-base">
+                        {formatCurrency(expense.value)}
+                      </p>
                     </div>
-                  );
-                },
-              )}
+                  </div>
+                );
+              })}
             </div>
           </div>
         );

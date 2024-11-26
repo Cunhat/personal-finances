@@ -90,3 +90,60 @@ export function hexToRgb(hex: string, opacity: number): string | null {
 
   return `rgba(${parseInt(result[1]!, 16)}, ${parseInt(result[2]!, 16)}, ${parseInt(result[3]!, 16)}, ${opacity})`;
 }
+
+//save list transactions with this format
+
+// const expensesInfo = [
+//   {
+//     monthYear: "January 2024",
+//     amount: 1000,
+//     expenses: {
+//       "Mon, January 1": [
+//         { name: "Rent", amount: 500 },
+//         { name: "Electricity", amount: 100 },
+//         { name: "Water", amount: 50 },
+//       ],
+//     },
+//   },
+// ];
+
+// transactions.forEach((transaction) => {
+//   const monthYear = dayjs(transaction.created_at).format("MMMM YYYY");
+//   const date = dayjs(transaction.created_at).format("ddd, MMM D");
+
+//   if (!transactionsInfo?.length) {
+//     transactionsInfo.push({
+//       monthYear,
+//       amount: transaction.value,
+//       expenses: {
+//         [date]: [transaction],
+//       },
+//     });
+//   } else {
+//     const alreadyHaveMonthYear = transactionsInfo.find(
+//       (info) => info.monthYear === monthYear,
+//     );
+
+//     if (!alreadyHaveMonthYear) {
+//       transactionsInfo.push({
+//         monthYear,
+//         amount: transaction.value,
+//         expenses: {
+//           [date]: [transaction],
+//         },
+//       });
+//     } else {
+//       const alreadyHaveDate = alreadyHaveMonthYear.expenses[date];
+
+//       if (!alreadyHaveDate) {
+//         alreadyHaveMonthYear.expenses[date] = [transaction];
+//       } else {
+//         alreadyHaveMonthYear.expenses[date] = [
+//           ...alreadyHaveDate,
+//           transaction,
+//         ];
+//       }
+//       alreadyHaveMonthYear.amount += transaction.value;
+//     }
+//   }
+// });
