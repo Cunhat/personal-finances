@@ -59,8 +59,6 @@ export default function AccountExpenses({
     }
   });
 
-  console.log(transactionsInfo);
-
   return (
     <div className="flex h-full w-full flex-col gap-6">
       {transactionsInfo.map((transaction) => {
