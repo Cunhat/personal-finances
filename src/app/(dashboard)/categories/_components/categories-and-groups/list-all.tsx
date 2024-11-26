@@ -11,6 +11,7 @@ import { ChevronDown } from "lucide-react";
 import React, { useState } from "react";
 import SetGroup from "./set-group";
 import { Category } from "../categories/category";
+import ExpandableGroup from "./expandable-group";
 
 type ListAllProps = {
   groups: CategoryGroupWithCategories[];
@@ -36,37 +37,13 @@ export default function ListAll({ groups, categories }: ListAllProps) {
     <div className="grid h-full grid-cols-[1fr_1px_1fr] gap-4 overflow-hidden">
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
-          {groups.map((group) => {
-            const numberOfCategories = group?.categories?.length ?? 0;
-            const color = hexToRgb(group.color, 0.35) ?? "transparent";
-
-            return (
-              <>
-                <div key={group.id} className="flex items-center gap-2">
-                  <ChevronDown
-                    size={16}
-                    style={{ color: group.color ?? "white" }}
-                  />
-                  <div
-                    className="flex h-5 w-5 items-center justify-center rounded-[4px]"
-                    style={{ backgroundColor: color }}
-                  >
-                    <p style={{ color: group.color }}>{numberOfCategories}</p>
-                  </div>
-                  <p>{group.name}</p>
-                </div>
-                <div className="ml-8 flex flex-col gap-2">
-                  {group.categories?.map((category) => (
-                    <Category
-                      key={category.id}
-                      category={category}
-                      onClick={() => setSelectedCategory(category)}
-                    />
-                  ))}
-                </div>
-              </>
-            );
-          })}
+          {groups.map((group) => (
+            <ExpandableGroup
+              key={group.id}
+              group={group}
+              onCategorySelect={setSelectedCategory}
+            />
+          ))}
         </div>
         <div className="flex flex-col gap-2">
           {categories.map((category) => (
