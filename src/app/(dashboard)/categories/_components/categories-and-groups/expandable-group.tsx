@@ -11,8 +11,8 @@ import { AnimatePresence, motion } from "framer-motion";
 
 type ExpandableGroupProps = {
   group: CategoryGroupWithCategories;
-  onCategorySelect: (category: CategoryWithTransactions) => void;
-  onGroupSelect: (group: CategoryGroupWithCategories) => void;
+  onCategorySelect: (category: CategoryWithTransactions | null) => void;
+  onGroupSelect: (group: CategoryGroupWithCategories | null) => void;
 };
 
 export default function ExpandableGroup({
@@ -30,6 +30,7 @@ export default function ExpandableGroup({
         className="flex items-center gap-2 hover:cursor-pointer"
         onClick={() => {
           onGroupSelect(group);
+          onCategorySelect(null);
         }}
       >
         <ChevronRight
@@ -62,7 +63,10 @@ export default function ExpandableGroup({
               <Category
                 key={category.id}
                 category={category}
-                onClick={() => onCategorySelect(category)}
+                onClick={() => {
+                  onCategorySelect(category);
+                  onGroupSelect(null);
+                }}
               />
             ))}
           </motion.div>

@@ -24,7 +24,7 @@ export default function ListAll({ groups, categories }: ListAllProps) {
   const [selectedCategory, setSelectedCategory] =
     useState<CategoryWithTransactions | null>(categories[0] ?? null);
   const [selectedGroup, setSelectedGroup] =
-    useState<CategoryGroupWithCategories | null>(groups[0] ?? null);
+    useState<CategoryGroupWithCategories | null>(null);
 
   if (categories.length === 0 && groups.length === 0) {
     return (
@@ -61,28 +61,10 @@ export default function ListAll({ groups, categories }: ListAllProps) {
         </div>
       </div>
       <Separator orientation="vertical" />
-      {/* <SelectedCategory selectedCategory={selectedCategory} groups={groups} /> */}
-      <SelectedGroup group={selectedGroup} />
-      {/* <div className="flex h-full flex-col gap-4 overflow-hidden">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div
-              style={{ backgroundColor: selectedCategory?.color }}
-              className="h-2 w-2 rounded-full"
-            />
-            <p className="text-2xl">{selectedCategory?.icon}</p>
-            <h1 className="text-2xl font-bold">{selectedCategory?.name}</h1>
-          </div>
-          <SetGroup groups={groups} categoryId={selectedCategory?.id ?? 0} />
-        </div> */}
-
-      {/* <div className="flex items-center justify-between gap-2"></div>
-        <div className="flex flex-1 overflow-y-scroll scrollbar-none">
-          <AccountExpenses
-            transactions={selectedCategory?.transactions ?? []}
-          />
-        </div> */}
-      {/* </div> */}
+      {selectedCategory && (
+        <SelectedCategory selectedCategory={selectedCategory} groups={groups} />
+      )}
+      {selectedGroup && <SelectedGroup group={selectedGroup} />}
     </div>
   );
 }
