@@ -25,7 +25,11 @@ export default function SelectedCategory({
           <p className="text-2xl">{selectedCategory?.icon}</p>
           <h1 className="text-2xl font-bold">{selectedCategory?.name}</h1>
         </div>
-        <SetGroup groups={groups} categoryId={selectedCategory?.id ?? 0} />
+        <SetGroup
+          groups={groups}
+          categoryId={selectedCategory?.id ?? 0}
+          hasGroup={selectedCategory?.groupId !== null}
+        />
       </div>
       <div className="flex flex-1 overflow-y-scroll scrollbar-none">
         <AccountExpenses transactions={selectedCategory?.transactions ?? []} />

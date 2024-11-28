@@ -97,3 +97,14 @@ export const addCategoryToGroup = authenticatedActionClient
 
     revalidatePath("/categories");
   });
+
+export const removeCategoryFromGroup = authenticatedActionClient
+  .schema(z.object({ categoryId: z.number() }))
+  .action(async ({ parsedInput: { categoryId }, ctx: { user } }) => {
+    await db
+      .update(category)
+      .set({ groupId: null })
+      .where(and(eq(category.id, categoryId), eq(category.userId, user.id)));
+
+    revalidatePath("/categories");
+  });

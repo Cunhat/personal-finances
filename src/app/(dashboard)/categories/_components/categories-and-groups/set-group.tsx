@@ -13,18 +13,28 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Category, CategoryGroupWithCategories } from "@/schemas/category";
-import { EllipsisVertical, Plus } from "lucide-react";
+import { EllipsisVertical, Plus, Trash2 } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import React from "react";
-import { addCategoryToGroup } from "../../actions";
+import { addCategoryToGroup, removeCategoryFromGroup } from "../../actions";
 
 type SetGroupProps = {
   groups: CategoryGroupWithCategories[];
   categoryId: number;
+  hasGroup: boolean;
 };
 
-export default function SetGroup({ groups, categoryId }: SetGroupProps) {
+export default function SetGroup({
+  groups,
+  categoryId,
+  hasGroup,
+}: SetGroupProps) {
   const { execute, isExecuting } = useAction(addCategoryToGroup, {
+    // onSuccess: () => {},
+    // onError: (error) => {},
+  });
+
+  const { execute: removeFromGroup } = useAction(removeCategoryFromGroup, {
     // onSuccess: () => {},
     // onError: (error) => {},
   });
@@ -64,6 +74,14 @@ export default function SetGroup({ groups, categoryId }: SetGroupProps) {
               </DropdownMenuSubContent>
             </DropdownMenuPortal>
           </DropdownMenuSub>
+          {hasGroup && (
+            <DropdownMenuItem
+              onSelect={() => removeFromGroup({ categoryId: categoryId })}
+            >
+              <Trash2 />
+              <span>Remove from Group</span>
+            </DropdownMenuItem>
+          )}
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
