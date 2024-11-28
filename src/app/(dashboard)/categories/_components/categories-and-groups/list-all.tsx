@@ -9,7 +9,7 @@ import {
 } from "@/schemas/category";
 import { ChevronDown } from "lucide-react";
 import React, { useState } from "react";
-import SetGroup from "./set-group";
+import SetGroup from "./category-actions";
 import { Category } from "../categories/category";
 import ExpandableGroup from "./expandable-group";
 import SelectedCategory from "./selected-category";

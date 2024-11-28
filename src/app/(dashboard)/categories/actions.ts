@@ -108,3 +108,13 @@ export const removeCategoryFromGroup = authenticatedActionClient
 
     revalidatePath("/categories");
   });
+
+export const deleteCategory = authenticatedActionClient
+  .schema(z.object({ categoryId: z.number() }))
+  .action(async ({ parsedInput: { categoryId }, ctx: { user } }) => {
+    await db
+      .delete(category)
+      .where(and(eq(category.id, categoryId), eq(category.userId, user.id)));
+
+    revalidatePath("/categories");
+  });

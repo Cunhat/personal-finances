@@ -3,7 +3,7 @@ import {
   CategoryGroupWithCategories,
   CategoryWithTransactions,
 } from "@/schemas/category";
-import SetGroup from "./set-group";
+import CategoryActions from "./category-actions";
 
 type SelectedCategoryProps = {
   selectedCategory: CategoryWithTransactions;
@@ -25,7 +25,7 @@ export default function SelectedCategory({
           <p className="text-2xl">{selectedCategory?.icon}</p>
           <h1 className="text-2xl font-bold">{selectedCategory?.name}</h1>
         </div>
-        <SetGroup
+        <CategoryActions
           groups={groups}
           categoryId={selectedCategory?.id ?? 0}
           hasGroup={selectedCategory?.groupId !== null}
