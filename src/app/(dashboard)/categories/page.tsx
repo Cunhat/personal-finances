@@ -68,12 +68,17 @@ export default async function Page() {
 
   const { groups, categories } = await getGroupsAndCategories(user.id);
 
+  const allCategories = [
+    ...categories,
+    ...groups.flatMap((group) => group.categories),
+  ];
+
   return (
     <div className="flex h-[calc(100vh-65px)] flex-col overflow-hidden">
       <PageHeader title="Categories">
         <div className="ml-2 flex h-full w-full">
           <CategoryActions
-            sampleCategories={<SampleCategories categories={categories} />}
+            sampleCategories={<SampleCategories categories={allCategories} />}
           />
         </div>
       </PageHeader>
