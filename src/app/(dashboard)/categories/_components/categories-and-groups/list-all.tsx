@@ -12,6 +12,7 @@ import React, { useState } from "react";
 import SetGroup from "./set-group";
 import { Category } from "../categories/category";
 import ExpandableGroup from "./expandable-group";
+import SelectedCategory from "./selected-category";
 
 type ListAllProps = {
   groups: CategoryGroupWithCategories[];
@@ -21,6 +22,8 @@ type ListAllProps = {
 export default function ListAll({ groups, categories }: ListAllProps) {
   const [selectedCategory, setSelectedCategory] =
     useState<CategoryWithTransactions | null>(categories[0] ?? null);
+  const [selectedGroup, setSelectedGroup] =
+    useState<CategoryGroupWithCategories | null>(null);
 
   if (categories.length === 0 && groups.length === 0) {
     return (
@@ -42,6 +45,7 @@ export default function ListAll({ groups, categories }: ListAllProps) {
               key={group.id}
               group={group}
               onCategorySelect={setSelectedCategory}
+              onGroupSelect={setSelectedGroup}
             />
           ))}
         </div>
@@ -56,24 +60,27 @@ export default function ListAll({ groups, categories }: ListAllProps) {
         </div>
       </div>
       <Separator orientation="vertical" />
-      <div className="flex h-full flex-col gap-4 overflow-hidden">
-        <div className="flex items-center gap-3">
-          <div
-            style={{ backgroundColor: selectedCategory?.color }}
-            className="h-2 w-2 rounded-full"
-          />
-          <p className="text-2xl">{selectedCategory?.icon}</p>
-        </div>
-        <div className="flex items-center justify-between gap-2">
-          <h1 className="text-2xl font-bold">{selectedCategory?.name}</h1>
+      <SelectedCategory selectedCategory={selectedCategory} groups={groups} />
+      {/* <div className="flex h-full flex-col gap-4 overflow-hidden">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div
+              style={{ backgroundColor: selectedCategory?.color }}
+              className="h-2 w-2 rounded-full"
+            />
+            <p className="text-2xl">{selectedCategory?.icon}</p>
+            <h1 className="text-2xl font-bold">{selectedCategory?.name}</h1>
+          </div>
           <SetGroup groups={groups} categoryId={selectedCategory?.id ?? 0} />
-        </div>
+        </div> */}
+
+      {/* <div className="flex items-center justify-between gap-2"></div>
         <div className="flex flex-1 overflow-y-scroll scrollbar-none">
           <AccountExpenses
             transactions={selectedCategory?.transactions ?? []}
           />
-        </div>
-      </div>
+        </div> */}
+      {/* </div> */}
     </div>
   );
 }

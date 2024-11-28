@@ -12,11 +12,13 @@ import { AnimatePresence, motion } from "framer-motion";
 type ExpandableGroupProps = {
   group: CategoryGroupWithCategories;
   onCategorySelect: (category: CategoryWithTransactions) => void;
+  onGroupSelect: (group: CategoryGroupWithCategories) => void;
 };
 
 export default function ExpandableGroup({
   group,
   onCategorySelect,
+  onGroupSelect,
 }: ExpandableGroupProps) {
   const [isOpen, setIsOpen] = useState(true);
   const numberOfCategories = group?.categories?.length ?? 0;
@@ -26,11 +28,14 @@ export default function ExpandableGroup({
     <div className="flex flex-col gap-2">
       <div
         className="flex items-center gap-2 hover:cursor-pointer"
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => {
+          onGroupSelect(group);
+        }}
       >
         <ChevronRight
           size={16}
           style={{ color: group.color ?? "white" }}
+          onClick={() => setIsOpen(!isOpen)}
           className={cn(
             "h-4 w-4 transition-all",
             numberOfCategories > 0 && isOpen && "rotate-90",
