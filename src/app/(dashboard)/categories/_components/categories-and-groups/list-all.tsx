@@ -13,6 +13,7 @@ import SetGroup from "./set-group";
 import { Category } from "../categories/category";
 import ExpandableGroup from "./expandable-group";
 import SelectedCategory from "./selected-category";
+import SelectedGroup from "./selected-group";
 
 type ListAllProps = {
   groups: CategoryGroupWithCategories[];
@@ -23,7 +24,7 @@ export default function ListAll({ groups, categories }: ListAllProps) {
   const [selectedCategory, setSelectedCategory] =
     useState<CategoryWithTransactions | null>(categories[0] ?? null);
   const [selectedGroup, setSelectedGroup] =
-    useState<CategoryGroupWithCategories | null>(null);
+    useState<CategoryGroupWithCategories | null>(groups[0] ?? null);
 
   if (categories.length === 0 && groups.length === 0) {
     return (
@@ -60,7 +61,8 @@ export default function ListAll({ groups, categories }: ListAllProps) {
         </div>
       </div>
       <Separator orientation="vertical" />
-      <SelectedCategory selectedCategory={selectedCategory} groups={groups} />
+      {/* <SelectedCategory selectedCategory={selectedCategory} groups={groups} /> */}
+      <SelectedGroup group={selectedGroup} />
       {/* <div className="flex h-full flex-col gap-4 overflow-hidden">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
