@@ -118,3 +118,28 @@ export const deleteCategory = authenticatedActionClient
 
     revalidatePath("/categories");
   });
+
+export const deleteGroup = authenticatedActionClient
+  .schema(z.object({ groupId: z.number() }))
+  .action(async ({ parsedInput: { groupId }, ctx: { user } }) => {
+    const group = await db.query.categoryGroup.findFirst({
+      where: and(
+        eq(categoryGroup.id, groupId),
+        eq(categoryGroup.userId, user.id),
+      ),
+    });
+
+    if (!group) {
+      throw new Error("Group not found");
+    }
+
+    //Set groupId to null for all categories in the group
+    await db
+      .update(category)
+      .set({ groupId: null })
+      .where(and(eq(category.groupId, groupId), eq(category.userId, user.id)));
+
+    await db.delete(categoryGroup).where(eq(categoryGroup.id, groupId));
+
+    revalidatePath("/categories");
+  });

@@ -76,8 +76,8 @@ export default function CategoryActions({
                   deleteCategoryAction({ categoryId: categoryId })
                 }
               >
-                <Trash2 />
-                <span>Delete</span>
+                <Trash2 className="text-red-500" />
+                <span className="text-red-500">Delete</span>
               </DropdownMenuItem>
             </AlertDialogTrigger>
             <DropdownMenuSub>

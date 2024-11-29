@@ -4,6 +4,7 @@ import { CategoryGroupWithCategories } from "@/schemas/category";
 import { category } from "@/server/db/schema";
 import dayjs from "dayjs";
 import React from "react";
+import GroupActions from "./group-actions";
 
 type SelectedGroupProps = {
   group: CategoryGroupWithCategories;
@@ -26,6 +27,7 @@ export default function SelectedGroup({ group }: SelectedGroupProps) {
           />
           <h1 className="text-2xl font-bold">{group?.name}</h1>
         </div>
+        <GroupActions groupId={group.id} />
       </div>
       <div className="flex gap-2">
         {group.categories.map((category) => (
