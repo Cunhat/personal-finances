@@ -19,7 +19,9 @@ export default function AccountInfo({ account }: AccountInfoProps) {
         <Separator />
         <div className="flex flex-1 flex-col items-center justify-center gap-2">
           <Inbox className="size-16 opacity-50" />
-          <p className="text-center text-sm">No transactions found...</p>
+          <p className="text-center text-sm text-muted-foreground">
+            No transactions found...
+          </p>
         </div>
       </div>
     );
