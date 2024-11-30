@@ -5,7 +5,7 @@ import { db } from "@/server/db";
 import { authenticatedActionClient } from "@/server/safe-actions";
 import { AccountValidationSchema } from "@/schemas/account";
 import { returnValidationErrors } from "next-safe-action";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { and } from "drizzle-orm";
 import { eq } from "drizzle-orm";
 import z from "node_modules/zod/lib";
@@ -54,4 +54,5 @@ export const deleteAccount = authenticatedActionClient
       .where(and(eq(account.id, accountId), eq(account.userId, user.id)));
 
     revalidatePath("/accounts");
+    revalidateTag("accounts");
   });
