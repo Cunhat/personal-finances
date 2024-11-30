@@ -1,6 +1,6 @@
 "use server";
 
-import { account } from "@/server/db/schema";
+import { account, transaction } from "@/server/db/schema";
 import { db } from "@/server/db";
 import { authenticatedActionClient } from "@/server/safe-actions";
 import { AccountValidationSchema } from "@/schemas/account";
@@ -37,11 +37,19 @@ export const createAccount = authenticatedActionClient
   );
 
 //TODO: FIX CASCADE DELETE
-
 export const deleteAccount = authenticatedActionClient
   .schema(z.object({ accountId: z.number() }))
   .action(async ({ parsedInput: { accountId }, ctx: { user } }) => {
-    const deletedAccount = await db
+    await db
+      .delete(transaction)
+      .where(
+        and(
+          eq(transaction.accountId, accountId),
+          eq(transaction.userId, user.id),
+        ),
+      );
+
+    await db
       .delete(account)
       .where(and(eq(account.id, accountId), eq(account.userId, user.id)));
 
