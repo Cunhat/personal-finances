@@ -29,8 +29,10 @@ type AccountActionsProps = {
 
 export default function AccountActions({ accountId }: AccountActionsProps) {
   const { execute, isExecuting } = useAction(deleteAccount, {
-    // onSuccess: () => {},
-    // onError: (error) => {},
+    onSuccess: () => {},
+    onError: (error) => {
+      console.log(error);
+    },
   });
 
   return (

@@ -45,12 +45,12 @@ export const transaction = sqliteTable("transaction", {
     enum: ["expense", "income"] as const,
   }).notNull(),
   categoryId: integer("category_id")
-    .references(() => category.id)
-    .notNull(),
+    .notNull()
+    .references(() => category.id),
   userId: text("user_id").notNull(),
   accountId: integer("account_id")
-    .references(() => account.id, { onDelete: "cascade" })
-    .notNull(),
+    .notNull()
+    .references(() => account.id, { onDelete: "cascade" }),
 });
 
 export const accountRelations = relations(account, ({ many }) => ({

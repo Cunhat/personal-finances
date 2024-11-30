@@ -36,10 +36,12 @@ export const createAccount = authenticatedActionClient
     },
   );
 
+//TODO: FIX CASCADE DELETE
+
 export const deleteAccount = authenticatedActionClient
   .schema(z.object({ accountId: z.number() }))
   .action(async ({ parsedInput: { accountId }, ctx: { user } }) => {
-    await db
+    const deletedAccount = await db
       .delete(account)
       .where(and(eq(account.id, accountId), eq(account.userId, user.id)));
 
