@@ -49,7 +49,7 @@ export const transaction = sqliteTable("transaction", {
     .notNull(),
   userId: text("user_id").notNull(),
   accountId: integer("account_id")
-    .references(() => account.id)
+    .references(() => account.id, { onDelete: "cascade" })
     .notNull(),
 });
 

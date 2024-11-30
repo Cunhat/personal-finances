@@ -6,6 +6,9 @@ import { authenticatedActionClient } from "@/server/safe-actions";
 import { AccountValidationSchema } from "@/schemas/account";
 import { returnValidationErrors } from "next-safe-action";
 import { revalidatePath } from "next/cache";
+import { and } from "drizzle-orm";
+import { eq } from "drizzle-orm";
+import z from "node_modules/zod/lib";
 
 export const createAccount = authenticatedActionClient
   .schema(AccountValidationSchema)
@@ -32,3 +35,13 @@ export const createAccount = authenticatedActionClient
       revalidatePath("/accounts");
     },
   );
+
+export const deleteAccount = authenticatedActionClient
+  .schema(z.object({ accountId: z.number() }))
+  .action(async ({ parsedInput: { accountId }, ctx: { user } }) => {
+    await db
+      .delete(account)
+      .where(and(eq(account.id, accountId), eq(account.userId, user.id)));
+
+    revalidatePath("/accounts");
+  });

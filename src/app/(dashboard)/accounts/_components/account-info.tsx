@@ -4,6 +4,7 @@ import { Separator } from "@/components/ui/separator";
 import { formatCurrency } from "@/lib/utils";
 import { Account } from "@/schemas/account";
 import AccountExpenses from "./account-expenses";
+import AccountActions from "./account-actions";
 
 type AccountInfoProps = {
   account: Account;
@@ -11,17 +12,18 @@ type AccountInfoProps = {
 
 export default function AccountInfo({ account }: AccountInfoProps) {
   return (
-    <div className="flex h-full flex-col gap-4 overflow-hidden rounded-lg">
+    <div className="flex h-full flex-col gap-4 overflow-hidden">
       <div className="flex h-auto items-center gap-2">
         <h1 className="text-3xl font-bold">{account.name}</h1>
-        <div className="ml-auto flex flex-col items-center gap-2">
-          <p className="text-base">
+        <div className="ml-auto flex items-center gap-2">
+          <p className="text-xl">
             {formatCurrency(account.balance, {
               currency: "EUR",
               locale: "de-DE",
             })}
           </p>
-          <BalanceEvolutionTag percentage={20} isIncrease={true} />
+          {/* <BalanceEvolutionTag percentage={20} isIncrease={true} /> */}
+          <AccountActions accountId={account.id} />
         </div>
       </div>
       <div className="flex h-[300px] w-full items-center justify-center bg-pink-200 text-black">

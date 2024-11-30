@@ -71,11 +71,7 @@ export default function CategoryActions({
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
             <AlertDialogTrigger asChild>
-              <DropdownMenuItem
-                onSelect={() =>
-                  deleteCategoryAction({ categoryId: categoryId })
-                }
-              >
+              <DropdownMenuItem>
                 <Trash2 className="text-red-500" />
                 <span className="text-red-500">Delete</span>
               </DropdownMenuItem>
