@@ -108,7 +108,7 @@ const data = {
     },
     {
       name: "Transactions",
-      url: "#",
+      url: "/transactions",
       icon: BadgeDollarSign,
     },
     {
