@@ -98,24 +98,6 @@ const data = {
       title: "Settings",
       url: "#",
       icon: Settings2,
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
-        },
-      ],
     },
   ],
   accounts: [
@@ -125,15 +107,15 @@ const data = {
       icon: LayoutDashboard,
     },
     {
+      name: "Transactions",
+      url: "#",
+      icon: BadgeDollarSign,
+    },
+    {
       name: "Accounts",
       url: "/accounts",
       icon: CreditCard,
     },
-    // {
-    //   name: "Transactions",
-    //   url: "#",
-    //   icon: BadgeDollarSign,
-    // },
     {
       name: "Categories",
       url: "/categories",
