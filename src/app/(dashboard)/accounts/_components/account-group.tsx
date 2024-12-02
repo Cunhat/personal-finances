@@ -71,17 +71,17 @@ export default function AccountGroup({
                 <motion.div
                   onClick={() => onAccountSelect(account)}
                   key={account.id}
-                  className="grid cursor-pointer grid-cols-[1fr_auto_auto] items-center gap-4 rounded-md p-2 hover:bg-muted/75"
+                  className="grid cursor-pointer grid-cols-[1fr_auto] items-center gap-4 rounded-md p-2 hover:bg-muted/75"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                 >
                   <div>{account.name}</div>
-                  <BalanceEvolutionTag
+                  {/* <BalanceEvolutionTag
                     percentage={balanceVariation.percentage}
                     isIncrease={balanceVariation.isIncrease}
-                  />
+                  /> */}
                   <p className="text-sm">
                     {formatCurrency(account.balance, {
                       currency: "EUR",

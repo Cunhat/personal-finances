@@ -81,7 +81,6 @@ export default function AccountInfo({ account }: AccountInfoProps) {
               right: 12,
             }}
           >
-            {/* <CartesianGrid vertical={false} /> */}
             <XAxis
               dataKey="month"
               tickLine={false}
