@@ -68,7 +68,7 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <div className="h-full w-full space-y-4">
+    <div className="h-full w-full space-y-4 overflow-scroll">
       {/* <DataTableToolbar table={table} /> */}
       <div className="rounded-md border">
         <Table>

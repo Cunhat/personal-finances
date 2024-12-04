@@ -11,7 +11,7 @@ export default function ListTransactions({
   transactions: Transaction[];
 }) {
   return (
-    <div className="flex h-full w-full overflow-auto">
+    <div className="flex h-full w-full overflow-hidden">
       <DataTable columns={columns} data={transactions} />
     </div>
   );

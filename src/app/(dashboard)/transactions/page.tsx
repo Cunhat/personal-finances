@@ -7,6 +7,7 @@ import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import { currentUser } from "@clerk/nextjs/server";
 import ListTransactions from "./_components/list-transactions";
+import NewTransactionSheet from "./_components/new-transaction-sheet";
 
 const getAllTransactions = unstable_cache(
   async (userId: string) => {
@@ -35,7 +36,9 @@ export default async function Page() {
 
   return (
     <div className="flex h-[calc(100vh-65px)] flex-col overflow-hidden">
-      <PageHeader title="Transactions"></PageHeader>
+      <PageHeader title="Transactions">
+        <NewTransactionSheet />
+      </PageHeader>
       <ListTransactions transactions={transactions} />
     </div>
   );
