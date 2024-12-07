@@ -14,11 +14,10 @@ export const createTransaction = authenticatedActionClient
       parsedInput: { name, amount, date, account, category },
       ctx: { user },
     }) => {
-      console.log(name, amount, date, account, category);
-
       const createdAt = dayjs(date).toISOString();
 
       await db.insert(transaction).values({
+        //@ts-expect-error drizzle types
         name,
         value: amount,
         created_at: createdAt,

@@ -5,6 +5,7 @@ import { eq } from "drizzle-orm";
 import { unstable_cache } from "next/cache";
 import { redirect } from "next/navigation";
 import SplitAccountsView from "./split-accounts-view";
+import { Account } from "@/schemas/account";
 
 const getAccounts = unstable_cache(
   async (userId: string) => {
@@ -36,5 +37,5 @@ export default async function ListAccounts() {
     return <div>No accounts found</div>;
   }
 
-  return <SplitAccountsView accounts={accounts} />;
+  return <SplitAccountsView accounts={accounts as Account[]} />;
 }

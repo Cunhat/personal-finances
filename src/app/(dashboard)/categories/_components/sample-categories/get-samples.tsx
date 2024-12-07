@@ -9,10 +9,6 @@ export async function SampleCategories({
 }: {
   categories: CategoryWithTransactions[];
 }) {
-  // const user = await currentUser();
-
-  // const categories = await listCategories(user?.id);
-
   const samples = sampleCategories.filter(
     (sample) => !categories.some((category) => category.name === sample.name),
   );
