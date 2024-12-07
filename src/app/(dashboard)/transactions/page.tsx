@@ -8,6 +8,7 @@ import { redirect } from "next/navigation";
 import { currentUser } from "@clerk/nextjs/server";
 import ListTransactions from "./_components/list-transactions";
 import NewTransactionSheet from "./_components/new-transaction-sheet";
+import NewTransaction from "./_components/new-transaction";
 
 const getAllTransactions = unstable_cache(
   async (userId: string) => {
@@ -32,12 +33,10 @@ export default async function Page() {
 
   const transactions = await getAllTransactions(user.id);
 
-  console.log(transactions);
-
   return (
     <div className="flex h-[calc(100vh-65px)] flex-col overflow-hidden">
       <PageHeader title="Transactions">
-        <NewTransactionSheet />
+        <NewTransaction />
       </PageHeader>
       <ListTransactions transactions={transactions} />
     </div>

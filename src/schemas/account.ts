@@ -9,6 +9,10 @@ const selectAccountSchema = createSelectSchema(account).extend({
   transaction: selectTransactionSchema.array().optional(),
 });
 
+const simpleAccountSchema = createSelectSchema(account);
+
+export type SimpleAccount = z.infer<typeof simpleAccountSchema>;
+
 export type Account = z.infer<typeof selectAccountSchema>;
 
 export const AccountValidationSchema = z.object({
