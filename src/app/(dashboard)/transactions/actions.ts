@@ -6,6 +6,8 @@ import { db } from "@/server/db";
 import { transaction } from "@/server/db/schema";
 import { revalidatePath } from "next/cache";
 import dayjs from "dayjs";
+import { z } from "zod";
+import { and, eq } from "drizzle-orm";
 
 export const createTransaction = authenticatedActionClient
   .schema(TransactionValidationSchema)
@@ -30,3 +32,17 @@ export const createTransaction = authenticatedActionClient
       revalidatePath("/transactions");
     },
   );
+
+export const deleteTransaction = authenticatedActionClient
+  .schema(
+    z.object({
+      id: z.number(),
+    }),
+  )
+  .action(async ({ parsedInput: { id }, ctx: { user } }) => {
+    await db
+      .delete(transaction)
+      .where(and(eq(transaction.id, id), eq(transaction.userId, user.id)));
+
+    revalidatePath("/transactions");
+  });

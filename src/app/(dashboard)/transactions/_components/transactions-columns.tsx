@@ -1,11 +1,41 @@
 import CategoryBadge from "@/components/category-badge";
 import { DataTableColumnHeader } from "@/components/table/data-table-column-header";
+import {
+  AlertDialog,
+  AlertDialogHeader,
+  AlertDialogFooter,
+  AlertDialogContent,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogDescription,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  Sheet,
+  SheetDescription,
+  SheetHeader,
+  SheetContent,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { Account } from "@/schemas/account";
 import { Category } from "@/schemas/category";
 import { Transaction } from "@/schemas/transaction";
 import { ColumnDef } from "@tanstack/react-table";
 import dayjs from "dayjs";
+import { EllipsisVertical, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
+import CreateAccountForm from "../../accounts/_components/create-account-form";
+import DeleteTransaction from "./delete-transaction";
+import { useState } from "react";
 
 export const columns: ColumnDef<Transaction>[] = [
   {
@@ -100,6 +130,52 @@ export const columns: ColumnDef<Transaction>[] = [
         <div className="flex items-center">
           <span>{row.getValue("value") ?? "-"} €</span>
         </div>
+      );
+    },
+  },
+  {
+    accessorKey: "",
+    header: "",
+    id: "actions",
+    cell: ({ row }) => {
+      const [open, setOpen] = useState(false);
+
+      return (
+        <Sheet>
+          <AlertDialog open={open} onOpenChange={setOpen}>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" className="size-8">
+                  <EllipsisVertical />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <SheetTrigger asChild>
+                  <DropdownMenuItem>
+                    <Pencil />
+                    <span>Edit</span>
+                  </DropdownMenuItem>
+                </SheetTrigger>
+                <AlertDialogTrigger asChild>
+                  <DropdownMenuItem>
+                    <Trash2 className="text-red-500" />
+                    <span className="text-red-500">Delete</span>
+                  </DropdownMenuItem>
+                </AlertDialogTrigger>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <DeleteTransaction
+              closeSheet={() => setOpen(false)}
+              transactionId={row.original.id}
+            />
+            <SheetContent className="flex flex-col gap-4">
+              <SheetHeader>
+                <SheetTitle>Add Account</SheetTitle>
+                <SheetDescription>Add a new account.</SheetDescription>
+              </SheetHeader>
+            </SheetContent>
+          </AlertDialog>
+        </Sheet>
       );
     },
   },
