@@ -58,7 +58,7 @@ export const updateTransaction = authenticatedActionClient
       .set({
         name: values.name,
         value: values.amount,
-        created_at: values.date.toISOString(),
+        created_at: dayjs(values.date).toISOString(),
         accountId: Number(values.account),
         categoryId: Number(values.category),
       })

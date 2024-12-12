@@ -61,7 +61,7 @@ export default function EditTransaction({
     defaultValues: {
       name: values.name,
       amount: values.value,
-      date: new Date(values.created_at),
+      date: dayjs(values.created_at).toDate(),
       category: values.categoryId.toString(),
       account: values.accountId.toString(),
     },
