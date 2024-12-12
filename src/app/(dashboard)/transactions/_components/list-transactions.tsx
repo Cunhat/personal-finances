@@ -26,6 +26,7 @@ import { useState } from "react";
 import DeleteTransaction from "./delete-transaction";
 import EditTransaction from "./edit-transaction";
 import TransactionTableActions from "./transaction-table-actions";
+import { cn } from "@/lib/utils";
 
 export default function ListTransactions({
   accounts,
@@ -125,9 +126,13 @@ export default function ListTransactions({
         <DataTableColumnHeader column={column} title="Value" />
       ),
       cell: ({ row }) => {
+        const isIncome = row.original.transactionType === "income";
+
         return (
           <div className="flex items-center">
-            <span>{row.getValue("value") ?? "-"} €</span>
+            <span className={cn(isIncome ? "text-green-500" : "")}>
+              {row.getValue("value") ?? "-"} €
+            </span>
           </div>
         );
       },
