@@ -16,7 +16,7 @@ export const createTransaction = authenticatedActionClient
   .schema(TransactionValidationSchema)
   .action(
     async ({
-      parsedInput: { name, amount, date, account, category },
+      parsedInput: { name, amount, date, account, category, transactionType },
       ctx: { user },
     }) => {
       const createdAt = dayjs(date).toISOString();
@@ -26,7 +26,7 @@ export const createTransaction = authenticatedActionClient
         name,
         value: amount,
         created_at: createdAt,
-        transactionType: "expense",
+        transactionType: transactionType,
         accountId: account,
         categoryId: category,
         userId: user.id,

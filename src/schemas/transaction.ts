@@ -16,6 +16,7 @@ export const TransactionValidationSchema = z.object({
   date: z.date(),
   account: z.string(),
   category: z.string(),
+  transactionType: z.enum(["income", "expense"]),
 });
 
 export type CreateTransaction = z.infer<typeof TransactionValidationSchema>;
