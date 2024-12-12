@@ -9,6 +9,7 @@ import { currentUser } from "@clerk/nextjs/server";
 import ListTransactions from "./_components/list-transactions";
 import NewTransactionSheet from "./_components/new-transaction-sheet";
 import NewTransaction from "./_components/new-transaction";
+import { getAccountsAndCategories } from "./actions";
 
 const getAllTransactions = unstable_cache(
   async (userId: string) => {
@@ -32,13 +33,18 @@ export default async function Page() {
   }
 
   const transactions = await getAllTransactions(user.id);
+  const { accounts, categories } = await getAccountsAndCategories(user.id);
 
   return (
     <div className="flex h-[calc(100vh-65px)] flex-col overflow-hidden">
       <PageHeader title="Transactions">
         <NewTransaction />
       </PageHeader>
-      <ListTransactions transactions={transactions} />
+      <ListTransactions
+        accounts={accounts}
+        categories={categories}
+        transactions={transactions}
+      />
     </div>
   );
 }

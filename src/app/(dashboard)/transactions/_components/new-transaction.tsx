@@ -6,26 +6,7 @@ import { db } from "@/server/db";
 import { account, category } from "@/server/db/schema";
 import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-
-const getAccountsAndCategories = unstable_cache(
-  async (userId: string) => {
-    const accountsQuery = db.query.account.findMany({
-      where: eq(account.userId, userId),
-    });
-
-    const categoriesQuery = db.query.category.findMany({
-      where: eq(category.userId, userId),
-    });
-
-    const [accounts, categories] = await Promise.all([
-      accountsQuery,
-      categoriesQuery,
-    ]);
-
-    return { accounts, categories };
-  },
-  ["accounts", "categories"],
-);
+import { getAccountsAndCategories } from "../actions";
 
 export default async function NewTransaction() {
   const user = await currentUser();

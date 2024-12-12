@@ -19,3 +19,9 @@ export const TransactionValidationSchema = z.object({
 });
 
 export type CreateTransaction = z.infer<typeof TransactionValidationSchema>;
+
+export const updateTransactionSchema = TransactionValidationSchema.extend({
+  id: z.number(),
+});
+
+export type UpdateTransaction = z.infer<typeof updateTransactionSchema>;

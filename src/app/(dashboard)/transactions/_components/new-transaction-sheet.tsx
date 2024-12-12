@@ -81,6 +81,7 @@ export default function NewTransactionSheet({
       console.error("Form submission error", error);
     }
   }
+
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
