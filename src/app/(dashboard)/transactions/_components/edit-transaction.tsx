@@ -64,6 +64,7 @@ export default function EditTransaction({
       date: dayjs(values.created_at).toDate(),
       category: values.categoryId.toString(),
       account: values.accountId.toString(),
+      transactionType: values.transactionType,
     },
   });
 
@@ -95,7 +96,10 @@ export default function EditTransaction({
         <SheetDescription>Edit a transaction.</SheetDescription>
       </SheetHeader>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 py-6">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-4 py-6 xl:space-y-8"
+        >
           <FormField
             control={form.control}
             name="name"
@@ -107,6 +111,33 @@ export default function EditTransaction({
                 </FormControl>
                 <FormDescription>
                   This is your transaction name.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="transactionType"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Transaction Type</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a transaction type" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="income">Income</SelectItem>
+                    <SelectItem value="expense">Expense</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormDescription>
+                  Select the type of the transaction.
                 </FormDescription>
                 <FormMessage />
               </FormItem>

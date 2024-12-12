@@ -61,6 +61,7 @@ export const updateTransaction = authenticatedActionClient
         created_at: dayjs(values.date).toISOString(),
         accountId: Number(values.account),
         categoryId: Number(values.category),
+        transactionType: values.transactionType,
       })
       .where(and(eq(transaction.id, id), eq(transaction.userId, user.id)));
 
