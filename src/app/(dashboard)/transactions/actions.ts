@@ -127,8 +127,8 @@ export const updateTransaction = authenticatedActionClient
         const transactionTypeMultiplier =
           oldTransaction[0]?.transactionType === "income" ? -1 : 1;
         amount =
-          transactionTypeMultiplier * oldTransaction[0]!.value ??
-          0 + values.amount * transactionTypeMultiplier;
+          transactionTypeMultiplier * oldTransaction[0]!.value +
+          values.amount * transactionTypeMultiplier;
 
         await updateAccountBalance(accountId, amount);
       }
