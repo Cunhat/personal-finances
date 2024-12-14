@@ -26,7 +26,11 @@ export const createTransaction = authenticatedActionClient
       },
       ctx: { user },
     }) => {
-      const createdAt = dayjs(date).toISOString();
+      const createdAt = dayjs(date)
+        .hour(dayjs().hour())
+        .minute(dayjs().minute())
+        .second(dayjs().second())
+        .toISOString();
 
       const newTransaction = await db.insert(transaction).values({
         //@ts-expect-error drizzle types

@@ -12,7 +12,7 @@ export type Transaction = z.infer<typeof selectTransactionSchema>;
 
 export const TransactionValidationSchema = z.object({
   name: z.string().min(1),
-  amount: z.number().min(0),
+  amount: z.number().min(0.01),
   date: z.date(),
   account: z.string(),
   category: z.string(),

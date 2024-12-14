@@ -99,7 +99,8 @@ export default function ListTransactions({
         return (
           <div className="flex items-center">
             <span>
-              {dayjs(row.getValue("created_at")).format("DD/MM/YYYY") ?? "-"}
+              {dayjs(row.getValue("created_at")).format("DD/MM/YYYY HH:mm") ??
+                "-"}
             </span>
           </div>
         );
