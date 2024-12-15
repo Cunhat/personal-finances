@@ -1,6 +1,6 @@
 import { PageHeader } from "@/components/page-header";
-import { db } from "@/server/db";
 import { Metadata } from "next";
+import IncomeVsExpenses from "./(home)/_components/income-vs-expenses/income-vs-expenses";
 import NetWorthWidget from "./(home)/_components/net-worth-widget";
 import { Suspense } from "react";
 
@@ -16,7 +16,11 @@ export default async function Page() {
       <PageHeader title="Dashboard"></PageHeader>
       <div className="grid h-full grid-cols-[minmax(300px,1fr)_5fr] gap-4">
         <NetWorthWidget />
-        <div className="flex flex-col gap-4 bg-pink-300"></div>
+        <div className="flex flex-col gap-4">
+          <Suspense fallback={<div>Loading...</div>}>
+            <IncomeVsExpenses />
+          </Suspense>
+        </div>
       </div>
     </div>
   );
