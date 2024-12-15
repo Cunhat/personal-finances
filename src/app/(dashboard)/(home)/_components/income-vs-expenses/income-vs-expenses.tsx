@@ -27,10 +27,13 @@ export default async function IncomeVsExpenses() {
 
   let lastYear = dayjs().subtract(1, "year");
 
-  const chartData = [];
+  const chartData: {
+    month: string;
+    income: number;
+    expenses: number;
+  }[] = [];
 
   while (lastYear.isBefore(dayjs())) {
-    console.log(lastYear);
     const currMonthTransactions = transactions.filter((transaction) =>
       dayjs(transaction.created_at).isSame(lastYear, "month"),
     );

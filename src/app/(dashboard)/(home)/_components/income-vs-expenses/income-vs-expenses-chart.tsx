@@ -28,7 +28,7 @@ export default function IncomeVsExpensesChart({
           tickLine={false}
           tickMargin={10}
           axisLine={false}
-          tickFormatter={(value) => value.slice(0, 3)}
+          tickFormatter={(value: string) => value.slice(0, 3)}
         />
         <ChartTooltip
           cursor={false}
