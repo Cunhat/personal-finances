@@ -1,6 +1,8 @@
 import { PageHeader } from "@/components/page-header";
 import { db } from "@/server/db";
 import { Metadata } from "next";
+import NetWorthWidget from "./(home)/_components/net-worth-widget";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Personal Finance - Dashboard",
@@ -9,11 +11,13 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
-  const groups = await db.query.categoryGroup.findMany();
-
   return (
-    <div>
+    <div className="flex h-[calc(100vh-65px)] flex-col overflow-hidden">
       <PageHeader title="Dashboard"></PageHeader>
+      <div className="grid h-full grid-cols-[minmax(300px,1fr)_5fr] gap-4">
+        <NetWorthWidget />
+        <div className="flex flex-col gap-4 bg-pink-300"></div>
+      </div>
     </div>
   );
 }
