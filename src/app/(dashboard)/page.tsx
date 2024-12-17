@@ -3,6 +3,7 @@ import { Metadata } from "next";
 import IncomeVsExpenses from "./(home)/_components/income-vs-expenses/income-vs-expenses";
 import NetWorthWidget from "./(home)/_components/net-worth-widget";
 import { Suspense } from "react";
+import NetWorthDistribution from "./(home)/_components/net-worth-distribution/net-worth-distribution";
 
 export const metadata: Metadata = {
   title: "Personal Finance - Dashboard",
@@ -20,6 +21,11 @@ export default async function Page() {
           <Suspense fallback={<div>Loading...</div>}>
             <IncomeVsExpenses />
           </Suspense>
+          <div className="grid grid-cols-2 gap-4">
+            <Suspense fallback={<div>Loading...</div>}>
+              <NetWorthDistribution />
+            </Suspense>
+          </div>
         </div>
       </div>
     </div>
