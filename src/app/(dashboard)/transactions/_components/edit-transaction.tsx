@@ -98,7 +98,7 @@ export default function EditTransaction({
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-4 py-6 xl:space-y-8"
+          className="space-y-4 py-6 2xl:space-y-8"
         >
           <FormField
             control={form.control}
