@@ -15,9 +15,9 @@ export default async function Page() {
   return (
     <div className="flex h-[calc(100vh-65px)] flex-col overflow-hidden">
       <PageHeader title="Dashboard"></PageHeader>
-      <div className="grid h-full grid-cols-[minmax(300px,1fr)_5fr] gap-4">
+      <div className="grid h-full grid-cols-[minmax(300px,1fr)_5fr] gap-4 overflow-hidden">
         <NetWorthWidget />
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 overflow-auto">
           <Suspense fallback={<div>Loading...</div>}>
             <IncomeVsExpenses />
           </Suspense>

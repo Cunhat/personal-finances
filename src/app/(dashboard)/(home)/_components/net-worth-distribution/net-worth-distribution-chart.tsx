@@ -35,7 +35,7 @@ export default function NetWorthDistributionChart({
             data={chartData}
             dataKey="netWorth"
             nameKey="accountType"
-            innerRadius={60}
+            innerRadius={70}
             strokeWidth={5}
           >
             <Label

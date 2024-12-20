@@ -62,7 +62,7 @@ export default async function NetWorthDistribution() {
   } satisfies ChartConfig;
 
   return (
-    <Card>
+    <Card className="flex flex-col">
       <CardHeader>
         <CardTitle>Net Worth Distribution</CardTitle>
         <CardDescription>
@@ -70,13 +70,11 @@ export default async function NetWorthDistribution() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="h-[300px]">
-          <NetWorthDistributionChart
-            chartData={chartData}
-            chartConfig={chartConfig}
-            netWorth={netWorth}
-          />
-        </div>
+        <NetWorthDistributionChart
+          chartData={chartData}
+          chartConfig={chartConfig}
+          netWorth={netWorth}
+        />
       </CardContent>
     </Card>
   );
