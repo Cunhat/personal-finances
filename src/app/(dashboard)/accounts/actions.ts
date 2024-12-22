@@ -5,7 +5,7 @@ import { db } from "@/server/db";
 import { authenticatedActionClient } from "@/server/safe-actions";
 import { AccountValidationSchema } from "@/schemas/account";
 import { returnValidationErrors } from "next-safe-action";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag, unstable_cache } from "next/cache";
 import { and } from "drizzle-orm";
 import { eq } from "drizzle-orm";
 import z from "node_modules/zod/lib";
@@ -28,6 +28,7 @@ export const createAccount = authenticatedActionClient
       await db.insert(account).values({
         name,
         balance,
+        initialBalance: balance,
         accountType,
         userId: user.id,
       });
@@ -56,3 +57,23 @@ export const deleteAccount = authenticatedActionClient
     revalidatePath("/accounts");
     revalidateTag("accounts");
   });
+
+export const getAccounts = unstable_cache(
+  async (userId: string) => {
+    return await db.query.account.findMany({
+      where: eq(account.userId, userId),
+      with: {
+        transaction: {
+          orderBy: (transaction, { desc }) => [desc(transaction.created_at)],
+          with: {
+            category: true,
+          },
+        },
+      },
+    });
+  },
+  ["accounts"],
+  {
+    revalidate: 5,
+  },
+);

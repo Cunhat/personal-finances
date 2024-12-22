@@ -27,6 +27,7 @@ import DeleteTransaction from "./delete-transaction";
 import EditTransaction from "./edit-transaction";
 import TransactionTableActions from "./transaction-table-actions";
 import { cn } from "@/lib/utils";
+import { generateTransactions } from "../actions";
 
 export default function ListTransactions({
   accounts,

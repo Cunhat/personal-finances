@@ -11,6 +11,7 @@ import { revalidatePath, revalidateTag, unstable_cache } from "next/cache";
 import dayjs from "dayjs";
 import { z } from "zod";
 import { and, eq, sql } from "drizzle-orm";
+import { generateRandomTransactions } from "@/lib/utils";
 
 export const createTransaction = authenticatedActionClient
   .schema(TransactionValidationSchema)
@@ -161,3 +162,61 @@ export const getAccountsAndCategories = unstable_cache(
   },
   ["accounts", "categories"],
 );
+
+// export const generateTransactions = authenticatedActionClient.action(
+//   async ({ ctx: { user } }) => {
+//     // Get existing accounts and categories
+//     const { accounts, categories } = await getAccountsAndCategories(user.id);
+
+//     if (!accounts.length || !categories.length) {
+//       throw new Error("No accounts or categories found");
+//     }
+
+//     // Split categories by type to ensure proper category assignment
+//     // const expenseCategories = categories.filter((c) => c.groupId === 1);
+//     // const incomeCategories = categories.filter((c) => c.groupId === 2);
+
+//     // if (!expenseCategories.length || !incomeCategories.length) {
+//     //   throw new Error("Need at least one category of each type");
+//     // }
+
+//     const transactions = generateRandomTransactions({
+//       accountIds: [17, 18, 19],
+//       categoryIds: categories.map((cat) => cat.id),
+//       userId: user.id,
+//       // Pass categories by type to ensure proper matching
+//       expenseCategoryIds: categories.map((cat) => cat.id),
+//       incomeCategoryIds: categories.map((cat) => cat.id),
+//     });
+
+//     console.log(transactions);
+
+//     // Insert transactions in batches
+//     const BATCH_SIZE = 50;
+//     for (let i = 0; i < transactions.length; i += BATCH_SIZE) {
+//       const batch = transactions.slice(i, i + BATCH_SIZE);
+//       await db.insert(transaction).values(batch);
+//     }
+
+//     // Update account balances
+//     for (const acc of accounts) {
+//       const accountTransactions = transactions.filter(
+//         (t) => t.accountId === acc.id,
+//       );
+//       const balance = accountTransactions.reduce(
+//         (sum, t) => sum + (t.transactionType === "income" ? t.value : -t.value),
+//         0,
+//       );
+
+//       await db
+//         .update(account)
+//         .set({
+//           balance: sql`${account.balance} + ${balance}`,
+//         })
+//         .where(eq(account.id, acc.id));
+//     }
+
+//     revalidatePath("/transactions");
+//     revalidateTag("transactions");
+//   },
+// );

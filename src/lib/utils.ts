@@ -2,6 +2,8 @@ import { clsx, type ClassValue } from "clsx";
 import { ValidationErrors } from "next-safe-action";
 import { UseFormReturn, Path } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
+import dayjs from "dayjs";
+import { TransactionType } from "@/server/db/schema";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -91,59 +93,166 @@ export function hexToRgb(hex: string, opacity: number): string | null {
   return `rgba(${parseInt(result[1]!, 16)}, ${parseInt(result[2]!, 16)}, ${parseInt(result[3]!, 16)}, ${opacity})`;
 }
 
-//save list transactions with this format
+// type GenerateTransactionsOptions = {
+//   accountIds: number[];
+//   categoryIds: number[];
+//   expenseCategoryIds: number[];
+//   incomeCategoryIds: number[];
+//   userId: string;
+//   monthsBack?: number;
+//   minTransactionsPerMonth?: number;
+//   maxTransactionsPerMonth?: number;
+//   minAmount?: number;
+//   maxAmount?: number;
+// };
 
-// const expensesInfo = [
-//   {
-//     monthYear: "January 2024",
-//     amount: 1000,
-//     expenses: {
-//       "Mon, January 1": [
-//         { name: "Rent", amount: 500 },
-//         { name: "Electricity", amount: 100 },
-//         { name: "Water", amount: 50 },
-//       ],
-//     },
-//   },
-// ];
+// export function generateRandomTransactions({
+//   accountIds,
+//   categoryIds,
+//   expenseCategoryIds,
+//   incomeCategoryIds,
+//   userId,
+//   monthsBack = 6,
+//   minTransactionsPerMonth = 15,
+//   maxTransactionsPerMonth = 30,
+//   minAmount = 100,
+//   maxAmount = 5000,
+// }: GenerateTransactionsOptions) {
+//   const transactions = [];
+//   const now = dayjs();
 
-// transactions.forEach((transaction) => {
-//   const monthYear = dayjs(transaction.created_at).format("MMMM YYYY");
-//   const date = dayjs(transaction.created_at).format("ddd, MMM D");
+//   // Track balance per account
+//   const accountBalances: Record<number, number> = {};
+//   accountIds.forEach((id) => {
+//     accountBalances[id] = 0;
+//   });
 
-//   if (!transactionsInfo?.length) {
-//     transactionsInfo.push({
-//       monthYear,
-//       amount: transaction.value,
-//       expenses: {
-//         [date]: [transaction],
-//       },
+//   // First generate some income transactions to build up initial balances
+//   accountIds.forEach((accountId) => {
+//     transactions.push({
+//       name: "Initial Balance",
+//       value: 10000, // Start with substantial balance
+//       created_at: now
+//         .subtract(monthsBack, "month")
+//         .startOf("month")
+//         .toISOString(),
+//       transactionType: "income",
+//       categoryId: categoryIds[0]!,
+//       accountId,
+//       userId,
 //     });
-//   } else {
-//     const alreadyHaveMonthYear = transactionsInfo.find(
-//       (info) => info.monthYear === monthYear,
-//     );
+//     accountBalances[accountId] = 10000;
+//   });
 
-//     if (!alreadyHaveMonthYear) {
-//       transactionsInfo.push({
-//         monthYear,
-//         amount: transaction.value,
-//         expenses: {
-//           [date]: [transaction],
-//         },
+//   // Transaction descriptions for more realistic data
+//   const transactionDescriptions = {
+//     expense: [
+//       "Grocery Shopping",
+//       "Rent Payment",
+//       "Utilities",
+//       "Internet Bill",
+//       "Phone Bill",
+//       "Restaurant",
+//       "Coffee Shop",
+//       "Gas Station",
+//       "Public Transport",
+//       "Gym Membership",
+//       "Movie Tickets",
+//       "Online Shopping",
+//       "Healthcare",
+//       "Insurance Payment",
+//       "Home Maintenance",
+//     ],
+//     income: [
+//       "Salary",
+//       "Freelance Payment",
+//       "Investment Return",
+//       "Dividend",
+//       "Client Payment",
+//       "Consulting Fee",
+//       "Bonus",
+//       "Side Project Revenue",
+//       "Rental Income",
+//       "Interest Income",
+//     ],
+//   };
+
+//   // Generate transactions for each month
+//   for (let i = 0; i < monthsBack; i++) {
+//     const monthStart = now.subtract(i, "month").startOf("month");
+//     const monthEnd = monthStart.endOf("month");
+
+//     // Random number of transactions for this month
+//     const transactionsCount =
+//       Math.floor(
+//         Math.random() * (maxTransactionsPerMonth - minTransactionsPerMonth + 1),
+//       ) + minTransactionsPerMonth;
+
+//     // Generate transactions for this month
+//     for (let j = 0; j < transactionsCount; j++) {
+//       // Random date within the month
+//       const date = dayjs(
+//         monthStart.valueOf() +
+//           Math.random() * (monthEnd.valueOf() - monthStart.valueOf()),
+//       );
+
+//       const accountId =
+//         accountIds[Math.floor(Math.random() * accountIds.length)]!;
+//       const currentBalance = accountBalances[accountId]!;
+
+//       // Adjust transaction type based on balance
+//       const transactionType: TransactionType =
+//         currentBalance < 1000 || Math.random() < 0.4 ? "income" : "expense";
+
+//       // Adjust amount based on transaction type and current balance
+//       const amount =
+//         transactionType === "expense"
+//           ? Math.min(
+//               Number(
+//                 (Math.random() * (maxAmount - minAmount) + minAmount).toFixed(
+//                   2,
+//                 ),
+//               ),
+//               currentBalance * 0.8, // Never spend more than 80% of current balance
+//             )
+//           : Number(
+//               (Math.random() * (maxAmount - minAmount) + minAmount).toFixed(2),
+//             );
+
+//       // Update running balance
+//       accountBalances[accountId] +=
+//         transactionType === "income" ? amount : -amount;
+
+//       // Random account and category
+//       const categoryId =
+//         transactionType === "expense"
+//           ? expenseCategoryIds[
+//               Math.floor(Math.random() * expenseCategoryIds.length)
+//             ]!
+//           : incomeCategoryIds[
+//               Math.floor(Math.random() * incomeCategoryIds.length)
+//             ]!;
+
+//       // Random description based on type
+//       const descriptions = transactionDescriptions[transactionType];
+//       const name =
+//         descriptions[Math.floor(Math.random() * descriptions.length)];
+
+//       // Ensure non-null values when pushing transactions
+//       transactions.push({
+//         name: name as string,
+//         value: amount,
+//         created_at: date.toISOString(),
+//         transactionType,
+//         categoryId: categoryId!,
+//         accountId,
+//         userId,
 //       });
-//     } else {
-//       const alreadyHaveDate = alreadyHaveMonthYear.expenses[date];
-
-//       if (!alreadyHaveDate) {
-//         alreadyHaveMonthYear.expenses[date] = [transaction];
-//       } else {
-//         alreadyHaveMonthYear.expenses[date] = [
-//           ...alreadyHaveDate,
-//           transaction,
-//         ];
-//       }
-//       alreadyHaveMonthYear.amount += transaction.value;
 //     }
 //   }
-// });
+
+//   // Sort by date descending
+//   return transactions.sort(
+//     (a, b) => dayjs(b.created_at).valueOf() - dayjs(a.created_at).valueOf(),
+//   );
+// }

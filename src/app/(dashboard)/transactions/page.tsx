@@ -1,13 +1,11 @@
 import { PageHeader } from "@/components/page-header";
 import { db } from "@/server/db";
-import React from "react";
-import { unstable_cache } from "next/cache";
 import { transaction } from "@/server/db/schema";
-import { eq } from "drizzle-orm";
-import { redirect } from "next/navigation";
 import { currentUser } from "@clerk/nextjs/server";
+import { eq } from "drizzle-orm";
+import { unstable_cache } from "next/cache";
+import { redirect } from "next/navigation";
 import ListTransactions from "./_components/list-transactions";
-import NewTransactionSheet from "./_components/new-transaction-sheet";
 import NewTransaction from "./_components/new-transaction";
 import { getAccountsAndCategories } from "./actions";
 
@@ -23,6 +21,9 @@ const getAllTransactions = unstable_cache(
     return transactions;
   },
   ["transactions"],
+  {
+    revalidate: 5,
+  },
 );
 
 export default async function Page() {

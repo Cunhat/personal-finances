@@ -4,6 +4,7 @@ import IncomeVsExpenses from "./(home)/_components/income-vs-expenses/income-vs-
 import NetWorthWidget from "./(home)/_components/net-worth-widget";
 import { Suspense } from "react";
 import NetWorthDistribution from "./(home)/_components/net-worth-distribution/net-worth-distribution";
+import NetWorthVariance from "./(home)/_components/net-worth-variance/net-worth-variance";
 
 export const metadata: Metadata = {
   title: "Personal Finance - Dashboard",
@@ -18,6 +19,9 @@ export default async function Page() {
       <div className="grid h-full grid-cols-[minmax(300px,1fr)_5fr] gap-4 overflow-hidden">
         <NetWorthWidget />
         <div className="flex flex-col gap-4 overflow-auto">
+          <Suspense fallback={<div>Loading...</div>}>
+            <NetWorthVariance />
+          </Suspense>
           <Suspense fallback={<div>Loading...</div>}>
             <IncomeVsExpenses />
           </Suspense>

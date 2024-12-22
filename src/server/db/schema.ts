@@ -1,6 +1,7 @@
 // Example model schema from the Drizzle docs
 // https://orm.drizzle.team/docs/sql-schema-declaration
 
+import dayjs from "dayjs";
 import { relations } from "drizzle-orm";
 import { integer, real, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
@@ -32,6 +33,8 @@ export const account = sqliteTable("account", {
   accountType: text("account_type").notNull(),
   userId: text("user_id").notNull(),
   balance: real("balance").notNull(),
+  initialBalance: real("initial_balance").notNull(),
+  createdAt: text("created_at").$defaultFn(() => dayjs().toISOString()),
 });
 
 export const transaction = sqliteTable("transaction", {
