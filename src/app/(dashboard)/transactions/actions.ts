@@ -4,14 +4,13 @@ import {
   TransactionValidationSchema,
   updateTransactionSchema,
 } from "@/schemas/transaction";
-import { authenticatedActionClient } from "@/server/safe-actions";
 import { db } from "@/server/db";
-import { category, account, transaction } from "@/server/db/schema";
-import { revalidatePath, revalidateTag, unstable_cache } from "next/cache";
+import { account, category, transaction } from "@/server/db/schema";
+import { authenticatedActionClient } from "@/server/safe-actions";
 import dayjs from "dayjs";
-import { z } from "zod";
 import { and, eq, sql } from "drizzle-orm";
-import { generateRandomTransactions } from "@/lib/utils";
+import { revalidatePath, revalidateTag, unstable_cache } from "next/cache";
+import { z } from "zod";
 
 export const createTransaction = authenticatedActionClient
   .schema(TransactionValidationSchema)

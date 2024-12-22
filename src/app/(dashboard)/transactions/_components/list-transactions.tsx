@@ -1,33 +1,18 @@
 "use client";
 
-import { DataTable } from "@/components/table/data-table";
-import { Transaction } from "@/schemas/transaction";
-import React from "react";
-import { SortingState } from "@tanstack/react-table";
-import { Category } from "@/schemas/category";
-import { Account } from "@/schemas/account";
 import CategoryBadge from "@/components/category-badge";
+import { DataTable } from "@/components/table/data-table";
 import { DataTableColumnHeader } from "@/components/table/data-table-column-header";
-import { AlertDialog, AlertDialogTrigger } from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Sheet, SheetTrigger } from "@/components/ui/sheet";
+import { Account } from "@/schemas/account";
+import { Category } from "@/schemas/category";
+import { Transaction } from "@/schemas/transaction";
+import { SortingState } from "@tanstack/react-table";
 
+import { cn } from "@/lib/utils";
 import { ColumnDef } from "@tanstack/react-table";
 import dayjs from "dayjs";
-import { EllipsisVertical, Pencil, Trash2 } from "lucide-react";
-import { useState } from "react";
-import DeleteTransaction from "./delete-transaction";
-import EditTransaction from "./edit-transaction";
 import TransactionTableActions from "./transaction-table-actions";
-import { cn } from "@/lib/utils";
-import { generateTransactions } from "../actions";
 
 export default function ListTransactions({
   accounts,

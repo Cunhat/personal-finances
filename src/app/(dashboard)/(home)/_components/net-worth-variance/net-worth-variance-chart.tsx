@@ -18,15 +18,6 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 
-const chartData = [
-  { month: "January", desktop: 186 },
-  { month: "February", desktop: 305 },
-  { month: "March", desktop: 237 },
-  { month: "April", desktop: 73 },
-  { month: "May", desktop: 209 },
-  { month: "June", desktop: 214 },
-];
-
 const chartConfig = {
   desktop: {
     label: "Net Worth",
@@ -59,7 +50,7 @@ export function NetWorthVarianceChart({ data }: { data: any }) {
               tickLine={false}
               axisLine={false}
               tickMargin={8}
-              tickFormatter={(value) => value.slice(0, 3)}
+              tickFormatter={(value: string) => value.slice(0, 3)}
             />
             <ChartTooltip
               cursor={false}
