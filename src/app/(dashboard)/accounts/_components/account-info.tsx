@@ -12,12 +12,21 @@ import { Inbox } from "lucide-react";
 import { Area, AreaChart, XAxis } from "recharts";
 import AccountActions from "./account-actions";
 import AccountExpenses from "./account-expenses";
+import { AccountNetWorthChart } from "./account-net-worth-chart";
 
 type AccountInfoProps = {
   account: Account;
+  selectedAccountNetWorth: {
+    account: string;
+    accountId: number;
+    netWorth: { date: string; value: number }[];
+  };
 };
 
-export default function AccountInfo({ account }: AccountInfoProps) {
+export default function AccountInfo({
+  account,
+  selectedAccountNetWorth,
+}: AccountInfoProps) {
   if (!account.transaction?.length) {
     return (
       <div className="flex h-full flex-col gap-4">
@@ -71,6 +80,7 @@ export default function AccountInfo({ account }: AccountInfoProps) {
   return (
     <div className="flex h-full flex-col gap-4 overflow-hidden">
       <AccountInfoHeader account={account} />
+      <AccountNetWorthChart data={selectedAccountNetWorth.netWorth} />
       <div className="flex h-[150px] w-full items-center justify-center text-black">
         <ChartContainer config={chartConfig} className="h-full w-full">
           <AreaChart
@@ -89,6 +99,7 @@ export default function AccountInfo({ account }: AccountInfoProps) {
               tickFormatter={(value: string) => value.slice(0, 3)}
             />
             <ChartTooltip
+              cursor={false}
               content={
                 <ChartTooltipContent
                   indicator="dot"
