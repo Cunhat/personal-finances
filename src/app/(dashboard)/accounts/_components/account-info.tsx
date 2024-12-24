@@ -13,6 +13,7 @@ import { Area, AreaChart, XAxis } from "recharts";
 import AccountActions from "./account-actions";
 import AccountExpenses from "./account-expenses";
 import { AccountNetWorthChart } from "./account-net-worth-chart";
+import AccountTransactionsChart from "./account-transactions-chart";
 
 type AccountInfoProps = {
   account: Account;
@@ -49,10 +50,18 @@ export default function AccountInfo({
     },
   } satisfies ChartConfig;
 
+  const test = [
+    {
+      month: "Jan",
+      expenses: 100,
+      income: 200,
+    },
+  ];
+
   const dataOnLastYear = () => {
     let lastYear = dayjs().subtract(1, "year");
 
-    const data: { month: string; netWorth: number }[] = [];
+    const data: { month: string; expenses: number; income: number }[] = [];
 
     while (lastYear.isBefore(dayjs())) {
       const transactions = account.transaction?.filter(
@@ -61,13 +70,22 @@ export default function AccountInfo({
           dayjs(transaction.created_at).isSame(lastYear, "year"),
       );
 
-      const netWorth = transactions?.reduce((acc, transaction) => {
-        return acc + transaction.value;
-      }, 0);
+      const income = transactions
+        ?.filter((transaction) => transaction.transactionType === "income")
+        .reduce((acc, transaction) => {
+          return acc + transaction.value;
+        }, 0);
+
+      const expenses = transactions
+        ?.filter((transaction) => transaction.transactionType === "expense")
+        .reduce((acc, transaction) => {
+          return acc + transaction.value;
+        }, 0);
 
       data.push({
         month: lastYear.format("MMM YYYY"),
-        netWorth: netWorth ?? 0,
+        expenses: expenses ?? 0,
+        income: income ?? 0,
       });
 
       lastYear = lastYear.add(1, "month");
@@ -81,43 +99,7 @@ export default function AccountInfo({
     <div className="flex h-full flex-col gap-4 overflow-hidden">
       <AccountInfoHeader account={account} />
       <AccountNetWorthChart data={selectedAccountNetWorth.netWorth} />
-      <div className="flex h-[150px] w-full items-center justify-center text-black">
-        <ChartContainer config={chartConfig} className="h-full w-full">
-          <AreaChart
-            accessibilityLayer
-            data={chartData}
-            margin={{
-              left: 12,
-              right: 12,
-            }}
-          >
-            <XAxis
-              dataKey="month"
-              tickLine={false}
-              axisLine={false}
-              tickMargin={8}
-              tickFormatter={(value: string) => value.slice(0, 3)}
-            />
-            <ChartTooltip
-              cursor={false}
-              content={
-                <ChartTooltipContent
-                  indicator="dot"
-                  labelClassName="text-white"
-                />
-              }
-            />
-            <Area
-              dataKey="netWorth"
-              type="natural"
-              fill="var(--color-netWorth)"
-              fillOpacity={0.4}
-              stroke="var(--color-netWorth)"
-              stackId="a"
-            />
-          </AreaChart>
-        </ChartContainer>
-      </div>
+      <AccountTransactionsChart data={chartData} />
       <Separator />
       <div className="flex flex-1 flex-col gap-2 overflow-y-auto scrollbar-none">
         <AccountExpenses transactions={account.transaction ?? []} />
