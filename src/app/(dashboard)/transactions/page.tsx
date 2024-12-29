@@ -8,6 +8,9 @@ import { redirect } from "next/navigation";
 import ListTransactions from "./_components/list-transactions";
 import NewTransaction from "./_components/new-transaction";
 import { getAccountsAndCategories } from "./actions";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { FileUp } from "lucide-react";
 
 const getAllTransactions = unstable_cache(
   async (userId: string) => {
@@ -39,6 +42,12 @@ export default async function Page() {
   return (
     <div className="flex h-[calc(100vh-65px)] flex-col overflow-hidden">
       <PageHeader title="Transactions">
+        <Button variant="outline" asChild className="ml-auto">
+          <Link href="/transactions/csv-upload">
+            <FileUp size={16} />
+            Upload CSV
+          </Link>
+        </Button>
         <NewTransaction />
       </PageHeader>
       <ListTransactions

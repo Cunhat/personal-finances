@@ -91,6 +91,8 @@ export function hexToRgb(hex: string, opacity: number): string | null {
   return `rgba(${parseInt(result[1]!, 16)}, ${parseInt(result[2]!, 16)}, ${parseInt(result[3]!, 16)}, ${opacity})`;
 }
 
+export const normalizeSpaces = (str: string) => str.replace(/\s+/g, " ").trim();
+
 // type GenerateTransactionsOptions = {
 //   accountIds: number[];
 //   categoryIds: number[];

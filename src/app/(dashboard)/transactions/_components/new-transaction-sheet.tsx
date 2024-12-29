@@ -85,9 +85,7 @@ export default function NewTransactionSheet({
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button className="ml-auto" size="sm">
-          New Transaction
-        </Button>
+        <Button size="sm">New Transaction</Button>
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>

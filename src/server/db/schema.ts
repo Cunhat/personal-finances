@@ -82,3 +82,34 @@ export const categoryRelations = relations(category, ({ many, one }) => ({
 export const categoryGroupRelations = relations(categoryGroup, ({ many }) => ({
   categories: many(category),
 }));
+
+export const UnprocessedTransaction = sqliteTable("unprocessed_transaction", {
+  id: integer("id", {
+    mode: "number",
+  }).primaryKey({ autoIncrement: true }),
+  name: text("name").notNull(),
+  value: real("value").notNull(),
+  created_at: text("created_at").notNull(),
+  transactionType: text("transaction_type", {
+    enum: ["expense", "income"] as const,
+  }).notNull(),
+  categoryId: integer("category_id").references(() => category.id),
+  userId: text("user_id").notNull(),
+  accountId: integer("account_id").references(() => account.id, {
+    onDelete: "cascade",
+  }),
+});
+
+export const unprocessedTransactionRelations = relations(
+  UnprocessedTransaction,
+  ({ one }) => ({
+    account: one(account, {
+      fields: [UnprocessedTransaction.accountId],
+      references: [account.id],
+    }),
+    category: one(category, {
+      fields: [UnprocessedTransaction.categoryId],
+      references: [category.id],
+    }),
+  }),
+);
