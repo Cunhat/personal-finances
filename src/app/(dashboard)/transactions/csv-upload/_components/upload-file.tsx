@@ -8,13 +8,16 @@ import UnprocessedTransactionsTable from "./unprocessed-transactions-table";
 import { Loader, Loader2, RefreshCw } from "lucide-react";
 import { createUnprocessedTransactions } from "../actions";
 import { useAction } from "next-safe-action/hooks";
+import { redirect, useRouter } from "next/navigation";
 
 export default function UploadFile() {
   const [data, setData] = useState<UnprocessedTransaction[]>([]);
+  const router = useRouter();
 
   const { execute, isExecuting } = useAction(createUnprocessedTransactions, {
     onSuccess: () => {
       setData([]);
+      router.push("/transactions/unprocessed");
     },
   });
 
@@ -27,6 +30,7 @@ export default function UploadFile() {
             variant="outline"
             onClick={() => setData([])}
             className="ml-auto"
+            disabled={isExecuting}
           >
             <RefreshCw size={16} />
             Refresh

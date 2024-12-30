@@ -43,6 +43,12 @@ export default async function Page() {
     <div className="flex h-[calc(100vh-65px)] flex-col overflow-hidden">
       <PageHeader title="Transactions">
         <Button variant="outline" asChild className="ml-auto">
+          <Link href="/transactions/unprocessed">
+            <FileUp size={16} />
+            Unprocessed
+          </Link>
+        </Button>
+        <Button variant="outline" asChild>
           <Link href="/transactions/csv-upload">
             <FileUp size={16} />
             Upload CSV

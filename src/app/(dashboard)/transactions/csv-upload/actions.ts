@@ -9,7 +9,14 @@ import { z } from "zod";
 export const createUnprocessedTransactions = authenticatedActionClient
   .schema(z.array(UnprocessedTransactionSchema))
   .action(async ({ parsedInput, ctx: { user } }) => {
+    const unprocessedTransactionsWithUserId = parsedInput.map(
+      (transaction) => ({
+        ...transaction,
+        userId: user.id,
+      }),
+    );
+
     const unprocessedTransactions = await db
       .insert(UnprocessedTransaction)
-      .values(parsedInput);
+      .values(unprocessedTransactionsWithUserId);
   });
