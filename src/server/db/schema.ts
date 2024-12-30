@@ -100,7 +100,7 @@ export const UnprocessedTransaction = sqliteTable("unprocessed_transaction", {
   }),
 });
 
-export const unprocessedTransactionRelations = relations(
+export const UnprocessedTransactionRelations = relations(
   UnprocessedTransaction,
   ({ one }) => ({
     account: one(account, {
