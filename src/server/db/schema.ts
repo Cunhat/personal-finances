@@ -83,7 +83,7 @@ export const categoryGroupRelations = relations(categoryGroup, ({ many }) => ({
   categories: many(category),
 }));
 
-export const UnprocessedTransaction = sqliteTable("unprocessed_transaction", {
+export const unprocessedTransaction = sqliteTable("unprocessed_transaction", {
   id: integer("id", {
     mode: "number",
   }).primaryKey({ autoIncrement: true }),
@@ -100,15 +100,15 @@ export const UnprocessedTransaction = sqliteTable("unprocessed_transaction", {
   }),
 });
 
-export const UnprocessedTransactionRelations = relations(
-  UnprocessedTransaction,
+export const unprocessedTransactionRelations = relations(
+  unprocessedTransaction,
   ({ one }) => ({
     account: one(account, {
-      fields: [UnprocessedTransaction.accountId],
+      fields: [unprocessedTransaction.accountId],
       references: [account.id],
     }),
     category: one(category, {
-      fields: [UnprocessedTransaction.categoryId],
+      fields: [unprocessedTransaction.categoryId],
       references: [category.id],
     }),
   }),
