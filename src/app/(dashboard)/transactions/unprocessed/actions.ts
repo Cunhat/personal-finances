@@ -29,6 +29,8 @@ export const updateUnprocessedTransactionCategory = authenticatedActionClient
             eq(unprocessedTransaction.userId, user.id),
           ),
         );
+
+      revalidatePath("/transactions/unprocessed");
     },
   );
 
@@ -50,6 +52,7 @@ export const updateUnprocessedTransactionAccount = authenticatedActionClient
             eq(unprocessedTransaction.userId, user.id),
           ),
         );
+      revalidatePath("/transactions/unprocessed");
     },
   );
 

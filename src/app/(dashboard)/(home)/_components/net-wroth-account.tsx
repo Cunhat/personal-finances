@@ -1,4 +1,5 @@
 "use client";
+import { formatCurrency } from "@/lib/utils";
 import { Account } from "@/schemas/account";
 import { ChevronRight } from "lucide-react";
 import { useState } from "react";
@@ -32,7 +33,12 @@ export default function NetWrothAccount({
         {filteredAccounts.map((account) => (
           <div key={account.id} className="flex justify-between">
             <p>{account.name}</p>
-            <p>{account.balance}€</p>
+            <p>
+              {formatCurrency(account.balance, {
+                currency: "EUR",
+                locale: "de-DE",
+              })}
+            </p>
           </div>
         ))}
         {filteredAccounts.length === 0 && (

@@ -6,6 +6,7 @@ import { currentUser } from "@clerk/nextjs/server";
 import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import NetWrothAccount from "./net-wroth-account";
+import { formatCurrency } from "@/lib/utils";
 
 export default async function NetWorthListAccounts() {
   const user = await currentUser();
@@ -28,7 +29,12 @@ export default async function NetWorthListAccounts() {
       <div className="flex flex-col gap-4">
         <div className="flex justify-between gap-2">
           <p className="text-lg">Net Worth</p>
-          <p className="text-lg">{netWorth} €</p>
+          <p className="text-lg">
+            {formatCurrency(netWorth, {
+              currency: "EUR",
+              locale: "de-DE",
+            })}
+          </p>
         </div>
         <div className="flex flex-col gap-6">
           {AccountTypes.map((accountType) => (
