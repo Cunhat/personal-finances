@@ -12,7 +12,7 @@ type TransactionInfo = {
 
 type AccountExpensesProps = {
   transactions: Transaction[];
-  initialBalance: number;
+  initialBalance?: number;
 };
 export default function AccountExpenses({
   transactions,
@@ -80,15 +80,17 @@ export default function AccountExpenses({
           </div>
         );
       })}
-      <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold">Initial Balance</h2>
-        <p className="text-base">
-          {formatCurrency(initialBalance, {
-            currency: "EUR",
-            locale: "de-DE",
-          })}
-        </p>
-      </div>
+      {initialBalance && (
+        <div className="flex items-center justify-between">
+          <h2 className="text-lg font-semibold">Initial Balance</h2>
+          <p className="text-base">
+            {formatCurrency(initialBalance, {
+              currency: "EUR",
+              locale: "de-DE",
+            })}
+          </p>
+        </div>
+      )}
     </div>
   );
 }
