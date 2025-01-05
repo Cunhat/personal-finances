@@ -54,7 +54,10 @@ export const createTransaction = authenticatedActionClient
     },
   );
 
-const updateAccountBalance = async (accountId: number, amount: number) => {
+export const updateAccountBalance = async (
+  accountId: number,
+  amount: number,
+) => {
   await db
     .update(account)
     .set({

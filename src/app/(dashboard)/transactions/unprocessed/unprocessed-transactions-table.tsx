@@ -19,6 +19,11 @@ import dayjs from "dayjs";
 import { useMemo, useState } from "react";
 import UpdateCategory from "./update-category";
 import UpdateAccount from "./update-account";
+import { Button } from "@/components/ui/button";
+import { useAction } from "next-safe-action/hooks";
+import { processUnprocessedTransactions } from "./actions";
+import { CreateTransaction } from "@/schemas/transaction";
+import { Loader2 } from "lucide-react";
 
 type UnprocessedTransactionsTableProps = {
   data: UnprocessedTransaction[];
@@ -33,6 +38,16 @@ export default function UnprocessedTransactionsTable({
 }: UnprocessedTransactionsTableProps) {
   const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
 
+  const { execute, isExecuting } = useAction(processUnprocessedTransactions);
+
+  function handleProcess() {
+    const transactionsToProcess = data.filter((transaction) => {
+      return selectedIds.has(transaction.id!);
+    });
+
+    execute(transactionsToProcess);
+  }
+
   const columns: ColumnDef<UnprocessedTransaction>[] = useMemo(
     () => [
       {
@@ -45,6 +60,7 @@ export default function UnprocessedTransactionsTable({
               className="size-4 rounded-[4px]"
               checked={id ? selectedIds.has(id) : false}
               onCheckedChange={(checked) => {
+                row.toggleSelected();
                 setSelectedIds((prev) => {
                   const next = new Set(prev);
                   if (checked && id) {
@@ -141,6 +157,21 @@ export default function UnprocessedTransactionsTable({
   const defaultSorting: SortingState = [{ id: "created_at", desc: true }];
 
   return (
-    <DataTable columns={columns} data={data} defaultSorting={defaultSorting} />
+    <div className="flex flex-col gap-4">
+      <div className="flex justify-end">
+        <Button
+          disabled={selectedIds.size === 0 || isExecuting}
+          onClick={handleProcess}
+        >
+          {isExecuting && <Loader2 className="size-4 animate-spin" />}
+          {isExecuting ? "Processing..." : "Process"}
+        </Button>
+      </div>
+      <DataTable
+        columns={columns}
+        data={data}
+        defaultSorting={defaultSorting}
+      />
+    </div>
   );
 }
