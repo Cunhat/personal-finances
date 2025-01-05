@@ -4,36 +4,24 @@ import { formatCurrency } from "@/lib/utils";
 import { Transaction } from "@/schemas/transaction";
 import dayjs from "dayjs";
 
-type AccountExpensesProps = {
-  transactions: Transaction[];
-};
-
-const expensesInfo = [
-  {
-    monthYear: "January 2024",
-    amount: 1000,
-    expenses: [
-      { name: "Rent", amount: 500 },
-      { name: "Electricity", amount: 100 },
-      { name: "Water", amount: 50 },
-    ],
-  },
-];
-
 type TransactionInfo = {
   monthYear: string;
   amount: number;
   expenses: Transaction[];
 };
 
+type AccountExpensesProps = {
+  transactions: Transaction[];
+  initialBalance: number;
+};
 export default function AccountExpenses({
   transactions,
+  initialBalance,
 }: AccountExpensesProps) {
   const transactionsInfo: Array<TransactionInfo> = [];
 
   transactions?.forEach((transaction) => {
     const monthYear = dayjs(transaction.created_at).format("MMMM YYYY");
-    const date = dayjs(transaction.created_at).format("ddd, MMM D");
 
     if (!transactionsInfo?.length) {
       transactionsInfo.push({
@@ -57,6 +45,10 @@ export default function AccountExpenses({
         alreadyHaveMonthYear.amount += transaction.value;
       }
     }
+  });
+
+  transactionsInfo.sort((a, b) => {
+    return dayjs(b.monthYear).diff(dayjs(a.monthYear));
   });
 
   return (
@@ -88,6 +80,15 @@ export default function AccountExpenses({
           </div>
         );
       })}
+      <div className="flex items-center justify-between">
+        <h2 className="text-lg font-semibold">Initial Balance</h2>
+        <p className="text-base">
+          {formatCurrency(initialBalance, {
+            currency: "EUR",
+            locale: "de-DE",
+          })}
+        </p>
+      </div>
     </div>
   );
 }

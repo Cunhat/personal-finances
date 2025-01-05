@@ -82,7 +82,6 @@ export default function EditTransaction({
 
   function onSubmit(formValues: z.infer<typeof TransactionValidationSchema>) {
     try {
-      console.log(formValues, values.id);
       execute({ id: values.id, ...formValues });
     } catch (error) {
       console.error("Form submission error", error);

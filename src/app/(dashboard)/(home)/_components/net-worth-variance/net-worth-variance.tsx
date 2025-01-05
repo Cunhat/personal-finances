@@ -50,7 +50,5 @@ export default async function NetWorthVariance() {
     iterationDate = iterationDate.add(1, "month");
   }
 
-  console.log("globalNetWorth", globalNetWorth);
-
   return <NetWorthVarianceChart data={globalNetWorth} />;
 }

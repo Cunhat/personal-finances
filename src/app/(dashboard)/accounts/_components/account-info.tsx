@@ -102,7 +102,10 @@ export default function AccountInfo({
       <AccountTransactionsChart data={chartData} />
       <Separator />
       <div className="flex flex-1 flex-col gap-2 overflow-y-auto scrollbar-none">
-        <AccountExpenses transactions={account.transaction ?? []} />
+        <AccountExpenses
+          initialBalance={account.initialBalance}
+          transactions={account.transaction ?? []}
+        />
       </div>
     </div>
   );
