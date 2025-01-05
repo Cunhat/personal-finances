@@ -24,6 +24,7 @@ import { useAction } from "next-safe-action/hooks";
 import { processUnprocessedTransactions } from "./actions";
 import { CreateTransaction } from "@/schemas/transaction";
 import { Loader2 } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 type UnprocessedTransactionsTableProps = {
   data: UnprocessedTransaction[];
@@ -37,8 +38,23 @@ export default function UnprocessedTransactionsTable({
   categories,
 }: UnprocessedTransactionsTableProps) {
   const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
+  const { toast } = useToast();
 
-  const { execute, isExecuting } = useAction(processUnprocessedTransactions);
+  const { execute, isExecuting } = useAction(processUnprocessedTransactions, {
+    onSuccess: () => {
+      toast({
+        title: "Success",
+        description: "Transactions processed successfully",
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: "Error",
+        description: error.error.serverError,
+        variant: "destructive",
+      });
+    },
+  });
 
   function handleProcess() {
     const transactionsToProcess = data.filter((transaction) => {

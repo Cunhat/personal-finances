@@ -9,15 +9,28 @@ import { Loader, Loader2, RefreshCw } from "lucide-react";
 import { createUnprocessedTransactions } from "../actions";
 import { useAction } from "next-safe-action/hooks";
 import { redirect, useRouter } from "next/navigation";
+import { useToast } from "@/hooks/use-toast";
 
 export default function UploadFile() {
   const [data, setData] = useState<UnprocessedTransaction[]>([]);
+  const { toast } = useToast();
   const router = useRouter();
 
   const { execute, isExecuting } = useAction(createUnprocessedTransactions, {
     onSuccess: () => {
       setData([]);
+      toast({
+        title: "Success",
+        description: "Transactions uploaded successfully",
+      });
       router.push("/transactions/unprocessed");
+    },
+    onError: (error) => {
+      toast({
+        title: "Error",
+        description: error.error.serverError,
+        variant: "destructive",
+      });
     },
   });
 

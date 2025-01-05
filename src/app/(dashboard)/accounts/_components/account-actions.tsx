@@ -22,15 +22,29 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { toast, useToast } from "@/hooks/use-toast";
 
 type AccountActionsProps = {
   accountId: number;
 };
 
 export default function AccountActions({ accountId }: AccountActionsProps) {
+  const { toast } = useToast();
+
   const { execute, isExecuting } = useAction(deleteAccount, {
-    // onSuccess: () => {},
-    // onError: (error) => {},
+    onSuccess: () => {
+      toast({
+        title: "Success",
+        description: "Account deleted successfully",
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: "Error",
+        description: error.error.serverError,
+        variant: "destructive",
+      });
+    },
   });
 
   return (

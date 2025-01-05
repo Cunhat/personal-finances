@@ -17,12 +17,15 @@ import { useAction } from "next-safe-action/hooks";
 import { HexColorPicker } from "react-colorful";
 import { Controller, useForm } from "react-hook-form";
 import { createCategory } from "../../actions";
+import { useToast } from "@/hooks/use-toast";
 
 export default function CreateCategoryForm({
   setOpen,
 }: {
   setOpen: (open: boolean) => void;
 }) {
+  const { toast } = useToast();
+
   const form = useForm<CreateCategory>({
     resolver: zodResolver(CategoryValidationSchema),
     defaultValues: {
@@ -36,11 +39,20 @@ export default function CreateCategoryForm({
     onSuccess: () => {
       form.reset();
       setOpen(false);
+      toast({
+        title: "Success",
+        description: "Category created successfully",
+      });
     },
     onError: (error) => {
       if (error.error?.validationErrors) {
         getValidationErrors(error.error.validationErrors, form);
       }
+      toast({
+        title: "Error",
+        description: error.error.serverError,
+        variant: "destructive",
+      });
     },
   });
 

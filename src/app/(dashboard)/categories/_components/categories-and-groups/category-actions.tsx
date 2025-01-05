@@ -31,6 +31,7 @@ import {
   deleteCategory,
   removeCategoryFromGroup,
 } from "../../actions";
+import { useToast } from "@/hooks/use-toast";
 
 type CategoryActionsProps = {
   groups: CategoryGroupWithCategories[];
@@ -43,19 +44,54 @@ export default function CategoryActions({
   categoryId,
   hasGroup,
 }: CategoryActionsProps) {
+  const { toast } = useToast();
+
   const { execute, isExecuting } = useAction(addCategoryToGroup, {
-    // onSuccess: () => {},
-    // onError: (error) => {},
+    onSuccess: () => {
+      toast({
+        title: "Success",
+        description: "Category added to group successfully",
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: "Error",
+        description: error.error.serverError,
+        variant: "destructive",
+      });
+    },
   });
 
   const { execute: removeFromGroup } = useAction(removeCategoryFromGroup, {
-    // onSuccess: () => {},
-    // onError: (error) => {},
+    onSuccess: () => {
+      toast({
+        title: "Success",
+        description: "Category removed from group successfully",
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: "Error",
+        description: error.error.serverError,
+        variant: "destructive",
+      });
+    },
   });
 
   const { execute: deleteCategoryAction } = useAction(deleteCategory, {
-    // onSuccess: () => {},
-    // onError: (error) => {},
+    onSuccess: () => {
+      toast({
+        title: "Success",
+        description: "Category deleted successfully",
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: "Error",
+        description: error.error.serverError,
+        variant: "destructive",
+      });
+    },
   });
 
   return (

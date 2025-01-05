@@ -5,6 +5,7 @@ import { Account } from "@/schemas/account";
 import React from "react";
 import { updateUnprocessedTransactionAccount } from "./actions";
 import { useAction } from "next-safe-action/hooks";
+import { useToast } from "@/hooks/use-toast";
 
 type UpdateAccountProps = {
   accounts: Account[];
@@ -17,7 +18,23 @@ export default function UpdateAccount({
   transactionId,
   value,
 }: UpdateAccountProps) {
-  const { execute } = useAction(updateUnprocessedTransactionAccount);
+  const { toast } = useToast();
+
+  const { execute } = useAction(updateUnprocessedTransactionAccount, {
+    onSuccess: () => {
+      toast({
+        title: "Success",
+        description: "Transaction account updated successfully",
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: "Error",
+        description: error.error.serverError,
+        variant: "destructive",
+      });
+    },
+  });
 
   return (
     <Select

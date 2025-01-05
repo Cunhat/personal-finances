@@ -19,12 +19,15 @@ import { createGroup } from "../actions";
 import { useAction } from "next-safe-action/hooks";
 import { Input } from "@/components/ui/input";
 import { getValidationErrors } from "@/lib/utils";
+import { useToast } from "@/hooks/use-toast";
 
 type CreateGroupFormProps = {
   setOpen: (open: boolean) => void;
 };
 
 export default function CreateGroupForm({ setOpen }: CreateGroupFormProps) {
+  const { toast } = useToast();
+
   const form = useForm<CreateGroup>({
     resolver: zodResolver(GroupValidationSchema),
     defaultValues: {
@@ -35,6 +38,10 @@ export default function CreateGroupForm({ setOpen }: CreateGroupFormProps) {
 
   const { execute, isExecuting } = useAction(createGroup, {
     onSuccess: () => {
+      toast({
+        title: "Success",
+        description: "Group created successfully",
+      });
       form.reset();
       setOpen(false);
     },
@@ -42,6 +49,11 @@ export default function CreateGroupForm({ setOpen }: CreateGroupFormProps) {
       if (error.error?.validationErrors) {
         getValidationErrors(error.error.validationErrors, form);
       }
+      toast({
+        title: "Error",
+        description: error.error.serverError,
+        variant: "destructive",
+      });
     },
   });
 

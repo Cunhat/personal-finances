@@ -29,6 +29,7 @@ import { useAction } from "next-safe-action/hooks";
 import { Controller, useForm } from "react-hook-form";
 import { createAccount } from "../actions";
 import accountTypes from "./accountTypes.json";
+import { useToast } from "@/hooks/use-toast";
 
 type CreateAccountFormProps = {
   closeSheet: () => void;
@@ -37,6 +38,8 @@ type CreateAccountFormProps = {
 export default function CreateAccountForm({
   closeSheet,
 }: CreateAccountFormProps) {
+  const { toast } = useToast();
+
   const form = useForm<AccountValidation>({
     resolver: zodResolver(AccountValidationSchema),
     defaultValues: {
@@ -49,11 +52,20 @@ export default function CreateAccountForm({
     onSuccess: () => {
       form.reset();
       closeSheet();
+      toast({
+        title: "Success",
+        description: "Account created successfully",
+      });
     },
     onError: (error) => {
       if (error.error?.validationErrors) {
         getValidationErrors(error.error.validationErrors, form);
       }
+      toast({
+        title: "Error",
+        description: error.error.serverError,
+        variant: "destructive",
+      });
     },
   });
 

@@ -51,6 +51,10 @@ export const createTransaction = authenticatedActionClient
       }
 
       revalidatePath("/transactions");
+      revalidateTag("transactions");
+      revalidateTag("accounts");
+      revalidateTag("categories");
+      revalidateTag("categories-groups");
     },
   );
 
@@ -91,6 +95,10 @@ export const deleteTransaction = authenticatedActionClient
     }
 
     revalidatePath("/transactions");
+    revalidateTag("transactions");
+    revalidateTag("accounts");
+    revalidateTag("categories");
+    revalidateTag("categories-groups");
   });
 
 export const updateTransaction = authenticatedActionClient
@@ -141,8 +149,11 @@ export const updateTransaction = authenticatedActionClient
       }
     }
 
-    revalidateTag("transactions");
     revalidatePath("/transactions");
+    revalidateTag("transactions");
+    revalidateTag("accounts");
+    revalidateTag("categories");
+    revalidateTag("categories-groups");
   });
 
 export const getAccountsAndCategories = unstable_cache(

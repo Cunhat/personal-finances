@@ -43,6 +43,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { createTransaction } from "../actions";
+import { useToast } from "@/hooks/use-toast";
 
 type NewTransactionSheetProps = {
   accounts: SimpleAccount[];
@@ -54,6 +55,8 @@ export default function NewTransactionSheet({
   categories,
 }: NewTransactionSheetProps) {
   const [open, setOpen] = useState(false);
+  const { toast } = useToast();
+
   const form = useForm<z.infer<typeof TransactionValidationSchema>>({
     resolver: zodResolver(TransactionValidationSchema),
     defaultValues: {
@@ -66,11 +69,20 @@ export default function NewTransactionSheet({
     onSuccess: () => {
       form.reset();
       setOpen(false);
+      toast({
+        title: "Success",
+        description: "Transaction created successfully",
+      });
     },
     onError: (error) => {
       if (error.error?.validationErrors) {
         getValidationErrors(error.error.validationErrors, form);
       }
+      toast({
+        title: "Error",
+        description: error.error.serverError,
+        variant: "destructive",
+      });
     },
   });
 
@@ -78,7 +90,11 @@ export default function NewTransactionSheet({
     try {
       execute(values);
     } catch (error) {
-      console.error("Form submission error", error);
+      toast({
+        title: "Error",
+        description: "Failed to create transaction",
+        variant: "destructive",
+      });
     }
   }
 

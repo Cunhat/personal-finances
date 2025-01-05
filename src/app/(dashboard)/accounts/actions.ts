@@ -35,6 +35,7 @@ export const createAccount = authenticatedActionClient
       });
 
       revalidatePath("/accounts");
+      revalidateTag("accounts");
     },
   );
 

@@ -2,7 +2,7 @@
 import { authenticatedActionClient } from "@/server/safe-actions";
 import { db } from "@/server/db";
 import { category, categoryGroup } from "@/server/db/schema";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import {
   CategoryValidationSchema,
   GroupValidationSchema,
@@ -13,6 +13,7 @@ import { currentUser } from "@clerk/nextjs/server";
 import { returnValidationErrors } from "next-safe-action";
 import { unstable_cache } from "next/cache";
 import { z } from "zod";
+
 export const createCategory = authenticatedActionClient
   .schema(CategoryValidationSchema)
   .action(async ({ parsedInput: { name, icon, color }, ctx: { user } }) => {
@@ -78,6 +79,7 @@ export const createGroup = authenticatedActionClient
     });
 
     revalidatePath("/categories");
+    revalidateTag("categories");
   });
 
 export const addCategoryToGroup = authenticatedActionClient
@@ -107,6 +109,7 @@ export const removeCategoryFromGroup = authenticatedActionClient
       .where(and(eq(category.id, categoryId), eq(category.userId, user.id)));
 
     revalidatePath("/categories");
+    revalidateTag("categories");
   });
 
 export const deleteCategory = authenticatedActionClient
@@ -117,6 +120,7 @@ export const deleteCategory = authenticatedActionClient
       .where(and(eq(category.id, categoryId), eq(category.userId, user.id)));
 
     revalidatePath("/categories");
+    revalidateTag("categories");
   });
 
 export const deleteGroup = authenticatedActionClient
@@ -142,4 +146,5 @@ export const deleteGroup = authenticatedActionClient
     await db.delete(categoryGroup).where(eq(categoryGroup.id, groupId));
 
     revalidatePath("/categories");
+    revalidateTag("categories");
   });

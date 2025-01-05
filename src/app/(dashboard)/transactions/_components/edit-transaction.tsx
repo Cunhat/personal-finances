@@ -44,6 +44,7 @@ import { CalendarIcon, Loader } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Account } from "@/schemas/account";
 import { Category } from "@/schemas/category";
+import { useToast } from "@/hooks/use-toast";
 
 export default function EditTransaction({
   values,
@@ -56,6 +57,8 @@ export default function EditTransaction({
   categories: Category[];
   closeSheet: () => void;
 }) {
+  const { toast } = useToast();
+
   const form = useForm<z.infer<typeof TransactionValidationSchema>>({
     resolver: zodResolver(TransactionValidationSchema),
     defaultValues: {
@@ -72,11 +75,20 @@ export default function EditTransaction({
     onSuccess: () => {
       form.reset();
       closeSheet();
+      toast({
+        title: "Success",
+        description: "Transaction updated successfully",
+      });
     },
     onError: (error) => {
       if (error.error?.validationErrors) {
         getValidationErrors(error.error.validationErrors, form);
       }
+      toast({
+        title: "Error",
+        description: error.error.serverError,
+        variant: "destructive",
+      });
     },
   });
 
@@ -84,7 +96,11 @@ export default function EditTransaction({
     try {
       execute({ id: values.id, ...formValues });
     } catch (error) {
-      console.error("Form submission error", error);
+      toast({
+        title: "Error",
+        description: "Failed to update transaction",
+        variant: "destructive",
+      });
     }
   }
 

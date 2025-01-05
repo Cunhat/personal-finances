@@ -4,6 +4,7 @@ import { useAction } from "next-safe-action/hooks";
 import React from "react";
 import { createCategory } from "../../actions";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
+import { useToast } from "@/hooks/use-toast";
 
 type CreateFromSampleProps = {
   category: {
@@ -15,9 +16,21 @@ type CreateFromSampleProps = {
 };
 
 export default function CreateFromSample({ category }: CreateFromSampleProps) {
+  const { toast } = useToast();
+
   const { execute, isExecuting } = useAction(createCategory, {
+    onSuccess: () => {
+      toast({
+        title: "Success",
+        description: "Category created successfully",
+      });
+    },
     onError: (error) => {
-      console.error(error);
+      toast({
+        title: "Error",
+        description: error.error.serverError,
+        variant: "destructive",
+      });
     },
   });
 

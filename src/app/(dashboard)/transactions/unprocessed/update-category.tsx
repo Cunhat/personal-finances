@@ -9,6 +9,7 @@ import {
 import { Category } from "@/schemas/category";
 import { updateUnprocessedTransactionCategory } from "./actions";
 import { useAction } from "next-safe-action/hooks";
+import { useToast } from "@/hooks/use-toast";
 
 type UpdateCategoryProps = {
   categories: Category[];
@@ -21,7 +22,23 @@ export default function UpdateCategory({
   transactionId,
   value,
 }: UpdateCategoryProps) {
-  const { execute } = useAction(updateUnprocessedTransactionCategory);
+  const { toast } = useToast();
+
+  const { execute } = useAction(updateUnprocessedTransactionCategory, {
+    onSuccess: () => {
+      toast({
+        title: "Success",
+        description: "Transaction category updated successfully",
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: "Error",
+        description: error.error.serverError,
+        variant: "destructive",
+      });
+    },
+  });
 
   return (
     <Select

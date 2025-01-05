@@ -22,15 +22,29 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { useToast } from "@/hooks/use-toast";
 
 type GroupActionsProps = {
   groupId: number;
 };
 
 export default function GroupActions({ groupId }: GroupActionsProps) {
+  const { toast } = useToast();
+
   const { execute, isExecuting } = useAction(deleteGroup, {
-    // onSuccess: () => {},
-    // onError: (error) => {},
+    onSuccess: () => {
+      toast({
+        title: "Success",
+        description: "Group deleted successfully",
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: "Error",
+        description: error.error.serverError,
+        variant: "destructive",
+      });
+    },
   });
 
   return (

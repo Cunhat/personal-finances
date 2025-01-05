@@ -10,6 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useAction } from "next-safe-action/hooks";
 import { deleteTransaction } from "../actions";
+import { useToast } from "@/hooks/use-toast";
 
 type DeleteTransactionProps = {
   transactionId: number;
@@ -20,9 +21,22 @@ export default function DeleteTransaction({
   transactionId,
   closeSheet,
 }: DeleteTransactionProps) {
+  const { toast } = useToast();
+
   const { execute, isExecuting } = useAction(deleteTransaction, {
     onSuccess: () => {
+      toast({
+        title: "Success",
+        description: "Transaction deleted successfully",
+      });
       closeSheet();
+    },
+    onError: (error) => {
+      toast({
+        title: "Error",
+        description: error.error.serverError,
+        variant: "destructive",
+      });
     },
   });
 
