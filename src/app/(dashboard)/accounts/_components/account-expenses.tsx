@@ -1,6 +1,6 @@
 import CategoryBadge from "@/components/category-badge";
 import { Checkbox } from "@/components/ui/checkbox";
-import { formatCurrency } from "@/lib/utils";
+import { cn, formatCurrency } from "@/lib/utils";
 import { Transaction } from "@/schemas/transaction";
 import dayjs from "dayjs";
 
@@ -58,7 +58,7 @@ export default function AccountExpenses({
           <div className="flex flex-col gap-3" key={transaction.monthYear}>
             <div className="flex items-center justify-between">
               <h2 className="text-lg font-semibold">{transaction.monthYear}</h2>
-              <p className="text-base">{formatCurrency(transaction.amount)}</p>
+              {/* <p className="text-base">{formatCurrency(transaction.amount)}</p> */}
             </div>
             <div className="flex flex-col gap-1">
               {transaction.expenses.map((expense) => {
@@ -69,7 +69,14 @@ export default function AccountExpenses({
                       <p className="text-base">{expense.name}</p>
                       <p>{dayjs(expense.created_at).format("DD MMM")}</p>
                       <CategoryBadge category={expense.category} />
-                      <p className="text-base">
+                      <p
+                        className={cn(
+                          expense.transactionType === "expense"
+                            ? "text-base"
+                            : "text-green-500",
+                          "text-base",
+                        )}
+                      >
                         {formatCurrency(expense.value)}
                       </p>
                     </div>
