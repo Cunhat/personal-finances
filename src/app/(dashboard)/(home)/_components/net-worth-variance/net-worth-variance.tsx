@@ -5,7 +5,7 @@ import { getAccounts } from "@/app/(dashboard)/accounts/actions";
 import dayjs from "dayjs";
 import { NetWorthVarianceChart } from "./net-worth-variance-chart";
 import { Account } from "@/schemas/account";
-import { getAccountsNetWorthVariance } from "@/app/(dashboard)/accounts/_components/utils";
+import { getAccountsNetWorth } from "@/app/(dashboard)/accounts/_components/utils";
 
 export default async function NetWorthVariance() {
   const user = await currentUser();
@@ -19,10 +19,7 @@ export default async function NetWorthVariance() {
     return <div>No accounts found</div>;
   }
 
-  const netWorthByAccount: {
-    account: string;
-    netWorth: { date: string; value: number }[];
-  }[] = getAccountsNetWorthVariance(accounts as Account[]);
+  const netWorthByAccount = getAccountsNetWorth(accounts as Account[]);
 
   const currentDate = dayjs();
 

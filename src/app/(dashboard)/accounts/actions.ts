@@ -36,6 +36,9 @@ export const createAccount = authenticatedActionClient
 
       revalidatePath("/accounts");
       revalidateTag("accounts");
+      revalidateTag("transactions");
+      revalidateTag("categories");
+      revalidateTag("categories-groups");
     },
   );
 
@@ -58,6 +61,9 @@ export const deleteAccount = authenticatedActionClient
 
     revalidatePath("/accounts");
     revalidateTag("accounts");
+    revalidateTag("transactions");
+    revalidateTag("categories");
+    revalidateTag("categories-groups");
   });
 
 export const getAccounts = unstable_cache(

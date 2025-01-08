@@ -156,25 +156,22 @@ export const updateTransaction = authenticatedActionClient
     revalidateTag("categories-groups");
   });
 
-export const getAccountsAndCategories = unstable_cache(
-  async (userId: string) => {
-    const accountsQuery = db.query.account.findMany({
-      where: eq(account.userId, userId),
-    });
+export const getAccountsAndCategories = async (userId: string) => {
+  const accountsQuery = db.query.account.findMany({
+    where: eq(account.userId, userId),
+  });
 
-    const categoriesQuery = db.query.category.findMany({
-      where: eq(category.userId, userId),
-    });
+  const categoriesQuery = db.query.category.findMany({
+    where: eq(category.userId, userId),
+  });
 
-    const [accounts, categories] = await Promise.all([
-      accountsQuery,
-      categoriesQuery,
-    ]);
+  const [accounts, categories] = await Promise.all([
+    accountsQuery,
+    categoriesQuery,
+  ]);
 
-    return { accounts, categories };
-  },
-  ["accounts", "categories"],
-);
+  return { accounts, categories };
+};
 
 // export const generateTransactions = authenticatedActionClient.action(
 //   async ({ ctx: { user } }) => {

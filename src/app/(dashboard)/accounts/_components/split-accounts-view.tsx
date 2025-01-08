@@ -6,7 +6,7 @@ import accountTypes from "./accountTypes.json";
 import AccountGroup from "./account-group";
 import { Separator } from "@/components/ui/separator";
 import AccountInfo from "./account-info";
-import { getAccountsNetWorthVariance } from "./utils";
+import { getAccountsNetWorth } from "./utils";
 import dayjs from "dayjs";
 
 type SplitAccountsViewProps = {
@@ -24,7 +24,7 @@ export default function SplitAccountsView({
     account: string;
     accountId: number;
     netWorth: { date: string; value: number }[];
-  }[] = getAccountsNetWorthVariance(accounts).map((elem) => {
+  }[] = getAccountsNetWorth(accounts).map((elem) => {
     return {
       ...elem,
       netWorth: elem.netWorth.map((item) => ({
