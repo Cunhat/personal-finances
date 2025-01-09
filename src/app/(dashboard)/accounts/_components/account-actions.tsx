@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,7 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { EllipsisVertical, Trash2 } from "lucide-react";
+import { EllipsisVertical, Pencil, Trash2 } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { deleteAccount } from "../actions";
 import {
@@ -23,12 +23,15 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { toast, useToast } from "@/hooks/use-toast";
+import EditAccount from "./edit-account";
+import { Account } from "@/schemas/account";
 
 type AccountActionsProps = {
-  accountId: number;
+  account: Account;
 };
 
-export default function AccountActions({ accountId }: AccountActionsProps) {
+export default function AccountActions({ account }: AccountActionsProps) {
+  const [open, setOpen] = useState(false);
   const { toast } = useToast();
 
   const { execute, isExecuting } = useAction(deleteAccount, {
@@ -58,6 +61,10 @@ export default function AccountActions({ accountId }: AccountActionsProps) {
         <DropdownMenuContent>
           <DropdownMenuLabel>Account Actions</DropdownMenuLabel>
           <DropdownMenuSeparator />
+          <DropdownMenuItem onClick={() => setOpen(true)}>
+            <Pencil />
+            <span>Edit</span>
+          </DropdownMenuItem>
           <AlertDialogTrigger asChild>
             <DropdownMenuItem>
               <Trash2 className="text-red-500" />
@@ -66,6 +73,7 @@ export default function AccountActions({ accountId }: AccountActionsProps) {
           </AlertDialogTrigger>
         </DropdownMenuContent>
       </DropdownMenu>
+      <EditAccount account={account} open={open} setOpen={setOpen} />
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
@@ -78,7 +86,7 @@ export default function AccountActions({ accountId }: AccountActionsProps) {
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction
             disabled={isExecuting}
-            onClick={() => execute({ accountId: accountId })}
+            onClick={() => execute({ accountId: account.id })}
           >
             {isExecuting ? "Deleting..." : "Continue"}
           </AlertDialogAction>

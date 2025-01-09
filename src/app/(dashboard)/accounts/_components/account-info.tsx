@@ -116,7 +116,7 @@ function AccountInfoHeader({ account }: { account: Account }) {
             locale: "de-DE",
           })}
         </p>
-        <AccountActions accountId={account.id} />
+        <AccountActions account={account} />
       </div>
     </div>
   );

@@ -28,3 +28,19 @@ export const AccountValidationSchema = z.object({
 });
 
 export type AccountValidation = z.infer<typeof AccountValidationSchema>;
+
+export const AccountUpdateValidationSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  accountType: z.string().min(1, "Account type is required"),
+  initialBalance: z
+    .number()
+    .min(0, "Balance must be positive")
+    .multipleOf(
+      0.01,
+      "Amount must be a valid currency value with 2 decimal places",
+    ),
+});
+
+export type AccountUpdateValidation = z.infer<
+  typeof AccountUpdateValidationSchema
+>;
