@@ -1,44 +1,13 @@
 import { PageHeader } from "@/components/page-header";
-import { db } from "@/server/db";
-import { transaction } from "@/server/db/schema";
-import { currentUser } from "@clerk/nextjs/server";
-import { eq } from "drizzle-orm";
-import { unstable_cache } from "next/cache";
-import { redirect } from "next/navigation";
-import ListTransactions from "./_components/list-transactions";
-import NewTransaction from "./_components/new-transaction";
-import { getAccountsAndCategories } from "./actions";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import { FileUp } from "lucide-react";
+import Link from "next/link";
 
-const getAllTransactions = unstable_cache(
-  async (userId: string) => {
-    const transactions = await db.query.transaction.findMany({
-      where: eq(transaction.userId, userId),
-      with: {
-        category: true,
-        account: true,
-      },
-    });
-    return transactions;
-  },
-  ["transactions"],
-  {
-    revalidate: 5,
-  },
-);
+import Transactions from "./_components/transactions";
+import { Suspense } from "react";
+import NewTransaction from "./_components/new-transaction";
 
-export default async function Page() {
-  const user = await currentUser();
-
-  if (!user) {
-    redirect("/sign-in");
-  }
-
-  const transactions = await getAllTransactions(user.id);
-  const { accounts, categories } = await getAccountsAndCategories(user.id);
-
+export default function Page() {
   return (
     <div className="flex h-[calc(100vh-65px)] flex-col overflow-hidden">
       <PageHeader title="Transactions">
@@ -56,11 +25,15 @@ export default async function Page() {
         </Button>
         <NewTransaction />
       </PageHeader>
-      <ListTransactions
-        accounts={accounts}
-        categories={categories}
-        transactions={transactions}
-      />
+      <Suspense
+        fallback={
+          <div className="flex h-full items-center justify-center">
+            Loading...
+          </div>
+        }
+      >
+        <Transactions />
+      </Suspense>
     </div>
   );
 }

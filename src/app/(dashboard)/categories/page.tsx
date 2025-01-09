@@ -58,6 +58,7 @@ const getGroupsAndCategories = unstable_cache(
   [],
   {
     tags: ["categories-groups"],
+    revalidate: 1,
   },
 );
 

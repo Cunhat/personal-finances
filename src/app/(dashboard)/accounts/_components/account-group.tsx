@@ -5,18 +5,17 @@ import { cn, formatCurrency, generateBalanceChange } from "@/lib/utils";
 import { Account } from "@/schemas/account";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDownIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 type AccountGroupProps = {
   groupName: string;
   accounts: Array<Account>;
-  onAccountSelect: (account: Account) => void;
 };
 
 export default function AccountGroup({
   groupName,
   accounts,
-  onAccountSelect,
 }: AccountGroupProps) {
   const [balanceVariation, setBalanceVariation] = useState({
     percentage: 0,
@@ -31,6 +30,7 @@ export default function AccountGroup({
   }, []);
 
   const [expanded, setExpanded] = useState(true);
+  const router = useRouter();
 
   const groupTotalBalance = formatCurrency(
     accounts.reduce((acc, account) => acc + account.balance, 0),
@@ -69,7 +69,9 @@ export default function AccountGroup({
             <div className="flex flex-col gap-2">
               {accounts.map((account, index) => (
                 <motion.div
-                  onClick={() => onAccountSelect(account)}
+                  onClick={() =>
+                    router.push(`/accounts?accountId=${account.id}`)
+                  }
                   key={account.id}
                   className="grid cursor-pointer grid-cols-[1fr_auto] items-center gap-4 rounded-md p-2 hover:bg-muted/75"
                   initial={{ opacity: 0 }}

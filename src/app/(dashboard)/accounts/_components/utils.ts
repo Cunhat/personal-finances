@@ -53,8 +53,6 @@ export const getAccountsNetWorth = (accounts: Account[]) => {
 
       balance += currentMonthNetWorth;
 
-      console.log(account.name, currentMonthNetWorth, balance);
-
       accountNetWorth.push({
         date: accountCreationDateIterator.toISOString(),
         value: balance,
@@ -70,6 +68,5 @@ export const getAccountsNetWorth = (accounts: Account[]) => {
     });
   });
 
-  console.log(netWorthByAccount);
   return netWorthByAccount;
 };

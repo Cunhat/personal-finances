@@ -11,14 +11,18 @@ import dayjs from "dayjs";
 
 type SplitAccountsViewProps = {
   accounts: Account[];
+  accountId: string | undefined;
 };
 
 export default function SplitAccountsView({
   accounts,
+  accountId,
 }: SplitAccountsViewProps) {
-  const [selectedAccount, setSelectedAccount] = useState<Account | null>(
-    accounts[0] ?? null,
-  );
+  const selectedAccount = accountId
+    ? accounts.find((account) => account.id === Number(accountId))
+    : undefined;
+
+  console.log(accountId);
 
   const netWorthByAccount: {
     account: string;
@@ -57,7 +61,6 @@ export default function SplitAccountsView({
               key={accountType.groupId}
               groupName={accountType.name}
               accounts={accountsInGroup}
-              onAccountSelect={setSelectedAccount}
             />
           );
         })}

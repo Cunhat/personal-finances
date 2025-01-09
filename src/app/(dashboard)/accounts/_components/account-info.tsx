@@ -1,15 +1,9 @@
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart";
+import { ChartConfig } from "@/components/ui/chart";
 import { Separator } from "@/components/ui/separator";
 import { formatCurrency } from "@/lib/utils";
 import { Account } from "@/schemas/account";
 import dayjs from "dayjs";
 import { Inbox } from "lucide-react";
-import { Area, AreaChart, XAxis } from "recharts";
 import AccountActions from "./account-actions";
 import AccountExpenses from "./account-expenses";
 import { AccountNetWorthChart } from "./account-net-worth-chart";
