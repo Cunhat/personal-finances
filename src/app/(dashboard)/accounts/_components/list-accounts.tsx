@@ -4,11 +4,7 @@ import { redirect } from "next/navigation";
 import { getAccounts } from "../actions";
 import SplitAccountsView from "./split-accounts-view";
 
-type ListAccountsProps = {
-  accountId: string | undefined;
-};
-
-export default async function ListAccounts({ accountId }: ListAccountsProps) {
+export default async function ListAccounts() {
   const user = await currentUser();
 
   if (!user) {
@@ -21,7 +17,5 @@ export default async function ListAccounts({ accountId }: ListAccountsProps) {
     return <div>No accounts found</div>;
   }
 
-  return (
-    <SplitAccountsView accounts={accounts as Account[]} accountId={accountId} />
-  );
+  return <SplitAccountsView accounts={accounts as Account[]} />;
 }

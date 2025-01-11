@@ -12,6 +12,7 @@ import {
   SignedOut,
 } from "@clerk/nextjs";
 import { Toaster } from "@/components/ui/toaster";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 export const metadata: Metadata = {
   title: "Personal Finance",
@@ -30,15 +31,17 @@ export default function RootLayout({
             <RedirectToSignIn />
           </SignedOut>
           <SignedIn>
-            <Toaster />
-            <SidebarProvider>
-              <AppSidebar />
-              <SidebarInset>
-                <div className="flex h-full flex-col gap-4 p-4 pt-0">
-                  {children}
-                </div>
-              </SidebarInset>
-            </SidebarProvider>
+            <NuqsAdapter>
+              <Toaster />
+              <SidebarProvider>
+                <AppSidebar />
+                <SidebarInset>
+                  <div className="flex h-full flex-col gap-4 p-4 pt-0">
+                    {children}
+                  </div>
+                </SidebarInset>
+              </SidebarProvider>
+            </NuqsAdapter>
           </SignedIn>
         </body>
       </html>

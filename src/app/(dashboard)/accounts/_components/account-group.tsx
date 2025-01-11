@@ -6,6 +6,7 @@ import { Account } from "@/schemas/account";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDownIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useQueryState } from "nuqs";
 import { useEffect, useState } from "react";
 
 type AccountGroupProps = {
@@ -23,14 +24,13 @@ export default function AccountGroup({
     formattedPercentage: "0",
     multiplier: 1,
   });
+  const [expanded, setExpanded] = useState(true);
+  const [_, setAccountId] = useQueryState("accountId");
 
   useEffect(() => {
     const variation = generateBalanceChange();
     setBalanceVariation(variation);
   }, []);
-
-  const [expanded, setExpanded] = useState(true);
-  const router = useRouter();
 
   const groupTotalBalance = formatCurrency(
     accounts.reduce((acc, account) => acc + account.balance, 0),
@@ -69,9 +69,9 @@ export default function AccountGroup({
             <div className="flex flex-col gap-2">
               {accounts.map((account, index) => (
                 <motion.div
-                  onClick={() =>
-                    router.push(`/accounts?accountId=${account.id}`)
-                  }
+                  onClick={() => {
+                    setAccountId(account.id.toString());
+                  }}
                   key={account.id}
                   className="grid cursor-pointer grid-cols-[1fr_auto] items-center gap-4 rounded-md p-2 hover:bg-muted/75"
                   initial={{ opacity: 0 }}
@@ -80,10 +80,7 @@ export default function AccountGroup({
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                 >
                   <div>{account.name}</div>
-                  {/* <BalanceEvolutionTag
-                    percentage={balanceVariation.percentage}
-                    isIncrease={balanceVariation.isIncrease}
-                  /> */}
+
                   <p className="text-sm">
                     {formatCurrency(account.balance, {
                       currency: "EUR",

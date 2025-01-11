@@ -8,16 +8,17 @@ import { Separator } from "@/components/ui/separator";
 import AccountInfo from "./account-info";
 import { getAccountsNetWorth } from "./utils";
 import dayjs from "dayjs";
+import { useQueryState } from "nuqs";
 
 type SplitAccountsViewProps = {
   accounts: Account[];
-  accountId: string | undefined;
 };
 
 export default function SplitAccountsView({
   accounts,
-  accountId,
 }: SplitAccountsViewProps) {
+  const [accountId] = useQueryState("accountId");
+
   const selectedAccount = accountId
     ? accounts.find((account) => account.id === Number(accountId))
     : undefined;
