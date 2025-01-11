@@ -103,12 +103,21 @@ export const updateAccount = authenticatedActionClient
         throw new Error("Account ID or initial balance is required");
       }
 
+      const accountToUpdate = await db.query.account.findFirst({
+        where: and(eq(account.id, id), eq(account.userId, user.id)),
+      });
+
+      if (!accountToUpdate) {
+        throw new Error("Account not found");
+      }
+
       await db
         .update(account)
         .set({ name, initialBalance, accountType })
         .where(and(eq(account.id, id), eq(account.userId, user.id)));
 
-      await recalculateAccountBalance(id, user.id, initialBalance);
+      if (accountToUpdate.initialBalance !== initialBalance)
+        await recalculateAccountBalance(id, user.id, initialBalance);
 
       revalidatePath("/accounts");
       revalidateTag("accounts");
