@@ -3,7 +3,13 @@
 import { account, transaction } from "@/server/db/schema";
 import { db } from "@/server/db";
 import { authenticatedActionClient } from "@/server/safe-actions";
-import { Account, AccountValidationSchema } from "@/schemas/account";
+import {
+  Account,
+  AccountUpdateValidationSchema,
+  AccountValidationSchema,
+  insertAccountSchema,
+  UpdateAccountSchema,
+} from "@/schemas/account";
 import { returnValidationErrors } from "next-safe-action";
 import { revalidatePath, revalidateTag, unstable_cache } from "next/cache";
 import { and } from "drizzle-orm";
@@ -85,3 +91,56 @@ export const getAccounts = unstable_cache(
     revalidate: 5,
   },
 );
+
+export const updateAccount = authenticatedActionClient
+  .schema(UpdateAccountSchema)
+  .action(
+    async ({
+      parsedInput: { id, name, initialBalance, accountType },
+      ctx: { user },
+    }) => {
+      if (!id || !initialBalance) {
+        throw new Error("Account ID or initial balance is required");
+      }
+
+      await db
+        .update(account)
+        .set({ name, initialBalance, accountType })
+        .where(and(eq(account.id, id), eq(account.userId, user.id)));
+
+      await recalculateAccountBalance(id, user.id, initialBalance);
+
+      revalidatePath("/accounts");
+      revalidateTag("accounts");
+      revalidateTag("transactions");
+      revalidateTag("categories");
+      revalidateTag("categories-groups");
+    },
+  );
+
+const recalculateAccountBalance = async (
+  accountId: number,
+  userId: string,
+  initialBalance: number,
+) => {
+  const transactions = await db.query.transaction.findMany({
+    where: and(
+      eq(transaction.accountId, accountId),
+      eq(transaction.userId, userId),
+    ),
+  });
+
+  const totalBalance = transactions.reduce((acc, transaction) => {
+    return (
+      acc +
+      (transaction.transactionType === "income"
+        ? transaction.value
+        : -transaction.value)
+    );
+  }, initialBalance);
+
+  await db
+    .update(account)
+    .set({ balance: totalBalance })
+    .where(and(eq(account.id, accountId), eq(account.userId, userId)));
+};

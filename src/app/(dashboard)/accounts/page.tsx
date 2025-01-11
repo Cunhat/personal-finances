@@ -10,8 +10,6 @@ export default async function Page({
 }) {
   const accountId = (await searchParams).accountId;
 
-  console.log(accountId);
-
   return (
     <div className="flex h-[calc(100vh-65px)] flex-col">
       <PageHeader title="Accounts">

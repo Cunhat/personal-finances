@@ -22,8 +22,6 @@ export default function SplitAccountsView({
     ? accounts.find((account) => account.id === Number(accountId))
     : undefined;
 
-  console.log(accountId);
-
   const netWorthByAccount: {
     account: string;
     accountId: number;

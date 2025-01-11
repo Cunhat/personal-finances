@@ -37,6 +37,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader } from "lucide-react";
 import { Controller, useForm } from "react-hook-form";
 import accountTypes from "./accountTypes.json";
+import { useAction } from "next-safe-action/hooks";
+import { updateAccount } from "../actions";
 
 type EditAccountProps = {
   account: Account;
@@ -60,11 +62,24 @@ export default function EditAccount({
     },
   });
 
-  const isExecuting = false;
+  const { execute, isExecuting } = useAction(updateAccount, {
+    onSuccess: () => {
+      setOpen(false);
+      toast({
+        title: "Account updated",
+        description: "Your account has been updated",
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: "Error",
+        description: error.error.serverError,
+      });
+    },
+  });
 
   const onSubmit = (data: AccountUpdateValidation) => {
-    // execute({ accountId: account.id, ...data });
-    console.log(data);
+    execute({ id: account.id, ...data });
   };
 
   return (
@@ -157,7 +172,7 @@ export default function EditAccount({
               )}
             />
             <div className="flex">
-              <Button className="ml-auto" type="submit">
+              <Button className="ml-auto" type="submit" disabled={isExecuting}>
                 {isExecuting && (
                   <Loader className="mr-2 h-4 w-4 animate-spin" />
                 )}

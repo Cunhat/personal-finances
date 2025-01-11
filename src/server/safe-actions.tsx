@@ -6,7 +6,6 @@ import { currentUser } from "@clerk/nextjs/server";
 
 export const authenticatedActionClient = createSafeActionClient({
   handleServerError(e) {
-    console.error("Action error:", e.message);
     return DEFAULT_SERVER_ERROR_MESSAGE;
   },
 }).use(async ({ next, clientInput, metadata }) => {

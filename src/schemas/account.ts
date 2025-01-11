@@ -4,7 +4,7 @@ import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { transaction } from "@/server/db/schema";
 import { selectTransactionSchema } from "./transaction";
 
-const insertAccountSchema = createInsertSchema(account);
+export const insertAccountSchema = createInsertSchema(account);
 const selectAccountSchema = createSelectSchema(account).extend({
   transaction: selectTransactionSchema.array().optional(),
 });
@@ -44,3 +44,5 @@ export const AccountUpdateValidationSchema = z.object({
 export type AccountUpdateValidation = z.infer<
   typeof AccountUpdateValidationSchema
 >;
+
+export const UpdateAccountSchema = insertAccountSchema.partial();
