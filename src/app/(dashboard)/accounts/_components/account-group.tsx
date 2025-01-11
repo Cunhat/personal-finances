@@ -69,8 +69,8 @@ export default function AccountGroup({
             <div className="flex flex-col gap-2">
               {accounts.map((account, index) => (
                 <motion.div
-                  onClick={() => {
-                    setAccountId(account.id.toString());
+                  onClick={async () => {
+                    await setAccountId(account.id.toString());
                   }}
                   key={account.id}
                   className="grid cursor-pointer grid-cols-[1fr_auto] items-center gap-4 rounded-md p-2 hover:bg-muted/75"
