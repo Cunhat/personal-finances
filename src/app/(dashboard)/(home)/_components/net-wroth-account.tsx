@@ -29,7 +29,7 @@ export default function NetWrothAccount({
       <div className="flex items-center gap-2">
         <p className="text-lg">{accountType.name}</p>
       </div>
-      <div className="flex flex-col gap-2 pl-6">
+      <div className="flex flex-col gap-2 pl-2">
         {filteredAccounts.map((account) => (
           <div key={account.id} className="flex justify-between">
             <p>{account.name}</p>
