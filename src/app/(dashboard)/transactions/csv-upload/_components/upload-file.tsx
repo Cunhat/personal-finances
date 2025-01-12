@@ -26,6 +26,7 @@ export default function UploadFile() {
       router.push("/transactions/unprocessed");
     },
     onError: (error) => {
+      console.log(error);
       toast({
         title: "Error",
         description: error.error.serverError,

@@ -173,7 +173,7 @@ export default function UnprocessedTransactionsTable({
   const defaultSorting: SortingState = [{ id: "created_at", desc: true }];
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 overflow-hidden">
       <div className="flex justify-end">
         <Button
           disabled={selectedIds.size === 0 || isExecuting}
