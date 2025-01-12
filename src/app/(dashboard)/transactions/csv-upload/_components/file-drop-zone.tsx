@@ -38,7 +38,7 @@ export default function FileDropZone({ setData }: FileDropZoneProps) {
               return {
                 name: normalizeSpaces(row.DESCRICAO),
                 value: value < 0 ? value * -1 : value,
-                created_at: row.DATA_OPERACAO,
+                created_at: row.DATA_MOVIMENTO,
                 transactionType: value > 0 ? "income" : "expense",
                 categoryId: null,
                 userId: "",
