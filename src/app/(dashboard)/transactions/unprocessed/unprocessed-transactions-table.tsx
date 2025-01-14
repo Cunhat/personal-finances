@@ -25,6 +25,7 @@ import { processUnprocessedTransactions } from "./actions";
 import { CreateTransaction } from "@/schemas/transaction";
 import { Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import AccountFilter from "@/components/table/filters/account-filter";
 
 type UnprocessedTransactionsTableProps = {
   data: UnprocessedTransaction[];
@@ -126,11 +127,12 @@ export default function UnprocessedTransactionsTable({
         ),
         cell: ({ row }) => {
           return (
-            <UpdateAccount
-              accounts={accounts}
-              transactionId={row.original.id?.toString() ?? ""}
-              value={row.original.accountId?.toString() ?? ""}
-            />
+            // <UpdateAccount
+            //   accounts={accounts}
+            //   transactionId={row.original.id?.toString() ?? ""}
+            //   value={row.original.accountId?.toString() ?? ""}
+            // />
+            <div className="w-full text-xl text-white">TEST account</div>
           );
         },
       },
@@ -141,11 +143,12 @@ export default function UnprocessedTransactionsTable({
         ),
         cell: ({ row }) => {
           return (
-            <UpdateCategory
-              categories={categories}
-              value={row?.original?.categoryId?.toString() ?? ""}
-              transactionId={row?.original?.id?.toString() ?? ""}
-            />
+            // <UpdateCategory
+            //   categories={categories}
+            //   value={row?.original?.categoryId?.toString() ?? ""}
+            //   transactionId={row?.original?.id?.toString() ?? ""}
+            // />
+            <div className="w-full text-xl text-white">TEST category</div>
           );
         },
       },

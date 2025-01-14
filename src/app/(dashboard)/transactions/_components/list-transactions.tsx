@@ -13,6 +13,10 @@ import { cn } from "@/lib/utils";
 import { ColumnDef } from "@tanstack/react-table";
 import dayjs from "dayjs";
 import TransactionTableActions from "./transaction-table-actions";
+import {
+  AccountFilter,
+  AccountFilterFn,
+} from "@/components/table/filters/account-filter";
 
 export default function ListTransactions({
   accounts,
@@ -74,6 +78,11 @@ export default function ListTransactions({
             <span>{account.name ?? "-"}</span>
           </div>
         );
+      },
+      filterFn: AccountFilterFn,
+      meta: {
+        filterComponent: AccountFilter,
+        filterLabel: "Account",
       },
     },
     {
