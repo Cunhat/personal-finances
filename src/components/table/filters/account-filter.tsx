@@ -1,3 +1,4 @@
+import { Badge } from "@/components/ui/badge";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { DropdownMenuSubContent } from "@/components/ui/dropdown-menu";
 import { DropdownMenuPortal } from "@/components/ui/dropdown-menu";
@@ -7,6 +8,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Column, Row } from "@tanstack/react-table";
 import { Table } from "@tanstack/react-table";
+import { Check, X } from "lucide-react";
 import React from "react";
 
 type AccountFilterProps = {
@@ -44,8 +46,12 @@ export function AccountFilter({ column, table }: AccountFilterProps) {
               <DropdownMenuItem
                 key={option}
                 onClick={() => handleFilter(option)}
+                className="flex items-center justify-between"
               >
                 <span>{option}</span>
+                {filterValue.has(option) && (
+                  <Check size={16} className="ml-2 text-white" />
+                )}
               </DropdownMenuItem>
             );
           })}
@@ -61,4 +67,39 @@ export function AccountFilterFn(row: Row<any>, id: string, value: string[]) {
   }
 
   return value.includes(row.original.account.name);
+}
+
+export function AccountFilterBadge({ column, table }: AccountFilterProps) {
+  const filterValue = column.getFilterValue() as string[];
+
+  return (
+    <div className="flex gap-2">
+      {filterValue?.map((value) => (
+        <Badge
+          variant="default"
+          className="group/badge hover:cursor-pointer"
+          key={value}
+          onClick={() => {
+            const filters = table.getState().columnFilters;
+
+            const removedFilter = filters.find((f) => f.id === column.id);
+
+            if (removedFilter) {
+              removedFilter.value = (removedFilter.value as string[]).filter(
+                (v: string) => v !== value,
+              );
+            }
+
+            table.setColumnFilters(filters);
+          }}
+        >
+          <X
+            size={16}
+            className="hidden group-hover/badge:inline hover:cursor-pointer"
+          />
+          {value}
+        </Badge>
+      ))}
+    </div>
+  );
 }

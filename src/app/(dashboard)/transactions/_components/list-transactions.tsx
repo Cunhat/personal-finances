@@ -15,8 +15,16 @@ import dayjs from "dayjs";
 import TransactionTableActions from "./transaction-table-actions";
 import {
   AccountFilter,
+  AccountFilterBadge,
   AccountFilterFn,
 } from "@/components/table/filters/account-filter";
+import { CategoryFilterFn } from "@/components/table/filters/category-filter";
+import { CategoryFilter } from "@/components/table/filters/category-filter";
+import {
+  DateFilter,
+  DateFilterBadge,
+  DateFilterFn,
+} from "@/components/table/filters/date-filter";
 
 export default function ListTransactions({
   accounts,
@@ -83,6 +91,7 @@ export default function ListTransactions({
       meta: {
         filterComponent: AccountFilter,
         filterLabel: "Account",
+        showActiveFilter: AccountFilterBadge,
       },
     },
     {
@@ -100,6 +109,12 @@ export default function ListTransactions({
           </div>
         );
       },
+      filterFn: DateFilterFn,
+      meta: {
+        filterComponent: DateFilter,
+        showActiveFilter: DateFilterBadge,
+        filterLabel: "Date",
+      },
     },
     {
       accessorKey: "category",
@@ -114,6 +129,11 @@ export default function ListTransactions({
             <CategoryBadge category={category} />
           </div>
         );
+      },
+      filterFn: CategoryFilterFn,
+      meta: {
+        filterComponent: CategoryFilter,
+        filterLabel: "Category",
       },
     },
     {
