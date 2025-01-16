@@ -51,10 +51,6 @@ export function DataTable<TData, TValue>({
   );
   const [globalFilter, setGlobalFilter] = React.useState("");
 
-  useEffect(() => {
-    console.log(columnFilters);
-  }, [columnFilters]);
-
   const table = useReactTable({
     data,
     columns,

@@ -60,11 +60,19 @@ export function DateFilterFn(
 
   const rowDate = dayjs(row.original.created_at).startOf("day");
 
-  if (value.from && !value.to && rowDate.isAfter(value.from)) {
+  if (
+    value.from &&
+    !value.to &&
+    (rowDate.isAfter(value.from) || rowDate.isSame(value.from, "day"))
+  ) {
     return true;
   }
 
-  if (value.to && value.from && rowDate.isBetween(value.from, value.to)) {
+  if (
+    value.to &&
+    value.from &&
+    rowDate.isBetween(value.from, value.to, "day", "[]")
+  ) {
     return true;
   }
 
