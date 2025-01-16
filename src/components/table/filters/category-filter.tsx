@@ -7,14 +7,15 @@ import {
   DropdownMenuSubTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Category } from "@/schemas/category";
+import { Transaction } from "@/schemas/transaction";
 import { Column, Row } from "@tanstack/react-table";
 import { Table } from "@tanstack/react-table";
 import { Check } from "lucide-react";
 import React from "react";
 
 type CategoryFilterProps = {
-  column: Column<any, any>;
-  table: Table<any>;
+  column: Column<Transaction>;
+  table: Table<Transaction>;
 };
 
 export function CategoryFilter({ column, table }: CategoryFilterProps) {
@@ -65,7 +66,11 @@ export function CategoryFilter({ column, table }: CategoryFilterProps) {
   );
 }
 
-export function CategoryFilterFn(row: Row<any>, id: string, value: Category[]) {
+export function CategoryFilterFn(
+  row: Row<Transaction>,
+  id: string,
+  value: Category[],
+) {
   if (value.length === 0) {
     return true;
   }

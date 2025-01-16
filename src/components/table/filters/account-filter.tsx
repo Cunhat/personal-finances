@@ -6,14 +6,16 @@ import {
   DropdownMenuSub,
   DropdownMenuSubTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Account } from "@/schemas/account";
+import { Transaction } from "@/schemas/transaction";
 import { Column, Row } from "@tanstack/react-table";
 import { Table } from "@tanstack/react-table";
 import { Check, X } from "lucide-react";
 import React from "react";
 
 type AccountFilterProps = {
-  column: Column<any, any>;
-  table: Table<any>;
+  column: Column<Transaction>;
+  table: Table<Transaction>;
 };
 
 export function AccountFilter({ column, table }: AccountFilterProps) {
@@ -61,7 +63,11 @@ export function AccountFilter({ column, table }: AccountFilterProps) {
   );
 }
 
-export function AccountFilterFn(row: Row<any>, id: string, value: string[]) {
+export function AccountFilterFn(
+  row: Row<Transaction>,
+  id: string,
+  value: string[],
+) {
   if (value.length === 0) {
     return true;
   }

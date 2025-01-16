@@ -6,6 +6,7 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Transaction } from "@/schemas/transaction";
 import { Column, Row, Table } from "@tanstack/react-table";
 import dayjs from "dayjs";
 
@@ -48,9 +49,8 @@ export function DateFilter({ column, table }: DateFilterProps) {
     </DropdownMenuSub>
   );
 }
-
 export function DateFilterFn(
-  row: Row<any>,
+  row: Row<Transaction>,
   id: string,
   value: { from: Date | null; to: Date | null },
 ) {

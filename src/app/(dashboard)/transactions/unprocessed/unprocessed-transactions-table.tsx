@@ -2,30 +2,19 @@
 
 import { DataTable } from "@/components/table/data-table";
 import { DataTableColumnHeader } from "@/components/table/data-table-column-header";
+import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { useToast } from "@/hooks/use-toast";
 import { cn, formatCurrency } from "@/lib/utils";
 import { Account } from "@/schemas/account";
 import { Category } from "@/schemas/category";
 import { UnprocessedTransaction } from "@/schemas/unprocessed-transactions";
 import { ColumnDef, SortingState } from "@tanstack/react-table";
 import dayjs from "dayjs";
-import { useMemo, useState } from "react";
-import UpdateCategory from "./update-category";
-import UpdateAccount from "./update-account";
-import { Button } from "@/components/ui/button";
-import { useAction } from "next-safe-action/hooks";
-import { processUnprocessedTransactions } from "./actions";
-import { CreateTransaction } from "@/schemas/transaction";
 import { Loader2 } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
-import AccountFilter from "@/components/table/filters/account-filter";
+import { useAction } from "next-safe-action/hooks";
+import { useMemo, useState } from "react";
+import { processUnprocessedTransactions } from "./actions";
 
 type UnprocessedTransactionsTableProps = {
   data: UnprocessedTransaction[];
