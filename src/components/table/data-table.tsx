@@ -26,7 +26,8 @@ import {
 } from "@/components/ui/table";
 
 import { DataTablePagination } from "./data-table-pagination";
-// import { DataTableToolbar } from "./data-table-toolbar";
+import { DataTableToolbar } from "./data-table-toolbar";
+import { useEffect } from "react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -48,6 +49,7 @@ export function DataTable<TData, TValue>({
   const [sorting, setSorting] = React.useState<SortingState>(
     defaultSorting ?? [],
   );
+  const [globalFilter, setGlobalFilter] = React.useState("");
 
   const table = useReactTable({
     data,
@@ -57,6 +59,7 @@ export function DataTable<TData, TValue>({
       columnVisibility,
       rowSelection,
       columnFilters,
+      globalFilter,
     },
     enableRowSelection: true,
     onRowSelectionChange: setRowSelection,
@@ -68,12 +71,13 @@ export function DataTable<TData, TValue>({
     getSortedRowModel: getSortedRowModel(),
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
+    onGlobalFilterChange: setGlobalFilter,
   });
 
   return (
-    <div className="h-full w-full overflow-scroll">
-      {/* <DataTableToolbar table={table} /> */}
-      <Table className="">
+    <div className="flex h-full w-full flex-col gap-2 overflow-scroll">
+      <DataTableToolbar table={table} />
+      <Table className="rounded-lg border">
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>

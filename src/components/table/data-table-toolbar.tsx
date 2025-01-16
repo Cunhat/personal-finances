@@ -1,61 +1,141 @@
-// "use client"
+"use client";
 
-// import { Table } from "@tanstack/react-table"
-// import { X } from "lucide-react";
+import { Column, FilterMeta, Table } from "@tanstack/react-table";
+import { Input } from "../ui/input";
+import { ListFilter, SearchIcon, X } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useDebounce } from "@/hooks/useDebounce";
+import {
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import { DropdownMenu } from "../ui/dropdown-menu";
+import { Badge } from "../ui/badge";
 
-// import { Button } from "@/components/ui/button";
-// import { Input } from "@/components/ui/input";
-// import { DataTableViewOptions } from "@/app/(app)/examples/tasks/components/data-table-view-options"
+interface DataTableToolbarProps<TData> {
+  table: Table<TData>;
+}
 
-// import { priorities, statuses } from "../data/data"
-// import { DataTableFacetedFilter } from "./data-table-faceted-filter"
+interface CustomFilterMeta extends FilterMeta {
+  filterComponent: (info: {
+    column: Column<any, any>;
+    table: Table<any>;
+  }) => JSX.Element;
+  filterLabel: string;
+  showActiveFilter: (info: {
+    column: Column<any, any>;
+    table: Table<any>;
+  }) => JSX.Element;
+}
 
-// interface DataTableToolbarProps<TData> {
-//   table: Table<TData>
-// }
+export function DataTableToolbar<TData>({
+  table,
+}: DataTableToolbarProps<TData>) {
+  const isFiltered = table.getState().columnFilters.length > 0;
+  const listOfFilters = table.getState().columnFilters;
 
-// export function DataTableToolbar<TData>({
-//   table,
-// }: DataTableToolbarProps<TData>) {
-//   const isFiltered = table.getState().columnFilters.length > 0
+  const [searchTerm, setSearchTerm] = useState("");
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
-//   return (
-//     <div className="flex items-center justify-between">
-//       <div className="flex flex-1 items-center space-x-2">
-//         <Input
-//           placeholder="Filter tasks..."
-//           value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
-//           onChange={(event) =>
-//             table.getColumn("title")?.setFilterValue(event.target.value)
-//           }
-//           className="h-8 w-[150px] lg:w-[250px]"
-//         />
-//         {table.getColumn("status") && (
-//           <DataTableFacetedFilter
-//             column={table.getColumn("status")}
-//             title="Status"
-//             options={statuses}
-//           />
-//         )}
-//         {table.getColumn("priority") && (
-//           <DataTableFacetedFilter
-//             column={table.getColumn("priority")}
-//             title="Priority"
-//             options={priorities}
-//           />
-//         )}
-//         {isFiltered && (
-//           <Button
-//             variant="ghost"
-//             onClick={() => table.resetColumnFilters()}
-//             className="h-8 px-2 lg:px-3"
-//           >
-//             Reset
-//             <X />
-//           </Button>
-//         )}
-//       </div>
-//       <DataTableViewOptions table={table} />
-//     </div>
-//   )
-// }
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
+
+  useEffect(() => {
+    table.setGlobalFilter(debouncedSearchTerm);
+  }, [debouncedSearchTerm]);
+
+  return (
+    <div className="flex items-center gap-2">
+      <div className="flex w-[300px] items-center gap-2 rounded-md border px-2">
+        <SearchIcon size={20} className="text-muted-foreground" />
+        <Input
+          placeholder="Search"
+          value={searchTerm}
+          onChange={handleSearch}
+          className="border-none p-0 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-ring focus-visible:ring-offset-0"
+        />
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <ListFilter
+              size={20}
+              className="text-muted-foreground hover:cursor-pointer hover:text-primary"
+            />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent
+            side="bottom"
+            className="w-[300px]"
+            sideOffset={20}
+            alignOffset={-10}
+            align="end"
+          >
+            {table.getAllColumns().map(
+              (column) =>
+                column.getCanFilter() &&
+                column.columnDef.meta &&
+                (column.columnDef.meta as CustomFilterMeta)
+                  ?.filterComponent && (
+                  <div key={column.id}>
+                    {(
+                      column.columnDef.meta as CustomFilterMeta
+                    ).filterComponent({
+                      column: column,
+                      table,
+                    })}
+                  </div>
+                ),
+            )}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+      <div className="flex gap-2">
+        {table.getAllColumns().map(
+          (column) =>
+            column.getCanFilter() &&
+            column.columnDef.meta &&
+            (column.columnDef.meta as CustomFilterMeta)?.showActiveFilter && (
+              <div key={column.id}>
+                {(column.columnDef.meta as CustomFilterMeta).showActiveFilter({
+                  column: column,
+                  table,
+                })}
+              </div>
+            ),
+        )}
+      </div>
+      {/* <div className="flex gap-2">
+        {listOfFilters.map((filter) => {
+          return filter?.value?.map((value: string) => {
+            return (
+              <Badge variant="default" className="group/badge">
+                <X
+                  size={16}
+                  className="hidden group-hover/badge:inline hover:cursor-pointer"
+                  onClick={() => {
+                    const filters = table.getState().columnFilters;
+
+                    const removedFilter = filters.find(
+                      (f) => f.id === filter.id,
+                    );
+
+                    if (removedFilter) {
+                      removedFilter.value = removedFilter.value.filter(
+                        (v: string) => v !== value,
+                      );
+                    }
+
+                    table.setColumnFilters(filters);
+                  }}
+                />
+                {value}
+              </Badge>
+            );
+          });
+        })}
+      </div> */}
+    </div>
+  );
+}
