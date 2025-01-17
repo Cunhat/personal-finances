@@ -39,6 +39,7 @@ import { Controller, useForm } from "react-hook-form";
 import accountTypes from "./accountTypes.json";
 import { useAction } from "next-safe-action/hooks";
 import { updateAccount } from "../actions";
+import { useEffect } from "react";
 
 type EditAccountProps = {
   account: Account;
@@ -52,6 +53,14 @@ export default function EditAccount({
   setOpen,
 }: EditAccountProps) {
   const { toast } = useToast();
+
+  useEffect(() => {
+    form.reset({
+      name: account.name,
+      accountType: account.accountType,
+      initialBalance: account.initialBalance,
+    });
+  }, [open]);
 
   const form = useForm<AccountUpdateValidation>({
     resolver: zodResolver(AccountUpdateValidationSchema),
@@ -69,6 +78,7 @@ export default function EditAccount({
         title: "Account updated",
         description: "Your account has been updated",
       });
+      form.reset();
     },
     onError: (error) => {
       toast({
