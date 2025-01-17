@@ -106,36 +106,6 @@ export function DataTableToolbar<TData>({
             ),
         )}
       </div>
-      {/* <div className="flex gap-2">
-        {listOfFilters.map((filter) => {
-          return filter?.value?.map((value: string) => {
-            return (
-              <Badge variant="default" className="group/badge">
-                <X
-                  size={16}
-                  className="hidden group-hover/badge:inline hover:cursor-pointer"
-                  onClick={() => {
-                    const filters = table.getState().columnFilters;
-
-                    const removedFilter = filters.find(
-                      (f) => f.id === filter.id,
-                    );
-
-                    if (removedFilter) {
-                      removedFilter.value = removedFilter.value.filter(
-                        (v: string) => v !== value,
-                      );
-                    }
-
-                    table.setColumnFilters(filters);
-                  }}
-                />
-                {value}
-              </Badge>
-            );
-          });
-        })}
-      </div> */}
     </div>
   );
 }

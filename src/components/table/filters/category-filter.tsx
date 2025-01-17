@@ -1,4 +1,5 @@
 import CategoryBadge from "@/components/category-badge";
+import { Badge } from "@/components/ui/badge";
 import {
   DropdownMenuItem,
   DropdownMenuPortal,
@@ -76,4 +77,24 @@ export function CategoryFilterFn(
   }
 
   return value.some((category) => category.id === row.original.category.id);
+}
+
+export function CategoryFilterBadge({ column, table }: CategoryFilterProps) {
+  const filterValue = (column.getFilterValue() as Category[]) ?? [];
+
+  return (
+    <div className="flex gap-2">
+      {filterValue.map((category) => (
+        <div
+          key={category.id}
+          onClick={() => {
+            table.setColumnFilters([]);
+          }}
+          className="cursor-pointer"
+        >
+          <CategoryBadge key={category.id} category={category} />
+        </div>
+      ))}
+    </div>
+  );
 }

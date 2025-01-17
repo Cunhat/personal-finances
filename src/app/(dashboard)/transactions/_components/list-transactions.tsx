@@ -18,7 +18,10 @@ import {
   AccountFilterBadge,
   AccountFilterFn,
 } from "@/components/table/filters/account-filter";
-import { CategoryFilterFn } from "@/components/table/filters/category-filter";
+import {
+  CategoryFilterBadge,
+  CategoryFilterFn,
+} from "@/components/table/filters/category-filter";
 import { CategoryFilter } from "@/components/table/filters/category-filter";
 import {
   DateFilter,
@@ -134,6 +137,7 @@ export default function ListTransactions({
       meta: {
         filterComponent: CategoryFilter,
         filterLabel: "Category",
+        showActiveFilter: CategoryFilterBadge,
       },
     },
     {
