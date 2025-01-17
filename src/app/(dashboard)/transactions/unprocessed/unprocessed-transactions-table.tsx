@@ -15,6 +15,8 @@ import { Loader2 } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { useMemo, useState } from "react";
 import { processUnprocessedTransactions } from "./actions";
+import UpdateAccount from "./update-account";
+import UpdateCategory from "./update-category";
 
 type UnprocessedTransactionsTableProps = {
   data: UnprocessedTransaction[];
@@ -56,31 +58,47 @@ export default function UnprocessedTransactionsTable({
 
   const columns: ColumnDef<UnprocessedTransaction>[] = useMemo(
     () => [
-      {
-        accessorKey: "selected",
-        header: () => "",
-        cell: ({ row }) => {
-          const id = row.original.id;
-          return (
-            <Checkbox
-              className="size-4 rounded-[4px]"
-              checked={id ? selectedIds.has(id) : false}
-              onCheckedChange={(checked) => {
-                row.toggleSelected();
-                setSelectedIds((prev) => {
-                  const next = new Set(prev);
-                  if (checked && id) {
-                    next.add(id);
-                  } else if (id) {
-                    next.delete(id);
-                  }
-                  return next;
-                });
-              }}
-            />
-          );
-        },
-      },
+      // {
+      //   accessorKey: "selected",
+      //   header: ({ table }) => {
+      //     return (
+      //       <Checkbox
+      //         checked={
+      //           table.getIsAllPageRowsSelected() ||
+      //           (table.getIsSomePageRowsSelected() && "indeterminate")
+      //         }
+      //         onCheckedChange={(value) =>
+      //           table.toggleAllPageRowsSelected(!!value)
+      //         }
+      //         aria-label="Select all"
+      //         className="translate-y-[2px]"
+      //       />
+      //     );
+      //   },
+      //   cell: ({ row }) => {
+      //     const id = row.original.id;
+      //     return (
+      //       <Checkbox
+      //         checked={row.getIsSelected()}
+      //         onCheckedChange={(value) => row.toggleSelected(!!value)}
+      //         // className="size-4 rounded-[4px]"
+      //         // checked={id ? selectedIds.has(id) : false}
+      //         // onCheckedChange={(checked) => {
+      //         //   row.toggleSelected();
+      //         //   setSelectedIds((prev) => {
+      //         //     const next = new Set(prev);
+      //         //     if (checked && id) {
+      //         //       next.add(id);
+      //         //     } else if (id) {
+      //         //       next.delete(id);
+      //         //     }
+      //         //     return next;
+      //         //   });
+      //         // }}
+      //       />
+      //     );
+      //   },
+      // },
       {
         accessorKey: "name",
         header: ({ column }) => (
@@ -116,12 +134,12 @@ export default function UnprocessedTransactionsTable({
         ),
         cell: ({ row }) => {
           return (
-            // <UpdateAccount
-            //   accounts={accounts}
-            //   transactionId={row.original.id?.toString() ?? ""}
-            //   value={row.original.accountId?.toString() ?? ""}
-            // />
-            <div className="w-full text-xl text-white">TEST account</div>
+            <UpdateAccount
+              accounts={accounts}
+              transactionId={row.original.id?.toString() ?? ""}
+              value={row.original.accountId?.toString() ?? ""}
+            />
+            // <div className="w-full text-xl text-white">TEST account</div>
           );
         },
       },
@@ -132,12 +150,12 @@ export default function UnprocessedTransactionsTable({
         ),
         cell: ({ row }) => {
           return (
-            // <UpdateCategory
-            //   categories={categories}
-            //   value={row?.original?.categoryId?.toString() ?? ""}
-            //   transactionId={row?.original?.id?.toString() ?? ""}
-            // />
-            <div className="w-full text-xl text-white">TEST category</div>
+            <UpdateCategory
+              categories={categories}
+              value={row?.original?.categoryId?.toString() ?? ""}
+              transactionId={row?.original?.id?.toString() ?? ""}
+            />
+            // <div className="w-full text-xl text-white">TEST category</div>
           );
         },
       },
