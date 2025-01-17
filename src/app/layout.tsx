@@ -17,7 +17,12 @@ import { NuqsAdapter } from "nuqs/adapters/next/app";
 export const metadata: Metadata = {
   title: "Personal Finance",
   description: "Track your finances",
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
+  icons: [
+    {
+      rel: "icon",
+      url: "https://2oooptzs26.ufs.sh/f/4ti4KJ0DJmjeFFxts5GJpMrSYuIDqk62zEvfRmUQ04cZLesh",
+    },
+  ],
 };
 
 export default function RootLayout({

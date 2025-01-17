@@ -6,6 +6,12 @@ import Link from "next/link";
 import Transactions from "./_components/transactions";
 import { Suspense } from "react";
 import NewTransaction from "./_components/new-transaction";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Personal Finance - Transactions",
+  description: "Manage your transactions",
+};
 
 export default function Page() {
   return (

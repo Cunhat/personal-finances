@@ -17,7 +17,6 @@ import { SampleCategories } from "./_components/sample-categories/get-samples";
 export const metadata: Metadata = {
   title: "Personal Finance - Categories",
   description: "Manage your categories",
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
 const getGroupsAndCategories = unstable_cache(

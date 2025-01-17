@@ -24,6 +24,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { NavAccounts } from "./nav-accounts";
+import Image from "next/image";
 
 const data = {
   user: {
@@ -132,9 +133,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
               <a href="#">
-                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                  <Command className="size-4" />
-                </div>
+                <Image
+                  className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground"
+                  src="https://2oooptzs26.ufs.sh/f/4ti4KJ0DJmjeFFxts5GJpMrSYuIDqk62zEvfRmUQ04cZLesh"
+                  width={32}
+                  height={32}
+                  alt="Picture of the author"
+                />
+
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-semibold">Acme Inc</span>
                   <span className="truncate text-xs">Enterprise</span>

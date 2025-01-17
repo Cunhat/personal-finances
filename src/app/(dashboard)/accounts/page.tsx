@@ -2,6 +2,12 @@ import { PageHeader } from "@/components/page-header";
 import { Suspense } from "react";
 import CreateAccount from "./_components/create-account";
 import ListAccounts from "./_components/list-accounts";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Personal Finance - Accounts",
+  description: "Manage your accounts",
+};
 
 export default async function Page() {
   return (
