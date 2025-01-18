@@ -143,7 +143,6 @@ export const updateBulkUnprocessedTransactionCategory =
       z.object({ categoryId: z.string(), transactionId: z.array(z.number()) }),
     )
     .action(async ({ parsedInput, ctx: { user } }) => {
-      console.log(parsedInput);
       await db
         .update(unprocessedTransaction)
         .set({ categoryId: Number(parsedInput.categoryId) })
@@ -156,3 +155,21 @@ export const updateBulkUnprocessedTransactionCategory =
 
       revalidatePath("/transactions/unprocessed");
     });
+
+export const updateBulkUnprocessedTransactionAccount = authenticatedActionClient
+  .schema(
+    z.object({ accountId: z.string(), transactionId: z.array(z.number()) }),
+  )
+  .action(async ({ parsedInput, ctx: { user } }) => {
+    await db
+      .update(unprocessedTransaction)
+      .set({ accountId: Number(parsedInput.accountId) })
+      .where(
+        and(
+          inArray(unprocessedTransaction.id, parsedInput.transactionId),
+          eq(unprocessedTransaction.userId, user.id),
+        ),
+      );
+
+    revalidatePath("/transactions/unprocessed");
+  });

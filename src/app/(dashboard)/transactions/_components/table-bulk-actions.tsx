@@ -13,7 +13,13 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { EllipsisVertical, PieChart, Plus, Trash2 } from "lucide-react";
+import {
+  CreditCard,
+  EllipsisVertical,
+  PieChart,
+  Plus,
+  Trash2,
+} from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -29,6 +35,7 @@ import { useAction } from "next-safe-action/hooks";
 import { toast, useToast } from "@/hooks/use-toast";
 import {
   deleteUnprocessedTransactions,
+  updateBulkUnprocessedTransactionAccount,
   updateBulkUnprocessedTransactionCategory,
 } from "../unprocessed/actions";
 import { UnprocessedTransaction } from "@/schemas/unprocessed-transactions";
@@ -91,6 +98,23 @@ export default function TableBulkActions({
     },
   });
 
+  const editBulkAccount = useAction(updateBulkUnprocessedTransactionAccount, {
+    onSuccess: () => {
+      toast({
+        title: "Success",
+        description: "Transactions account updated successfully",
+      });
+      table.setRowSelection({});
+    },
+    onError: (error) => {
+      toast({
+        title: "Error",
+        description: error.error.serverError,
+        variant: "destructive",
+      });
+    },
+  });
+
   if (selectedIds.length === 0) {
     return null;
   }
@@ -127,6 +151,31 @@ export default function TableBulkActions({
                     >
                       <span>{category.icon}</span>
                       <span>{category.name}</span>
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuSubContent>
+              </DropdownMenuPortal>
+            </DropdownMenuSub>
+            <DropdownMenuSub>
+              <DropdownMenuSubTrigger>
+                <CreditCard />
+                <span>Set Accounts</span>
+              </DropdownMenuSubTrigger>
+              <DropdownMenuPortal>
+                <DropdownMenuSubContent className="max-h-[500px] overflow-y-auto">
+                  {accounts.map((account) => (
+                    <DropdownMenuItem
+                      key={account.id}
+                      onSelect={() => {
+                        editBulkAccount.execute({
+                          accountId: account.id.toString(),
+                          transactionId: selectedIds.filter(
+                            (id) => id !== undefined,
+                          ),
+                        });
+                      }}
+                    >
+                      <span>{account.name}</span>
                     </DropdownMenuItem>
                   ))}
                 </DropdownMenuSubContent>
