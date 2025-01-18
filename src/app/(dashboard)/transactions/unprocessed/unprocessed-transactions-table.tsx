@@ -17,6 +17,7 @@ import { useMemo, useState } from "react";
 import { processUnprocessedTransactions } from "./actions";
 import UpdateAccount from "./update-account";
 import UpdateCategory from "./update-category";
+import TableBulkActions from "../_components/table-bulk-actions";
 
 type UnprocessedTransactionsTableProps = {
   data: UnprocessedTransaction[];
@@ -58,47 +59,33 @@ export default function UnprocessedTransactionsTable({
 
   const columns: ColumnDef<UnprocessedTransaction>[] = useMemo(
     () => [
-      // {
-      //   accessorKey: "selected",
-      //   header: ({ table }) => {
-      //     return (
-      //       <Checkbox
-      //         checked={
-      //           table.getIsAllPageRowsSelected() ||
-      //           (table.getIsSomePageRowsSelected() && "indeterminate")
-      //         }
-      //         onCheckedChange={(value) =>
-      //           table.toggleAllPageRowsSelected(!!value)
-      //         }
-      //         aria-label="Select all"
-      //         className="translate-y-[2px]"
-      //       />
-      //     );
-      //   },
-      //   cell: ({ row }) => {
-      //     const id = row.original.id;
-      //     return (
-      //       <Checkbox
-      //         checked={row.getIsSelected()}
-      //         onCheckedChange={(value) => row.toggleSelected(!!value)}
-      //         // className="size-4 rounded-[4px]"
-      //         // checked={id ? selectedIds.has(id) : false}
-      //         // onCheckedChange={(checked) => {
-      //         //   row.toggleSelected();
-      //         //   setSelectedIds((prev) => {
-      //         //     const next = new Set(prev);
-      //         //     if (checked && id) {
-      //         //       next.add(id);
-      //         //     } else if (id) {
-      //         //       next.delete(id);
-      //         //     }
-      //         //     return next;
-      //         //   });
-      //         // }}
-      //       />
-      //     );
-      //   },
-      // },
+      {
+        accessorKey: "selected",
+        header: ({ table }) => {
+          return (
+            <Checkbox
+              checked={
+                table.getIsAllPageRowsSelected() ||
+                (table.getIsSomePageRowsSelected() && "indeterminate")
+              }
+              onCheckedChange={(value) =>
+                table.toggleAllPageRowsSelected(!!value)
+              }
+              aria-label="Select all"
+              className="translate-y-[2px]"
+            />
+          );
+        },
+        cell: ({ row }) => {
+          const id = row.original.id;
+          return (
+            <Checkbox
+              checked={row.getIsSelected()}
+              onCheckedChange={(value) => row.toggleSelected(!!value)}
+            />
+          );
+        },
+      },
       {
         accessorKey: "name",
         header: ({ column }) => (
@@ -175,6 +162,17 @@ export default function UnprocessedTransactionsTable({
             </div>
           );
         },
+      },
+      {
+        accessorKey: "actions",
+        header: ({ table }) => (
+          <TableBulkActions
+            accounts={accounts}
+            categories={categories}
+            table={table}
+          />
+        ),
+        cell: "",
       },
     ],
     [accounts, categories, selectedIds],

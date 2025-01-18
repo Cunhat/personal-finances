@@ -122,3 +122,37 @@ export const processUnprocessedTransactions = authenticatedActionClient
     revalidatePath("/accounts");
     revalidatePath("/transactions/unprocessed");
   });
+
+export const deleteUnprocessedTransactions = authenticatedActionClient
+  .schema(z.array(z.number()))
+  .action(async ({ parsedInput, ctx: { user } }) => {
+    await db
+      .delete(unprocessedTransaction)
+      .where(
+        and(
+          eq(unprocessedTransaction.userId, user.id),
+          inArray(unprocessedTransaction.id, parsedInput),
+        ),
+      );
+    revalidatePath("/transactions/unprocessed");
+  });
+
+export const updateBulkUnprocessedTransactionCategory =
+  authenticatedActionClient
+    .schema(
+      z.object({ categoryId: z.string(), transactionId: z.array(z.number()) }),
+    )
+    .action(async ({ parsedInput, ctx: { user } }) => {
+      console.log(parsedInput);
+      await db
+        .update(unprocessedTransaction)
+        .set({ categoryId: Number(parsedInput.categoryId) })
+        .where(
+          and(
+            inArray(unprocessedTransaction.id, parsedInput.transactionId),
+            eq(unprocessedTransaction.userId, user.id),
+          ),
+        );
+
+      revalidatePath("/transactions/unprocessed");
+    });
