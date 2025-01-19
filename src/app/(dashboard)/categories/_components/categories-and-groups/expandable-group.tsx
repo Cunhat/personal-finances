@@ -22,9 +22,9 @@ export default function ExpandableGroup({ group }: ExpandableGroupProps) {
     <div className="flex flex-col gap-2">
       <div
         className="flex items-center gap-2 hover:cursor-pointer"
-        onClick={() => {
-          setSelectedGroupId(group.id.toString());
-          setSelectedCategoryId(null);
+        onClick={async () => {
+          await setSelectedGroupId(group.id.toString());
+          await setSelectedCategoryId(null);
         }}
       >
         <ChevronRight

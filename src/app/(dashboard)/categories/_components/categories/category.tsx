@@ -13,9 +13,9 @@ export function Category({ category }: CategoryProps) {
     <div
       key={category.id}
       className="flex items-center gap-3 hover:cursor-pointer"
-      onClick={() => {
-        setSelectedCategoryId(category.id.toString());
-        setSelectedGroupId(null);
+      onClick={async () => {
+        await setSelectedCategoryId(category.id.toString());
+        await setSelectedGroupId(null);
       }}
     >
       <div
