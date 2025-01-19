@@ -67,7 +67,7 @@ export default function AccountExpenses({
               {sortedTransactions.map((expense) => {
                 return (
                   <div key={expense.id} className="flex flex-col gap-1">
-                    <div className="grid grid-cols-[1fr_1fr_100px_1fr_auto] items-center rounded-sm p-2 hover:bg-muted">
+                    <div className="grid grid-cols-[3fr_100px_1fr_1fr] items-center rounded-sm p-2 hover:bg-muted">
                       <p className="text-base">{expense.name}</p>
                       <p>{dayjs(expense.created_at).format("DD MMM")}</p>
                       <CategoryBadge category={expense.category} />
