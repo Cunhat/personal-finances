@@ -1,26 +1,20 @@
+import { cn, hexToRgb } from "@/lib/utils";
+import { CategoryGroupWithCategories } from "@/schemas/category";
+import { AnimatePresence, motion } from "framer-motion";
+import { ChevronRight } from "lucide-react";
+import { useQueryState } from "nuqs";
 import { useState } from "react";
 import { Category } from "../categories/category";
-import { Group } from "next/dist/shared/lib/router/utils/route-regex";
-import { cn, hexToRgb } from "@/lib/utils";
-import {
-  CategoryGroupWithCategories,
-  CategoryWithTransactions,
-} from "@/schemas/category";
-import { ChevronDown, ChevronRight } from "lucide-react";
-import { AnimatePresence, motion } from "framer-motion";
 
 type ExpandableGroupProps = {
   group: CategoryGroupWithCategories;
-  onCategorySelect: (category: CategoryWithTransactions | null) => void;
-  onGroupSelect: (group: CategoryGroupWithCategories | null) => void;
 };
 
-export default function ExpandableGroup({
-  group,
-  onCategorySelect,
-  onGroupSelect,
-}: ExpandableGroupProps) {
+export default function ExpandableGroup({ group }: ExpandableGroupProps) {
   const [isOpen, setIsOpen] = useState(true);
+  const [_, setSelectedGroupId] = useQueryState("groupId");
+  const [__, setSelectedCategoryId] = useQueryState("categoryId");
+
   const numberOfCategories = group?.categories?.length ?? 0;
   const color = hexToRgb(group.color, 0.35) ?? "transparent";
 
@@ -29,8 +23,8 @@ export default function ExpandableGroup({
       <div
         className="flex items-center gap-2 hover:cursor-pointer"
         onClick={() => {
-          onGroupSelect(group);
-          onCategorySelect(null);
+          setSelectedGroupId(group.id.toString());
+          setSelectedCategoryId(null);
         }}
       >
         <ChevronRight
@@ -64,8 +58,8 @@ export default function ExpandableGroup({
                 key={category.id}
                 category={category}
                 onClick={() => {
-                  onCategorySelect(category);
-                  onGroupSelect(null);
+                  setSelectedCategoryId(category.id.toString());
+                  setSelectedGroupId(null);
                 }}
               />
             ))}

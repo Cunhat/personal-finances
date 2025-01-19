@@ -1,16 +1,22 @@
 import { Category as CategoryType } from "@/schemas/category";
+import { useQueryState } from "nuqs";
 
 type CategoryProps = {
   category: CategoryType;
-  onClick?: () => void;
 };
 
-export function Category({ category, onClick }: CategoryProps) {
+export function Category({ category }: CategoryProps) {
+  const [_, setSelectedCategoryId] = useQueryState("categoryId");
+  const [__, setSelectedGroupId] = useQueryState("groupId");
+
   return (
     <div
       key={category.id}
       className="flex items-center gap-3 hover:cursor-pointer"
-      onClick={onClick}
+      onClick={() => {
+        setSelectedCategoryId(category.id.toString());
+        setSelectedGroupId(null);
+      }}
     >
       <div
         className="h-2 w-2 rounded-full"
