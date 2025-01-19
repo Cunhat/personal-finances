@@ -64,7 +64,7 @@ function SelectedCategoryHeader({
       </div>
       <CategoryActions
         groups={groups}
-        categoryId={selectedCategory?.id ?? 0}
+        category={selectedCategory}
         hasGroup={selectedCategory?.groupId !== null}
       />
     </div>

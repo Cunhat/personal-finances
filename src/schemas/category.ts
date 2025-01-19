@@ -42,3 +42,9 @@ export const selectCategoryGroupSchema = createSelectSchema(
 export type CategoryGroupWithCategories = z.infer<
   typeof selectCategoryGroupSchema
 >;
+
+export const UpdateCategorySchema = CategoryValidationSchema.extend({
+  id: z.number(),
+});
+
+export type UpdateCategory = z.infer<typeof UpdateCategorySchema>;

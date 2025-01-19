@@ -22,9 +22,18 @@ export default function ListAll({ groups, categories }: ListAllProps) {
     useQueryState("categoryId");
   const [selectedGroupId, setSelectedGroupId] = useQueryState("groupId");
 
-  const selectedCategory = categories.find(
-    (category) => category.id === Number(selectedCategoryId),
-  );
+  const selectedCategory =
+    categories.find((category) => category.id === Number(selectedCategoryId)) ||
+    groups
+      .find((group) =>
+        group.categories.find(
+          (category) => category.id === Number(selectedCategoryId),
+        ),
+      )
+      ?.categories.find(
+        (category) => category.id === Number(selectedCategoryId),
+      );
+
   const selectedGroup = groups.find(
     (group) => group.id === Number(selectedGroupId),
   );

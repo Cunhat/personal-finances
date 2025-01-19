@@ -1,15 +1,15 @@
 "use server";
-import { authenticatedActionClient } from "@/server/safe-actions";
-import { db } from "@/server/db";
-import { category, categoryGroup } from "@/server/db/schema";
-import { revalidatePath, revalidateTag } from "next/cache";
 import {
   CategoryValidationSchema,
   GroupValidationSchema,
+  UpdateCategorySchema,
 } from "@/schemas/category";
+import { db } from "@/server/db";
+import { category, categoryGroup } from "@/server/db/schema";
+import { authenticatedActionClient } from "@/server/safe-actions";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 import { and, eq } from "drizzle-orm";
-import { currentUser } from "@clerk/nextjs/server";
 import { returnValidationErrors } from "next-safe-action";
 import { unstable_cache } from "next/cache";
 import { z } from "zod";
@@ -144,6 +144,18 @@ export const deleteGroup = authenticatedActionClient
       .where(and(eq(category.groupId, groupId), eq(category.userId, user.id)));
 
     await db.delete(categoryGroup).where(eq(categoryGroup.id, groupId));
+
+    revalidatePath("/categories");
+    revalidateTag("categories");
+  });
+
+export const updateCategory = authenticatedActionClient
+  .schema(UpdateCategorySchema)
+  .action(async ({ parsedInput: { name, icon, color, id }, ctx: { user } }) => {
+    await db
+      .update(category)
+      .set({ name, icon, color })
+      .where(and(eq(category.id, id), eq(category.userId, user.id)));
 
     revalidatePath("/categories");
     revalidateTag("categories");

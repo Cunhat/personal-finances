@@ -54,14 +54,7 @@ export default function ExpandableGroup({ group }: ExpandableGroupProps) {
             transition={{ duration: 0.1 }}
           >
             {group.categories?.map((category) => (
-              <Category
-                key={category.id}
-                category={category}
-                onClick={() => {
-                  setSelectedCategoryId(category.id.toString());
-                  setSelectedGroupId(null);
-                }}
-              />
+              <Category key={category.id} category={category} />
             ))}
           </motion.div>
         )}
