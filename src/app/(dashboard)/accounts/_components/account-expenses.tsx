@@ -54,18 +54,20 @@ export default function AccountExpenses({
   return (
     <div className="flex h-full w-full flex-col gap-6">
       {transactionsInfo.map((transaction) => {
+        const sortedTransactions = transaction.expenses.sort((a, b) => {
+          return dayjs(b.created_at).diff(dayjs(a.created_at));
+        });
+
         return (
           <div className="flex flex-col gap-3" key={transaction.monthYear}>
             <div className="flex items-center justify-between">
               <h2 className="text-lg font-semibold">{transaction.monthYear}</h2>
-              {/* <p className="text-base">{formatCurrency(transaction.amount)}</p> */}
             </div>
             <div className="flex flex-col gap-1">
-              {transaction.expenses.map((expense) => {
+              {sortedTransactions.map((expense) => {
                 return (
                   <div key={expense.id} className="flex flex-col gap-1">
-                    <div className="grid grid-cols-[32px_1fr_1fr_1fr_auto] items-center rounded-sm p-2 hover:bg-muted">
-                      <Checkbox className="size-4 rounded-[4px]" />
+                    <div className="grid grid-cols-[1fr_1fr_100px_100px_auto] items-center rounded-sm p-2 hover:bg-muted">
                       <p className="text-base">{expense.name}</p>
                       <p>{dayjs(expense.created_at).format("DD MMM")}</p>
                       <CategoryBadge category={expense.category} />
