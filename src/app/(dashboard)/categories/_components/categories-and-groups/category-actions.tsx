@@ -112,30 +112,32 @@ export default function CategoryActions({
                 <span className="text-red-500">Delete</span>
               </DropdownMenuItem>
             </AlertDialogTrigger>
-            <DropdownMenuSub>
-              <DropdownMenuSubTrigger>
-                <span>Set Group</span>
-              </DropdownMenuSubTrigger>
-              <DropdownMenuPortal>
-                <DropdownMenuSubContent className="max-h-[500px] overflow-y-auto">
-                  {groups.map((group) => {
-                    return (
-                      <DropdownMenuItem
-                        key={group.id}
-                        onSelect={() =>
-                          execute({
-                            categoryId: categoryId,
-                            groupId: group.id,
-                          })
-                        }
-                      >
-                        <span>{group.name}</span>
-                      </DropdownMenuItem>
-                    );
-                  })}
-                </DropdownMenuSubContent>
-              </DropdownMenuPortal>
-            </DropdownMenuSub>
+            {groups.length > 0 && (
+              <DropdownMenuSub>
+                <DropdownMenuSubTrigger>
+                  <span>Set Group</span>
+                </DropdownMenuSubTrigger>
+                <DropdownMenuPortal>
+                  <DropdownMenuSubContent className="max-h-[500px] overflow-y-auto">
+                    {groups.map((group) => {
+                      return (
+                        <DropdownMenuItem
+                          key={group.id}
+                          onSelect={() =>
+                            execute({
+                              categoryId: categoryId,
+                              groupId: group.id,
+                            })
+                          }
+                        >
+                          <span>{group.name}</span>
+                        </DropdownMenuItem>
+                      );
+                    })}
+                  </DropdownMenuSubContent>
+                </DropdownMenuPortal>
+              </DropdownMenuSub>
+            )}
             {hasGroup && (
               <DropdownMenuItem
                 onSelect={() => removeFromGroup({ categoryId: categoryId })}
