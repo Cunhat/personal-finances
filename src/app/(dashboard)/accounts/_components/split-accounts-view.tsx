@@ -9,6 +9,7 @@ import AccountInfo from "./account-info";
 import { getAccountsNetWorth } from "./utils";
 import dayjs from "dayjs";
 import { useQueryState } from "nuqs";
+import { Inbox } from "lucide-react";
 
 type SplitAccountsViewProps = {
   accounts: Account[];
@@ -42,7 +43,7 @@ export default function SplitAccountsView({
   );
 
   return (
-    <div className="grid h-full grid-cols-[1fr_1px_1fr] gap-4 overflow-hidden">
+    <div className="grid h-full grid-cols-[1fr_1px_2fr] gap-4 overflow-hidden">
       <div>
         {accountTypes.map((accountType) => {
           const flattenedGroupAccounts = accountType.accounts.map(
@@ -65,6 +66,15 @@ export default function SplitAccountsView({
         })}
       </div>
       <Separator orientation="vertical" />
+      {!selectedAccount && (
+        <div className="flex flex-col items-center justify-center gap-2">
+          <Inbox className="size-16 opacity-50" />
+          <h1 className="text-base font-bold">No Account selected</h1>
+          <p className="text-sm text-muted-foreground">
+            Select an account to view its details
+          </p>
+        </div>
+      )}
       {selectedAccount && (
         <AccountInfo
           account={selectedAccount}
