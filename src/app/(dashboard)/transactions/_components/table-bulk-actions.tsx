@@ -1,28 +1,5 @@
-import React, { useState } from "react";
-import { Table } from "@tanstack/react-table";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuPortal,
-  DropdownMenuSeparator,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-  CreditCard,
-  EllipsisVertical,
-  PieChart,
-  Plus,
-  Trash2,
-} from "lucide-react";
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
@@ -31,28 +8,51 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuPortal,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { useToast } from "@/hooks/use-toast";
+import { Account } from "@/schemas/account";
+import { Category } from "@/schemas/category";
+import { UnprocessedTransaction } from "@/schemas/unprocessed-transactions";
+import { Table } from "@tanstack/react-table";
+import {
+  CreditCard,
+  EllipsisVertical,
+  PieChart,
+  Send,
+  Trash2,
+} from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
-import { toast, useToast } from "@/hooks/use-toast";
+import { useState } from "react";
 import {
   deleteUnprocessedTransactions,
+  processUnprocessedTransactions,
   updateBulkUnprocessedTransactionAccount,
   updateBulkUnprocessedTransactionCategory,
 } from "../unprocessed/actions";
-import { UnprocessedTransaction } from "@/schemas/unprocessed-transactions";
-import { Button } from "@/components/ui/button";
-import { Account } from "@/schemas/account";
-import { Category } from "@/schemas/category";
 
 type TableBulkActionsProps = {
   table: Table<UnprocessedTransaction>;
   accounts: Account[];
   categories: Category[];
+  transactions: UnprocessedTransaction[];
 };
 
 export default function TableBulkActions({
   table,
   accounts,
   categories,
+  transactions,
 }: TableBulkActionsProps) {
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const { toast } = useToast();
@@ -60,8 +60,6 @@ export default function TableBulkActions({
   const selectedIds = table
     .getSelectedRowModel()
     .rows.map((row) => row.original.id);
-
-  console.log(selectedIds);
 
   const { execute, isExecuting } = useAction(deleteUnprocessedTransactions, {
     onSuccess: () => {
@@ -115,8 +113,37 @@ export default function TableBulkActions({
     },
   });
 
+  const processBulk = useAction(processUnprocessedTransactions, {
+    onSuccess: () => {
+      toast({
+        title: "Success",
+        description: "Transactions processed successfully",
+      });
+      table.setRowSelection({});
+    },
+    onError: (error) => {
+      toast({
+        title: "Error",
+        description: error.error.serverError,
+        variant: "destructive",
+      });
+    },
+  });
+
   if (selectedIds.length === 0) {
     return null;
+  }
+
+  function handleProcess() {
+    const selectedIds = table
+      .getSelectedRowModel()
+      .rows.map((row) => row.original.id);
+
+    const selectedTransactions = transactions.filter((transaction) =>
+      selectedIds.includes(transaction.id),
+    );
+
+    processBulk.execute(selectedTransactions);
   }
 
   return (
@@ -129,6 +156,10 @@ export default function TableBulkActions({
           />
         </DropdownMenuTrigger>
         <DropdownMenuContent>
+          <DropdownMenuItem onSelect={handleProcess}>
+            <Send />
+            Process
+          </DropdownMenuItem>
           <DropdownMenuGroup>
             <DropdownMenuSub>
               <DropdownMenuSubTrigger>

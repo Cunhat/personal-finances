@@ -30,28 +30,6 @@ export default function UnprocessedTransactionsTable({
   accounts,
   categories,
 }: UnprocessedTransactionsTableProps) {
-  const { toast } = useToast();
-
-  const { execute, isExecuting } = useAction(processUnprocessedTransactions, {
-    onSuccess: () => {
-      toast({
-        title: "Success",
-        description: "Transactions processed successfully",
-      });
-    },
-    onError: (error) => {
-      toast({
-        title: "Error",
-        description: error.error.serverError,
-        variant: "destructive",
-      });
-    },
-  });
-
-  function handleProcess() {
-    // execute(transactionsToProcess);
-  }
-
   const columns: ColumnDef<UnprocessedTransaction>[] = useMemo(
     () => [
       {
@@ -165,6 +143,7 @@ export default function UnprocessedTransactionsTable({
             accounts={accounts}
             categories={categories}
             table={table}
+            transactions={data}
           />
         ),
         cell: "",
@@ -177,15 +156,6 @@ export default function UnprocessedTransactionsTable({
 
   return (
     <div className="flex flex-col gap-4 overflow-hidden">
-      <div className="flex justify-end">
-        <Button
-          // disabled={selectedIds.size === 0 || isExecuting}
-          onClick={handleProcess}
-        >
-          {isExecuting && <Loader2 className="size-4 animate-spin" />}
-          {isExecuting ? "Processing..." : "Process"}
-        </Button>
-      </div>
       <DataTable
         columns={columns}
         data={data}
