@@ -38,7 +38,7 @@ export default function ListAll({ groups, categories }: ListAllProps) {
   }
 
   return (
-    <div className="grid h-full grid-cols-[1fr_1px_1fr] gap-4 overflow-hidden">
+    <div className="grid h-full grid-cols-[1fr_1px_3fr] gap-4 overflow-hidden">
       <div className="flex flex-col gap-4 overflow-y-auto">
         <div className="flex flex-col gap-2">
           {groups.map((group) => (
