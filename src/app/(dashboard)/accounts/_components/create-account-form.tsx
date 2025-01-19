@@ -61,9 +61,10 @@ export default function CreateAccountForm({
       if (error.error?.validationErrors) {
         getValidationErrors(error.error.validationErrors, form);
       }
+
       toast({
         title: "Error",
-        description: error.error.serverError,
+        description: "An error occurred while creating the account",
         variant: "destructive",
       });
     },

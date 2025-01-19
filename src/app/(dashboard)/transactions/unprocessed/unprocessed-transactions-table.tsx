@@ -30,7 +30,6 @@ export default function UnprocessedTransactionsTable({
   accounts,
   categories,
 }: UnprocessedTransactionsTableProps) {
-  const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
   const { toast } = useToast();
 
   const { execute, isExecuting } = useAction(processUnprocessedTransactions, {
@@ -50,11 +49,7 @@ export default function UnprocessedTransactionsTable({
   });
 
   function handleProcess() {
-    const transactionsToProcess = data.filter((transaction) => {
-      return selectedIds.has(transaction.id!);
-    });
-
-    execute(transactionsToProcess);
+    // execute(transactionsToProcess);
   }
 
   const columns: ColumnDef<UnprocessedTransaction>[] = useMemo(
@@ -175,7 +170,7 @@ export default function UnprocessedTransactionsTable({
         cell: "",
       },
     ],
-    [accounts, categories, selectedIds],
+    [accounts, categories],
   );
 
   const defaultSorting: SortingState = [{ id: "created_at", desc: true }];
