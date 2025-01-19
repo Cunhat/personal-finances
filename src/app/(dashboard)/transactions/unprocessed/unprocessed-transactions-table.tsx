@@ -179,7 +179,7 @@ export default function UnprocessedTransactionsTable({
     <div className="flex flex-col gap-4 overflow-hidden">
       <div className="flex justify-end">
         <Button
-          disabled={selectedIds.size === 0 || isExecuting}
+          // disabled={selectedIds.size === 0 || isExecuting}
           onClick={handleProcess}
         >
           {isExecuting && <Loader2 className="size-4 animate-spin" />}
