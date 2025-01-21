@@ -1,8 +1,6 @@
-import { currentUser } from "@clerk/nextjs/server";
-import { listCategories } from "../../actions";
+import { CategoryWithTransactions } from "@/schemas/category";
 import CreateFromSample from "./create-from-sample";
 import sampleCategories from "./sampleCategories.json";
-import { CategoryWithTransactions } from "@/schemas/category";
 
 export async function SampleCategories({
   categories,

@@ -37,6 +37,8 @@ export const createCategory = authenticatedActionClient
       userId: user.id,
     });
 
+    revalidateTag("categories");
+    revalidateTag("categories-groups");
     revalidatePath("/categories");
   });
 
