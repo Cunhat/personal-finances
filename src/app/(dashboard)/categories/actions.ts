@@ -38,25 +38,8 @@ export const createCategory = authenticatedActionClient
     });
 
     revalidateTag("categories");
-    revalidateTag("categories-groups");
     revalidatePath("/categories");
   });
-
-export const listCategories = unstable_cache(
-  async (userId: string | undefined) => {
-    if (!userId) {
-      throw new Error("User not found");
-    }
-
-    return await db.query.category.findMany({
-      where: eq(category.userId, userId),
-    });
-  },
-  [],
-  {
-    tags: ["categories"],
-  },
-);
 
 export const createGroup = authenticatedActionClient
   .schema(GroupValidationSchema)
