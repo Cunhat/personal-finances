@@ -103,7 +103,7 @@ export default function NewTransactionSheet({
       <SheetTrigger asChild>
         <Button size="sm">New Transaction</Button>
       </SheetTrigger>
-      <SheetContent>
+      <SheetContent className="max-h-svh overflow-y-scroll">
         <SheetHeader>
           <SheetTitle>New Transaction</SheetTitle>
           <SheetDescription>
