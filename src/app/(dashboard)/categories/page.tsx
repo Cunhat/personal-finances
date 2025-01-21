@@ -13,6 +13,7 @@ import { redirect } from "next/navigation";
 import ListAll from "./_components/categories-and-groups/list-all";
 import CategoryActions from "./_components/category-actions";
 import { SampleCategories } from "./_components/sample-categories/get-samples";
+import PageContainer from "@/components/ui/page-container";
 
 export const metadata: Metadata = {
   title: "Personal Finance - Categories",
@@ -75,7 +76,7 @@ export default async function Page() {
   ];
 
   return (
-    <div className="flex h-[calc(100vh-65px)] flex-col overflow-hidden">
+    <PageContainer>
       <PageHeader title="Categories">
         <div className="ml-2 flex h-full w-full">
           <CategoryActions
@@ -91,6 +92,6 @@ export default async function Page() {
         groups={groups as CategoryGroupWithCategories[]}
         categories={categories as CategoryWithTransactions[]}
       />
-    </div>
+    </PageContainer>
   );
 }

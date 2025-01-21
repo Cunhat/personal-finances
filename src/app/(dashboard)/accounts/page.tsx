@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import CreateAccount from "./_components/create-account";
 import ListAccounts from "./_components/list-accounts";
 import { Metadata } from "next";
+import PageContainer from "@/components/ui/page-container";
 
 export const metadata: Metadata = {
   title: "Personal Finance - Accounts",
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
 
 export default async function Page() {
   return (
-    <div className="flex h-[calc(100vh-65px)] flex-col">
+    <PageContainer>
       <PageHeader title="Accounts">
         <CreateAccount />
       </PageHeader>
@@ -20,6 +21,6 @@ export default async function Page() {
           <ListAccounts />
         </div>
       </Suspense>
-    </div>
+    </PageContainer>
   );
 }

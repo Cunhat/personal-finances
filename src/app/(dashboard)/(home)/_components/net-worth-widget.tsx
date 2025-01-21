@@ -4,7 +4,7 @@ import { Suspense } from "react";
 
 async function NetWorthWidget() {
   return (
-    <Card>
+    <Card className="h-full">
       <CardHeader>
         <CardTitle>Accounts</CardTitle>
       </CardHeader>

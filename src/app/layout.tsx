@@ -40,11 +40,7 @@ export default function RootLayout({
               <Toaster />
               <SidebarProvider>
                 <AppSidebar />
-                <SidebarInset>
-                  <div className="flex h-full flex-col gap-4 p-4 pt-0">
-                    {children}
-                  </div>
-                </SidebarInset>
+                <SidebarInset>{children}</SidebarInset>
               </SidebarProvider>
             </NuqsAdapter>
           </SignedIn>

@@ -7,6 +7,7 @@ import Transactions from "./_components/transactions";
 import { Suspense } from "react";
 import NewTransaction from "./_components/new-transaction";
 import { Metadata } from "next";
+import PageContainer from "@/components/ui/page-container";
 
 export const metadata: Metadata = {
   title: "Personal Finance - Transactions",
@@ -15,7 +16,7 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return (
-    <div className="flex h-[calc(100vh-65px)] flex-col overflow-hidden">
+    <PageContainer>
       <PageHeader title="Transactions">
         <Button variant="outline" asChild className="ml-auto">
           <Link href="/transactions/unprocessed">
@@ -40,6 +41,6 @@ export default function Page() {
       >
         <Transactions />
       </Suspense>
-    </div>
+    </PageContainer>
   );
 }
