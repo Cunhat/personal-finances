@@ -8,6 +8,7 @@ import { Suspense } from "react";
 import NewTransaction from "./_components/new-transaction";
 import { Metadata } from "next";
 import PageContainer from "@/components/ui/page-container";
+import UploadCsv from "./_components/upload-cvs";
 
 export const metadata: Metadata = {
   title: "Personal Finance - Transactions",
@@ -24,12 +25,7 @@ export default function Page() {
             Unprocessed
           </Link>
         </Button>
-        <Button variant="outline" asChild>
-          <Link href="/transactions/csv-upload">
-            <FileUp size={16} />
-            Upload CSV
-          </Link>
-        </Button>
+        <UploadCsv />
         <NewTransaction />
       </PageHeader>
       <Suspense
