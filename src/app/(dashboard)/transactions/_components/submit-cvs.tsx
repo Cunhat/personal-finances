@@ -1,4 +1,5 @@
 "use client";
+import type { UnprocessedTransaction } from "@/schemas/unprocessed-transactions";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -9,15 +10,24 @@ import {
 } from "@/components/ui/select";
 import { toast } from "@/hooks/use-toast";
 import { normalizeSpaces } from "@/lib/utils";
-import { UnprocessedTransaction } from "@/schemas/unprocessed-transactions";
 import { Loader } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { createUnprocessedTransactions } from "../csv-upload/actions";
-type SubmitCvsProps = {
-  data: any;
-};
+
+type CsvRow = Record<string, string>;
+
+interface CsvData {
+  data: CsvRow[];
+  meta: {
+    fields: string[];
+  };
+}
+
+interface SubmitCvsProps {
+  data: CsvData;
+}
 
 export default function SubmitCvs({ data }: SubmitCvsProps) {
   const [selectedName, setSelectedName] = useState<string>();
@@ -25,7 +35,7 @@ export default function SubmitCvs({ data }: SubmitCvsProps) {
   const [selectedCreatedAt, setSelectedCreatedAt] = useState<string>();
   const router = useRouter();
 
-  const fields: Array<string> = data.meta.fields ?? [];
+  const fields = data.meta.fields ?? [];
 
   const { execute, isExecuting } = useAction(createUnprocessedTransactions, {
     onSuccess: () => {
@@ -46,25 +56,29 @@ export default function SubmitCvs({ data }: SubmitCvsProps) {
   });
 
   function handleSubmit() {
-    const parsedData: UnprocessedTransaction[] = data.data.map((row: any) => {
-      // Convert string amount to float by removing dots and replacing comma with dot
-      const amountStr = row[selectedValue!]
-        .toString()
-        .replace(/\./g, "") // Remove dots (thousand separators)
-        .replace(",", "."); // Replace comma with dot for decimal
+    const parsedData: UnprocessedTransaction[] = data.data.map(
+      (row: CsvRow) => {
+        if (!selectedValue || !selectedName || !selectedCreatedAt) {
+          throw new Error("Required fields not selected");
+        }
 
-      const value = parseFloat(amountStr);
+        const amountStr =
+          row[selectedValue]?.toString().replace(/\./g, "").replace(",", ".") ??
+          "0";
 
-      return {
-        name: normalizeSpaces(row[selectedName!]),
-        value: value < 0 ? value * -1 : value,
-        created_at: row[selectedCreatedAt!],
-        transactionType: value > 0 ? "income" : "expense",
-        categoryId: null,
-        userId: "",
-        accountId: null,
-      };
-    });
+        const value = parseFloat(amountStr);
+
+        return {
+          name: normalizeSpaces(row[selectedName] ?? ""),
+          value: value < 0 ? value * -1 : value,
+          created_at: row[selectedCreatedAt] ?? new Date().toISOString(),
+          transactionType: value > 0 ? "income" : "expense",
+          categoryId: null,
+          userId: "",
+          accountId: null,
+        };
+      },
+    );
 
     execute(parsedData);
   }
