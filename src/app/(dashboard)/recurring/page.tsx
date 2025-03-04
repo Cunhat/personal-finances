@@ -71,7 +71,7 @@ export default async function Recurring() {
                   {recurring.interval}
                 </span>
               </div>
-              <CategoryBadge category={recurring.category} />
+              <CategoryBadge category={recurring.category!} />
               <p className="text-end">{recurring.value} €</p>
             </div>
           ))}
