@@ -18,23 +18,27 @@ export default async function Recurring() {
     redirect("/sign-in");
   }
 
-  const categories = await db.query.category.findMany({
+  const categoriesQuery = db.query.category.findMany({
     where: eq(category.userId, user.id),
   });
 
-  const recurring = await db.query.recurringTransaction.findMany({
+  const recurringQuery = db.query.recurringTransaction.findMany({
     where: eq(recurringTransaction.userId, user.id),
     with: {
       category: true,
     },
   });
 
+  const [categories, recurring] = await Promise.all([
+    categoriesQuery,
+    recurringQuery,
+  ]);
+
   return (
     <PageContainer>
       <PageHeader title="Recurring">
         <CreateRecurring categories={categories} />
       </PageHeader>
-
       <div className="grid grid-cols-2 gap-4">
         <div className="flex flex-col gap-6">
           <Card>
