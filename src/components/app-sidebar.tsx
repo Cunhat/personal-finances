@@ -4,6 +4,7 @@ import {
   BadgeDollarSign,
   BookOpen,
   Bot,
+  CalendarSync,
   Command,
   CreditCard,
   LayoutDashboard,
@@ -121,6 +122,11 @@ const data = {
       name: "Categories",
       url: "/categories",
       icon: PieChart,
+    },
+    {
+      name: "Recurring",
+      url: "/recurring",
+      icon: CalendarSync,
     },
   ],
 };

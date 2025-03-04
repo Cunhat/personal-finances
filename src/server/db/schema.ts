@@ -113,3 +113,26 @@ export const unprocessedTransactionRelations = relations(
     }),
   }),
 );
+
+export const recurringTransaction = sqliteTable("recurring_transaction", {
+  id: integer("id", {
+    mode: "number",
+  }).primaryKey({ autoIncrement: true }),
+  name: text("name").notNull(),
+  value: real("value").notNull(),
+  created_at: text("created_at").notNull(),
+  interval: text("interval").notNull(),
+  firstOccurrence: text("first_occurrence").notNull(),
+  categoryId: integer("category_id").references(() => category.id),
+  userId: text("user_id").notNull(),
+});
+
+export const recurringTransactionRelations = relations(
+  recurringTransaction,
+  ({ one }) => ({
+    category: one(category, {
+      fields: [recurringTransaction.categoryId],
+      references: [category.id],
+    }),
+  }),
+);
