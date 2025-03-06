@@ -11,6 +11,25 @@ import dayjs from "dayjs";
 import CategoryBadge from "@/components/category-badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { YearCharts } from "./_components/year-charts";
+
+type YearRecurring = {
+  month: number;
+  total: number;
+};
+
+type MapFullYearRecurring = {
+  [key: string]: Array<YearRecurring>;
+};
+
+const frequencyTotalsOptions = [
+  { label: "monthly", value: 12 },
+  { label: "bimonthly", value: 6 },
+  { label: "quarterly", value: 4 },
+  { label: "fourmonths", value: 3 },
+  { label: "semiannually", value: 2 },
+  { label: "annually", value: 1 },
+];
 
 export default async function Recurring() {
   const user = await currentUser();
@@ -35,10 +54,7 @@ export default async function Recurring() {
     recurringQuery,
   ]);
 
-  const totalMonthlyFullYear: {
-    month: number;
-    total: number;
-  }[] = [];
+  const totalMonthlyFullYear: Array<YearRecurring> = [];
 
   const frequencyOptions = [
     { label: "monthly", value: 1 },
@@ -48,9 +64,8 @@ export default async function Recurring() {
     { label: "semiannually", value: 6 },
     { label: "annually", value: 12 },
   ];
-  let mapFullYearForEachRecurring: {
-    [key: string]: Array<{ month: number; total: number }>;
-  } = {};
+
+  let mapFullYearForEachRecurring: MapFullYearRecurring = {};
 
   recurring.forEach((r) => {
     let currentDate = dayjs().startOf("year").startOf("month");
@@ -78,7 +93,22 @@ export default async function Recurring() {
     };
   });
 
-  console.log(mapFullYearForEachRecurring);
+  // Calculate total monthly expenses for each month of the year
+  for (let month = 0; month < 12; month++) {
+    let monthlyTotal = 0;
+
+    // Sum up all recurring expenses for this month
+    Object.values(mapFullYearForEachRecurring).forEach((yearData) => {
+      const monthData = yearData.find((data) => data.month === month);
+      if (monthData) {
+        monthlyTotal += monthData.total;
+      }
+    });
+
+    totalMonthlyFullYear.push({ month, total: monthlyTotal });
+  }
+
+  const currentMonth = dayjs().month();
 
   return (
     <PageContainer>
@@ -97,11 +127,7 @@ export default async function Recurring() {
                   </p>
                 </div>
                 <div className="text-3xl font-bold">
-                  {recurring
-                    .filter((r) => r.interval === "monthly")
-                    .reduce((acc, curr) => acc + curr.value, 0)
-                    .toFixed(2)}
-                  €
+                  {totalMonthlyFullYear[currentMonth]?.total.toFixed(2) ?? 0}€
                 </div>
               </div>
             </CardContent>
@@ -127,6 +153,7 @@ export default async function Recurring() {
         </div>
         <Separator orientation="vertical" />
         <div>
+          <YearCharts data={totalMonthlyFullYear} />
           <Card>
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
@@ -138,7 +165,15 @@ export default async function Recurring() {
                 </div>
                 <div className="text-3xl font-bold">
                   {recurring
-                    .reduce((acc, curr) => acc + curr.value, 0)
+                    .reduce(
+                      (acc, curr) =>
+                        acc +
+                        curr.value *
+                          frequencyTotalsOptions.find(
+                            (f) => f.label === curr.interval,
+                          )?.value!,
+                      0,
+                    )
                     .toFixed(2)}
                   €
                 </div>
