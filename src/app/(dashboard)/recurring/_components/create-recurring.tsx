@@ -64,9 +64,6 @@ const formSchema = z.object({
 
 // Define the frequency options
 const frequencyOptions = [
-  { value: "daily", label: "Daily" },
-  { value: "weekly", label: "Every week" },
-  { value: "biweekly", label: "Every 2 weeks" },
   { value: "monthly", label: "Every month" },
   { value: "bimonthly", label: "Every 2 months" },
   { value: "quarterly", label: "Every 3 months" },
