@@ -117,21 +117,6 @@ export default async function Recurring() {
       </PageHeader>
       <div className="grid h-full grid-cols-[1fr_auto_1fr] gap-4">
         <div className="flex flex-col gap-6">
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h3 className="text-lg font-medium">Total Monthly</h3>
-                  <p className="text-sm text-muted-foreground">
-                    Total of all your recurring expenses for the month
-                  </p>
-                </div>
-                <div className="text-3xl font-bold">
-                  {totalMonthlyFullYear[currentMonth]?.total.toFixed(2) ?? 0}€
-                </div>
-              </div>
-            </CardContent>
-          </Card>
           {recurring.map((recurring) => (
             <div
               className="grid grid-cols-[40px_1fr_auto_auto] items-center gap-2"
@@ -152,8 +137,25 @@ export default async function Recurring() {
           ))}
         </div>
         <Separator orientation="vertical" />
-        <div>
-          <YearCharts data={totalMonthlyFullYear} />
+        <div className="flex flex-col gap-6">
+          <Card>
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="text-lg font-medium">
+                    Total for {dayjs().month(currentMonth).format("MMMM")}
+                  </h3>
+                  <p className="text-sm text-muted-foreground">
+                    Total of all your recurring expenses for{" "}
+                    {dayjs().month(currentMonth).format("MMMM")}
+                  </p>
+                </div>
+                <div className="text-2xl font-bold">
+                  {totalMonthlyFullYear[currentMonth]?.total.toFixed(2) ?? 0}€
+                </div>
+              </div>
+            </CardContent>
+          </Card>
           <Card>
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
@@ -163,7 +165,7 @@ export default async function Recurring() {
                     Total of all your recurring expenses for the year
                   </p>
                 </div>
-                <div className="text-3xl font-bold">
+                <div className="text-2xl font-bold">
                   {recurring
                     .reduce(
                       (acc, curr) =>
@@ -180,6 +182,7 @@ export default async function Recurring() {
               </div>
             </CardContent>
           </Card>
+          <YearCharts data={totalMonthlyFullYear} />
         </div>
       </div>
     </PageContainer>
