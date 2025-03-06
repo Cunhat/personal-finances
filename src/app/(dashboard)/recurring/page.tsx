@@ -18,9 +18,7 @@ type YearRecurring = {
   total: number;
 };
 
-type MapFullYearRecurring = {
-  [key: string]: Array<YearRecurring>;
-};
+type MapFullYearRecurring = Record<string, Array<YearRecurring>>;
 
 const frequencyTotalsOptions = [
   { label: "monthly", value: 12 },
@@ -69,9 +67,8 @@ export default async function Recurring() {
 
   recurring.forEach((r) => {
     let currentDate = dayjs().startOf("year").startOf("month");
-    const frequency = frequencyOptions.find(
-      (f) => f.label === r.interval,
-    )?.value!;
+    const frequency =
+      frequencyOptions.find((f) => f.label === r.interval)?.value ?? 0;
     let firstOcc = dayjs(r.firstOccurrence);
 
     const yearRec = [];
@@ -171,9 +168,9 @@ export default async function Recurring() {
                       (acc, curr) =>
                         acc +
                         curr.value *
-                          frequencyTotalsOptions.find(
+                          (frequencyTotalsOptions.find(
                             (f) => f.label === curr.interval,
-                          )?.value!,
+                          )?.value ?? 0),
                       0,
                     )
                     .toFixed(2)}
