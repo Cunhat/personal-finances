@@ -10,6 +10,7 @@ import { redirect } from "next/navigation";
 import dayjs from "dayjs";
 import CategoryBadge from "@/components/category-badge";
 import { Card, CardContent } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 
 export default async function Recurring() {
   const user = await currentUser();
@@ -34,26 +35,70 @@ export default async function Recurring() {
     recurringQuery,
   ]);
 
+  const totalMonthlyFullYear: {
+    month: number;
+    total: number;
+  }[] = [];
+
+  const frequencyOptions = [
+    { label: "monthly", value: 1 },
+    { label: "bimonthly", value: 2 },
+    { label: "quarterly", value: 3 },
+    { label: "fourmonths", value: 4 },
+    { label: "semiannually", value: 6 },
+    { label: "annually", value: 12 },
+  ];
+  let mapFullYearForEachRecurring: {
+    [key: string]: Array<{ month: number; total: number }>;
+  } = {};
+
+  recurring.forEach((r) => {
+    let currentDate = dayjs().startOf("year").startOf("month");
+    const frequency = frequencyOptions.find(
+      (f) => f.label === r.interval,
+    )?.value!;
+    let firstOcc = dayjs(r.firstOccurrence);
+
+    const yearRec = [];
+
+    while (currentDate.isBefore(dayjs().endOf("year"))) {
+      if (currentDate.isSame(firstOcc, "month")) {
+        yearRec.push({ month: currentDate.month(), total: r.value });
+        firstOcc = firstOcc.add(frequency, "month");
+      } else {
+        yearRec.push({ month: currentDate.month(), total: 0 });
+      }
+
+      currentDate = currentDate.add(1, "month");
+    }
+
+    mapFullYearForEachRecurring = {
+      ...mapFullYearForEachRecurring,
+      [r.name]: yearRec,
+    };
+  });
+
+  console.log(mapFullYearForEachRecurring);
+
   return (
     <PageContainer>
       <PageHeader title="Recurring">
         <CreateRecurring categories={categories} />
       </PageHeader>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid h-full grid-cols-[1fr_auto_1fr] gap-4">
         <div className="flex flex-col gap-6">
           <Card>
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="text-lg font-medium">
-                    Total Annual Recurring Expenses
-                  </h3>
+                  <h3 className="text-lg font-medium">Total Monthly</h3>
                   <p className="text-sm text-muted-foreground">
-                    Total of all your recurring expenses for the year
+                    Total of all your recurring expenses for the month
                   </p>
                 </div>
                 <div className="text-3xl font-bold">
                   {recurring
+                    .filter((r) => r.interval === "monthly")
                     .reduce((acc, curr) => acc + curr.value, 0)
                     .toFixed(2)}
                   €
@@ -80,7 +125,27 @@ export default async function Recurring() {
             </div>
           ))}
         </div>
-        <div></div>
+        <Separator orientation="vertical" />
+        <div>
+          <Card>
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="text-lg font-medium">Total Annual</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Total of all your recurring expenses for the year
+                  </p>
+                </div>
+                <div className="text-3xl font-bold">
+                  {recurring
+                    .reduce((acc, curr) => acc + curr.value, 0)
+                    .toFixed(2)}
+                  €
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </PageContainer>
   );
